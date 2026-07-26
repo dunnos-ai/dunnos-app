@@ -1,5 +1,40 @@
 const Anthropic = require('@anthropic-ai/sdk');
 
+const MASTER_SYSTEM = `You are the Official Illustration Engine for DUNNOS AI.
+
+Your job is to create the world's most consistent educational illustration library for English vocabulary learning.
+
+PRIMARY OBJECTIVE: The learner should recognize the intended meaning instantly. Recognition is always more important than artistic creativity. Clarity is mandatory.
+
+CONCEPT INTERPRETATION — Always illustrate the intended everyday meaning:
+- Water → a glass of drinking water. NOT H2O molecule or chemical formula
+- Apple → the fruit. NOT Apple Inc or iPhone
+- Coffee → a cup of coffee. NOT coffee beans
+- Milk → a glass of milk. NOT a cow
+- Never illustrate scientific, symbolic, technical or abstract interpretations
+
+VISUAL STYLE: Premium editorial flat illustration. Mid-century modern. Scandinavian minimalism. Clean vector. Geometric. Timeless. Never cartoon, never anime, never Pixar, never Disney, never clipart, never emoji, never realistic, never 3D.
+
+COMPOSITION: Square canvas. Single primary subject. Centered. Occupies 70% of canvas. Large negative space. Never crop the subject.
+
+COLOR: Flat colors only. No gradients. No shadows. No reflections. No textures. Maximum 8 colors.
+
+SILHOUETTE: Must identify subject even filled completely black.
+
+ABSOLUTE PROHIBITIONS:
+- No text, no letters, no numbers, no labels, no captions, no watermarks
+- No gradients, no shadows, no textures, no 3D, no photorealism
+- No anime, no Disney, no Pixar, no clipart, no emoji
+- No extra limbs, no extra fingers, no cropped subjects
+
+QUALITY CHECK before finishing:
+✓ Is the intended meaning obvious?
+✓ Could a 7-year-old identify it?
+✓ Is it recognizable in under one second?
+✓ Zero text or letters visible?
+
+Return ONLY valid SVG code. Start immediately with <svg. No explanation, no markdown.`;
+
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -12,41 +47,55 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { word, isVerb, bgIndex } = JSON.parse(event.body);
+    const { word, isVerb, bgIndex, show, avoid } = JSON.parse(event.body);
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
     const NOUN_BG = ["#E8F4F8","#FFF8E7","#F0F7EE","#FFF0F5","#F5F0FF","#FFFBF0","#F0F8F0","#FEF9F0","#F0F4FE","#FFF5F5"];
     const VERB_BG = ["#1A1A2E","#16213E","#0F3460","#1B2A4A","#0D1B2A","#1C1C3A"];
-    const bg = isVerb ? VERB_BG[bgIndex % VERB_BG.length] : NOUN_BG[bgIndex % NOUN_BG.length];
-    const obj = word.replace(/^(A |AN |THE |SOME |MANY )/i, '').trim();
+    const bg = isVerb ? VERB_BG[(bgIndex||0) % VERB_BG.length] : NOUN_BG[(bgIndex||0) % NOUN_BG.length];
 
-    const system = isVerb
-      ? `You are an expert SVG illustrator for DUNNOS AI. Create bold flat illustrations of people performing actions.
-RULES: Dark solid background. Person is simple cartoon with clear action pose. Accent: #00FF01 (lime) and white. 
-Action must be instantly recognizable. Flat colors, no gradients. viewBox="0 0 400 400". No text. SVG only.`
-      : `You are an expert SVG illustrator for DUNNOS AI. Create flat editorial illustrations — mid-century modern poster style.
-RULES: Flat colors only. Object large and centered (65% canvas). Bold saturated colors 3-4 max. Solid background.
-Clean silhouette. No text. No labels. viewBox="0 0 400 400". SVG only.`;
+    const avoidStr = (avoid && avoid.length) ? `\nNEVER illustrate: ${avoid.join(', ')}` : '';
 
     const prompt = isVerb
-      ? `Background: ${bg}\nDraw a person actively performing "${word}". Clear exaggerated pose. Lime green #00FF01 accents. 400x400 SVG.`
-      : `Background: ${bg}\nDraw "${obj}" — large, centered, bold flat editorial illustration. 400x400 SVG.`;
+      ? `Category: Verb
+Action word: ${word}
+Illustrate: ${show || 'a person actively performing the action "'+word+'"'}
+Background: Solid Navy ${bg}
+Accent color: #00FF01 for motion lines only — never dominant${avoidStr}
+One adult person. Dynamic exaggerated pose. Entire body visible. Strong silhouette.
+400x400 SVG.`
+      : `Category: Word (vocabulary flashcard)
+Concept: ${word}
+Illustrate EXACTLY: ${show || word}
+Background: Solid pastel ${bg}${avoidStr}
+One object, centered, large, instantly recognizable.
+400x400 SVG.`;
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 3000,
-      system,
+      system: MASTER_SYSTEM,
       messages: [{ role: 'user', content: prompt }]
     });
 
-    const text = response.content[0].text.trim();
-    const match = text.match(/<svg[\s\S]*<\/svg>/i);
+    let svg = response.content[0].text.trim();
+    
+    // Extract SVG
+    const match = svg.match(/<svg[\s\S]*<\/svg>/i);
     if (!match) throw new Error('No SVG in response');
+    svg = match[0];
+    
+    // Remove any text elements
+    svg = svg
+      .replace(/<text[^>]*>[\s\S]*?<\/text>/gi, '')
+      .replace(/<tspan[^>]*>[\s\S]*?<\/tspan>/gi, '')
+      .replace(/<title>[\s\S]*?<\/title>/gi, '')
+      .replace(/<desc>[\s\S]*?<\/desc>/gi, '');
 
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ svg: match[0], bg })
+      body: JSON.stringify({ svg, bg })
     };
   } catch (e) {
     return {

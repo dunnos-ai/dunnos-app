@@ -1884,7 +1884,7 @@ function getFirstUnlocked(){for(const l of LESSONS)if(!done['l'+l.id])return l.i
 function startLesson(id){
   id = parseInt(id); // ensure number
   curLesson=LESSONS.find(l=>l.id===id);
-  if(!curLesson){ console.error('Lesson not found:',id); return; }
+  if(!curLesson){ console.error('Lesson not found:',id,'Available:',...LESSONS.map(l=>l.id)); return; }
   // Resume if we have saved progress for this lesson
   const saved=localStorage.getItem('dunno_progress_'+id);
   const savedIdx=saved?parseInt(saved):0;
@@ -1900,7 +1900,7 @@ function loadWord(){
   const aiImg=document.getElementById('learnAiImg');
   const emojiEl=document.getElementById('emoji');
   if(aiImg){aiImg.style.display='none';}
-  if(emojiEl){emojiEl.style.display='';emojiEl.style.opacity='1';emojiEl.textContent=w.e;}
+  if(emojiEl){emojiEl.style.display='';emojiEl.style.opacity='1';emojiEl.textContent=w.e||'📖';}
   document.getElementById('wWord').textContent=w.w;
   document.getElementById('wPhone').textContent=w.p;
   document.getElementById('lLabel').textContent=curLesson.name.toUpperCase();
@@ -3347,76 +3347,76 @@ const LESSONS=[
   {w:"A MOTORCYCLE",p:"/ə ˈmoʊtərsaɪkl/",e:"🏍️"},{w:"A HELICOPTER",p:"/ə ˈhelɪkɑːptər/",e:"🚁"},
   {w:"A SUBWAY",p:"/ə ˈsʌbweɪ/",e:"🚇"},{w:"A TRUCK",p:"/ə trʌk/",e:"🚚"},
  ]},
- {id:14,lesson:"Lesson 1",name:"Personal Belongings",tag:"Identifying",words:[
+ {id:5,lesson:"Lesson 1",name:"Personal Belongings",tag:"Identifying",words:[
   {w:"A HAIR DRYER",p:"/ə her ˈdraɪər/",e:"💨"},{w:"A TOOTHBRUSH",p:"/ə ˈtuːθbrʌʃ/",e:"🪥"},
   {w:"A BRUSH",p:"/ə brʌʃ/",e:"🖌️"},{w:"A COMB",p:"/ə koʊm/",e:"💈"},
   {w:"A DEODORANT",p:"/ə diˈoʊdərənt/",e:"🧴"},{w:"A RAZOR",p:"/ə ˈreɪzər/",e:"🪒"},
   {w:"A BAR OF SOAP",p:"/ə bɑːr əv soʊp/",e:"🧼"},{w:"MAKE-UP",p:"/meɪk ʌp/",e:"💄"},
   {w:"LOTION",p:"/ˈloʊʃn/",e:"🧴"},
  ]},
- {id:5,lesson:"Lesson 2",name:"Verb To Be",tag:"Grammar",words:[
+ {id:6,lesson:"Lesson 2",name:"Verb To Be",tag:"Grammar",words:[
   {w:"I AM",p:"/aɪ æm/",e:"👤"},{w:"YOU ARE",p:"/juː ɑːr/",e:"👥"},
   {w:"HE IS",p:"/hiː ɪz/",e:"👨"},{w:"SHE IS",p:"/ʃiː ɪz/",e:"👩"},
   {w:"IT IS",p:"/ɪt ɪz/",e:"📦"},{w:"WE ARE",p:"/wiː ɑːr/",e:"👫"},
   {w:"THEY ARE",p:"/ðeɪ ɑːr/",e:"👨‍👩‍👧‍👦"},{w:"A MAN",p:"/ə mæn/",e:"👨"},
   {w:"A WOMAN",p:"/ə ˈwʊmən/",e:"👩"},{w:"A PERSON",p:"/ə ˈpɜːrsn/",e:"🧑"},
  ]},
- {id:6,lesson:"Lesson 3",name:"This · That · These · Those",tag:"Demonstratives",words:[
+ {id:7,lesson:"Lesson 3",name:"This · That · These · Those",tag:"Demonstratives",words:[
   {w:"THIS",p:"/ðɪs/",e:"👇"},{w:"THAT",p:"/ðæt/",e:"👉"},
   {w:"THESE",p:"/ðiːz/",e:"👇👇"},{w:"THOSE",p:"/ðoʊz/",e:"👉👉"},
   {w:"A HOUSE",p:"/ə haʊs/",e:"🏠"},{w:"AN APARTMENT",p:"/æn əˈpɑːrtmənt/",e:"🏢"},
   {w:"A HOTEL",p:"/ə hoʊˈtel/",e:"🏨"},{w:"A RESTAURANT",p:"/ə ˈrestrɑːnt/",e:"🍴"},
   {w:"A CHURCH",p:"/ə tʃɜːrtʃ/",e:"⛪"},{w:"A SCHOOL",p:"/ə skuːl/",e:"🏫"},
  ]},
- {id:15,lesson:"Lesson 4",name:"Parts of a Room",tag:"Identifying",words:[
+ {id:8,lesson:"Lesson 4",name:"Parts of a Room",tag:"Identifying",words:[
   {w:"THE FLOOR",p:"/ðə flɔːr/",e:"⬛"},{w:"THE CEILING",p:"/ðə ˈsiːlɪŋ/",e:"⬜"},
   {w:"THE WALL",p:"/ðə wɔːl/",e:"🧱"},{w:"THE WINDOW",p:"/ðə ˈwɪndoʊ/",e:"🪟"},
   {w:"THE DOOR",p:"/ðə dɔːr/",e:"🚪"},{w:"THE CLOSET",p:"/ðə ˈklɑːzɪt/",e:"🗄️"},
   {w:"THE CURTAIN",p:"/ðə ˈkɜːrtn/",e:"🪟"},{w:"THE LIGHT",p:"/ðə laɪt/",e:"💡"},
  ]},
- {id:7,lesson:"Lesson 5",name:"At School",tag:"School",words:[
+ {id:9,lesson:"Lesson 5",name:"At School",tag:"School",words:[
   {w:"A BOOK",p:"/ə bʊk/",e:"📖"},{w:"A PEN",p:"/ə pen/",e:"🖊️"},
   {w:"A PENCIL",p:"/ə ˈpensl/",e:"✏️"},{w:"A RULER",p:"/ə ˈruːlər/",e:"📏"},
   {w:"A BACKPACK",p:"/ə ˈbækpæk/",e:"🎒"},{w:"A CLOCK",p:"/ə klɑːk/",e:"🕐"},
   {w:"A GLOBE",p:"/ə ɡloʊb/",e:"🌍"},{w:"AN ERASER",p:"/æn ɪˈreɪsər/",e:"🧹"},
   {w:"A NOTEBOOK",p:"/ə ˈnoʊtbʊk/",e:"📓"},{w:"A MARKER",p:"/ə ˈmɑːrkər/",e:"🖍️"},
  ]},
- {id:8,lesson:"Lesson 6",name:"Colors",tag:"Colors",words:[
+ {id:10,lesson:"Lesson 6",name:"Colors",tag:"Colors",words:[
   {w:"RED",p:"/red/",e:"🔴"},{w:"BLUE",p:"/bluː/",e:"🔵"},
   {w:"YELLOW",p:"/ˈjeloʊ/",e:"🟡"},{w:"GREEN",p:"/ɡriːn/",e:"🟢"},
   {w:"BLACK",p:"/blæk/",e:"⚫"},{w:"WHITE",p:"/waɪt/",e:"⚪"},
   {w:"ORANGE",p:"/ˈɔːrɪndʒ/",e:"🟠"},{w:"PURPLE",p:"/ˈpɜːrpl/",e:"🟣"},
   {w:"PINK",p:"/pɪŋk/",e:"🩷"},{w:"BROWN",p:"/braʊn/",e:"🟤"},
  ]},
- {id:9,lesson:"Lesson 7",name:"Adjectives & Opposites",tag:"Adjectives",words:[
+ {id:11,lesson:"Lesson 7",name:"Adjectives & Opposites",tag:"Adjectives",words:[
   {w:"BIG",p:"/bɪɡ/",e:"🐘"},{w:"SMALL",p:"/smɔːl/",e:"🐭"},
   {w:"TALL",p:"/tɔːl/",e:"🦒"},{w:"SHORT",p:"/ʃɔːrt/",e:"🐣"},
   {w:"OLD",p:"/oʊld/",e:"👴"},{w:"YOUNG",p:"/jʌŋ/",e:"👶"},
   {w:"PRETTY",p:"/ˈprɪti/",e:"🌸"},{w:"WIDE",p:"/waɪd/",e:"↔️"},
   {w:"NARROW",p:"/ˈnæroʊ/",e:"↕️"},{w:"LONG",p:"/lɔːŋ/",e:"📏"},
  ]},
- {id:10,lesson:"Lesson 8",name:"Professions",tag:"Professions",words:[
+ {id:12,lesson:"Lesson 8",name:"Professions",tag:"Professions",words:[
   {w:"A DOCTOR",p:"/ə ˈdɑːktər/",e:"👨‍⚕️"},{w:"A TEACHER",p:"/ə ˈtiːtʃər/",e:"👨‍🏫"},
   {w:"A LAWYER",p:"/ə ˈlɔːjər/",e:"⚖️"},{w:"A PILOT",p:"/ə ˈpaɪlət/",e:"✈️"},
   {w:"A BAKER",p:"/ə ˈbeɪkər/",e:"🥖"},{w:"A WAITER",p:"/ə ˈweɪtər/",e:"🍽️"},
   {w:"A MECHANIC",p:"/ə mɪˈkænɪk/",e:"🔧"},{w:"A CHEF",p:"/ə ʃef/",e:"👨‍🍳"},
   {w:"A POLICEMAN",p:"/ə pəˈliːsmən/",e:"👮"},{w:"A DENTIST",p:"/ə ˈdentɪst/",e:"🦷"},
  ]},
- {id:11,lesson:"Lesson 9",name:"Countries",tag:"World",words:[
+ {id:13,lesson:"Lesson 9",name:"Countries",tag:"World",words:[
   {w:"ENGLAND",p:"/ˈɪŋɡlənd/",e:"🇬🇧"},{w:"USA",p:"/ˌjuː es ˈeɪ/",e:"🇺🇸"},
   {w:"MEXICO",p:"/ˈmeksɪkoʊ/",e:"🇲🇽"},{w:"ITALY",p:"/ˈɪtəli/",e:"🇮🇹"},
   {w:"FRANCE",p:"/fræns/",e:"🇫🇷"},{w:"GERMANY",p:"/ˈdʒɜːrməni/",e:"🇩🇪"},
   {w:"CHINA",p:"/ˈtʃaɪnə/",e:"🇨🇳"},{w:"CANADA",p:"/ˈkænədə/",e:"🇨🇦"},
   {w:"JAPAN",p:"/dʒəˈpæn/",e:"🇯🇵"},{w:"COLOMBIA",p:"/kəˈlʌmbiə/",e:"🇨🇴"},
  ]},
- {id:12,lesson:"Lesson 10",name:"Family",tag:"Family",words:[
+ {id:14,lesson:"Lesson 10",name:"Family",tag:"Family",words:[
   {w:"FATHER",p:"/ˈfɑːðər/",e:"👨"},{w:"MOTHER",p:"/ˈmʌðər/",e:"👩"},
   {w:"SON",p:"/sʌn/",e:"👦"},{w:"DAUGHTER",p:"/ˈdɔːtər/",e:"👧"},
   {w:"BROTHER",p:"/ˈbrʌðər/",e:"👬"},{w:"SISTER",p:"/ˈsɪstər/",e:"👭"},
   {w:"GRANDFATHER",p:"/ˈɡrænfɑːðər/",e:"👴"},{w:"GRANDMOTHER",p:"/ˈɡrænmʌðər/",e:"👵"},
   {w:"HUSBAND",p:"/ˈhʌzbənd/",e:"💍"},{w:"WIFE",p:"/waɪf/",e:"💐"},
  ]},
- {id:16,lesson:"Lesson 10",name:"Verbs A",tag:"Irregular Verbs",words:[
+ {id:15,lesson:"Lesson 10",name:"Verbs A",tag:"Irregular Verbs",words:[
   {w:"BURN",p:"/bɜːrn/",e:"🔥",f:"burned/burnt",pp:"burned/burnt"},
   {w:"SWING",p:"/swɪŋ/",e:"🎡",f:"swung",pp:"swung"},
   {w:"LEAP",p:"/liːp/",e:"🦘",f:"leaped/leapt",pp:"leaped/leapt"},
@@ -3428,7 +3428,7 @@ const LESSONS=[
   {w:"FEED",p:"/fiːd/",e:"🍽️",f:"fed",pp:"fed"},
   {w:"DO",p:"/duː/",e:"⚡",f:"did",pp:"done"},
  ]},
- {id:13,lesson:"Lesson 11",name:"Parts of the Body",tag:"Body",words:[
+ {id:16,lesson:"Lesson 11",name:"Parts of the Body",tag:"Body",words:[
   {w:"HEAD",p:"/hed/",e:"🗣️"},{w:"EYE",p:"/aɪ/",e:"👁️"},
   {w:"EAR",p:"/ɪr/",e:"👂"},{w:"NOSE",p:"/noʊz/",e:"👃"},
   {w:"MOUTH",p:"/maʊθ/",e:"👄"},{w:"HAND",p:"/hænd/",e:"✋"},
@@ -3436,56 +3436,56 @@ const LESSONS=[
   {w:"FOOT",p:"/fʊt/",e:"🦶"},{w:"SHOULDER",p:"/ˈʃoʊldər/",e:"💪"},
  ]},
 ,
- {id:18,lesson:"Lesson 12",name:"This is My Office",tag:"Office Vocabulary",words:[
+ {id:17,lesson:"Lesson 12",name:"This is My Office",tag:"Office Vocabulary",words:[
   {w:"A DESK",p:"/ə desk/",e:"🪑"},{w:"A COMPUTER",p:"/ə kəmˈpjuːtər/",e:"💻"},
   {w:"A BOOKCASE",p:"/ə ˈbʊkkeɪs/",e:"📚"},{w:"A LAMP",p:"/ə læmp/",e:"💡"},
   {w:"A PICTURE",p:"/ə ˈpɪktʃər/",e:"🖼️"},{w:"A FILE CABINET",p:"/ə faɪl ˈkæbɪnɪt/",e:"🗄️"},
   {w:"A CARPET",p:"/ə ˈkɑːrpɪt/",e:"🟫"},{w:"A PLANT",p:"/ə plænt/",e:"🌿"},
   {w:"A SPEAKER",p:"/ə ˈspiːkər/",e:"🔊"},
  ]},
- {id:19,lesson:"Lesson 13",name:"Possessive Form",tag:"Grammar",words:[
+ {id:18,lesson:"Lesson 13",name:"Possessive Form",tag:"Grammar",words:[
   {w:"MY",p:"/maɪ/",e:"🙋"},{w:"YOUR",p:"/jɔːr/",e:"👉"},
   {w:"HIS",p:"/hɪz/",e:"👨"},{w:"HER",p:"/hɜːr/",e:"👩"},
   {w:"OUR",p:"/aʊər/",e:"👫"},{w:"THEIR",p:"/ðer/",e:"👨‍👩‍👧"},
   {w:"MINE",p:"/maɪn/",e:"💎"},{w:"YOURS",p:"/jɔːrz/",e:"🫵"},
   {w:"OURS",p:"/aʊərz/",e:"🤝"},
  ]},
- {id:20,lesson:"Lesson 14",name:"Present Continuous",tag:"Grammar",words:[
+ {id:19,lesson:"Lesson 14",name:"Present Continuous",tag:"Grammar",words:[
   {w:"I AM WORKING",p:"/aɪ æm ˈwɜːrkɪŋ/",e:"💼"},{w:"SHE IS COOKING",p:"/ʃiː ɪz ˈkʊkɪŋ/",e:"🍳"},
   {w:"HE IS READING",p:"/hiː ɪz ˈriːdɪŋ/",e:"📖"},{w:"THEY ARE PLAYING",p:"/ðeɪ ɑːr ˈpleɪɪŋ/",e:"🎮"},
   {w:"WE ARE STUDYING",p:"/wiː ɑːr ˈstʌdiɪŋ/",e:"📝"},{w:"SHE IS WRITING",p:"/ʃiː ɪz ˈraɪtɪŋ/",e:"✍️"},
   {w:"HE IS DRIVING",p:"/hiː ɪz ˈdraɪvɪŋ/",e:"🚗"},{w:"THEY ARE DANCING",p:"/ðeɪ ɑːr ˈdænsɪŋ/",e:"💃"},
   {w:"I AM EATING",p:"/aɪ æm ˈiːtɪŋ/",e:"🍽️"},
  ]},
- {id:21,lesson:"Lesson 15",name:"At the Shopping Center",tag:"Shopping",words:[
+ {id:20,lesson:"Lesson 15",name:"At the Shopping Center",tag:"Shopping",words:[
   {w:"A SUIT",p:"/ə suːt/",e:"👔"},{w:"A COAT",p:"/ə koʊt/",e:"🧥"},
   {w:"JEANS",p:"/dʒiːnz/",e:"👖"},{w:"A SHIRT",p:"/ə ʃɜːrt/",e:"👕"},
   {w:"A T-SHIRT",p:"/ə ˈtiːʃɜːrt/",e:"👕"},{w:"A DRESS",p:"/ə dres/",e:"👗"},
   {w:"A BLOUSE",p:"/ə blaʊs/",e:"👚"},{w:"SHORTS",p:"/ʃɔːrts/",e:"🩳"},
   {w:"SHOES",p:"/ʃuːz/",e:"👟"},{w:"SOCKS",p:"/sɑːks/",e:"🧦"},
  ]},
- {id:22,lesson:"Lesson 16",name:"Places",tag:"Places",words:[
+ {id:21,lesson:"Lesson 16",name:"Places",tag:"Places",words:[
   {w:"A POST OFFICE",p:"/ə poʊst ˈɔːfɪs/",e:"📮"},{w:"A PHARMACY",p:"/ə ˈfɑːrməsi/",e:"💊"},
   {w:"A BAKERY",p:"/ə ˈbeɪkəri/",e:"🥐"},{w:"A LIBRARY",p:"/ə ˈlaɪbreri/",e:"📚"},
   {w:"A BANK",p:"/ə bæŋk/",e:"🏦"},{w:"A RESTAURANT",p:"/ə ˈrestrɑːnt/",e:"🍽️"},
   {w:"A CHURCH",p:"/ə tʃɜːrtʃ/",e:"⛪"},{w:"A BEAUTY SALON",p:"/ə ˈbjuːti səˈlɑːn/",e:"💇"},
   {w:"A JEWELRY STORE",p:"/ə ˈdʒuːəlri stɔːr/",e:"💍"},{w:"A LAUNDROMAT",p:"/ə ˈlɔːndrəmæt/",e:"🫧"},
  ]},
- {id:23,lesson:"Lesson 17",name:"Height & Weight",tag:"Descriptions",words:[
+ {id:22,lesson:"Lesson 17",name:"Height & Weight",tag:"Descriptions",words:[
   {w:"TALL",p:"/tɔːl/",e:"📏"},{w:"SHORT",p:"/ʃɔːrt/",e:"📐"},
   {w:"HEAVY",p:"/ˈhevi/",e:"⚖️"},{w:"THIN",p:"/θɪn/",e:"🪶"},
   {w:"WELL-BUILT",p:"/wel bɪlt/",e:"💪"},{w:"SLENDER",p:"/ˈslendər/",e:"🌿"},
   {w:"I WEIGH",p:"/aɪ weɪ/",e:"⚖️"},{w:"MY HEIGHT IS",p:"/maɪ haɪt ɪz/",e:"📏"},
   {w:"POUNDS",p:"/paʊndz/",e:"🔢"},{w:"FEET",p:"/fiːt/",e:"📐"},
  ]},
- {id:24,lesson:"Lesson 18",name:"What Time Is It?",tag:"Time",words:[
+ {id:23,lesson:"Lesson 18",name:"What Time Is It?",tag:"Time",words:[
   {w:"O'CLOCK",p:"/əˈklɑːk/",e:"🕐"},{w:"HALF PAST",p:"/hæf pæst/",e:"🕧"},
   {w:"A QUARTER TO",p:"/ə ˈkwɔːrtər tuː/",e:"🕥"},{w:"A QUARTER AFTER",p:"/ə ˈkwɔːrtər ˈæftər/",e:"🕧"},
   {w:"IN THE MORNING",p:"/ɪn ðə ˈmɔːrnɪŋ/",e:"🌅"},{w:"IN THE AFTERNOON",p:"/ɪn ðə ˌæftərˈnuːn/",e:"☀️"},
   {w:"AT NIGHT",p:"/æt naɪt/",e:"🌙"},{w:"A WATCH",p:"/ə wɑːtʃ/",e:"⌚"},
   {w:"A CLOCK",p:"/ə klɑːk/",e:"🕐"},
  ]},
- {id:25,lesson:"Lesson 19",name:"Food & Meals",tag:"Food",words:[
+ {id:24,lesson:"Lesson 19",name:"Food & Meals",tag:"Food",words:[
   {w:"BREAKFAST",p:"/ˈbrekfəst/",e:"🍳"},{w:"LUNCH",p:"/lʌntʃ/",e:"🥪"},
   {w:"DINNER",p:"/ˈdɪnər/",e:"🍽️"},{w:"SCRAMBLED EGGS",p:"/ˈskræmbld eɡz/",e:"🍳"},
   {w:"BACON",p:"/ˈbeɪkən/",e:"🥓"},{w:"TOAST",p:"/toʊst/",e:"🍞"},
@@ -3493,7 +3493,7 @@ const LESSONS=[
   {w:"SPAGHETTI",p:"/spəˈɡeti/",e:"🍝"},{w:"DESSERT",p:"/dɪˈzɜːrt/",e:"🍰"},
  ]},
 
- {id:17,lesson:"Lesson 20",name:"Verbs B",tag:"Irregular Verbs",words:[
+ {id:25,lesson:"Lesson 20",name:"Verbs B",tag:"Irregular Verbs",words:[
   {w:"GROW",p:"/ɡroʊ/",e:"🌱",f:"grew",pp:"grown"},
   {w:"EAT",p:"/iːt/",e:"🍽️",f:"ate",pp:"eaten"},
   {w:"CATCH",p:"/kætʃ/",e:"🤜",f:"caught",pp:"caught"},
@@ -4637,21 +4637,14 @@ Return ONLY valid SVG code. Start immediately with <svg. No explanation, no mark
     : `Category: Word\nConcept: ${word}\nIllustrate: ${showDesc}\nBackground: ${bg}\n${avoidList ? 'Never illustrate: '+avoidList : ''}`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/.netlify/functions/generate-image', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 2500,
-        system,
-        messages: [{role:'user', content: wordPrompt}]
-      })
+      body: JSON.stringify({word, isVerb, bgIndex: bgIdx, show: showDesc, avoid: ctx.avoid||[]})
     });
     const data = await res.json();
-    const text = data.content[0].text.trim();
-    const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i);
-    if(!svgMatch) throw new Error('no svg');
-    const cleanedSVG = cleanSVG(svgMatch[0]);
+    if(data.error) throw new Error(data.error);
+    const cleanedSVG = cleanSVG(data.svg);
     const dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(cleanedSVG);
     imgCache[key] = dataUrl;
     imgEl.src = dataUrl;
@@ -4659,11 +4652,11 @@ Return ONLY valid SVG code. Start immediately with <svg. No explanation, no mark
     emojiEl.style.display = 'none';
   } catch(e) {
     emojiEl.style.opacity = '1';
+    console.warn('Image error:', e);
   }
   if(loader) loader.style.display = 'none';
 }
 
-// Also generate for verb detail screen
 async function loadVerbImage(verbWord) {
   const imgEl = document.getElementById('vdAiImage');
   const bigEmoji = document.getElementById('vdBigEmoji');
@@ -4685,55 +4678,22 @@ async function loadVerbImage(verbWord) {
   const bg = verbBgColors[verbWord.length % verbBgColors.length];
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    // Route through Netlify Function to avoid CORS
+    const res = await fetch('/.netlify/functions/generate-image', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 2500,
-        system: `You are the official illustrator for DUNNOS AI, a premium AI-powered language learning platform.
-
-Your responsibility is to create illustrations that belong to one unified visual system. Every image must look as though it was created by the same world-class illustration studio over many years.
-
-VISUAL STYLE: Premium editorial flat illustration. Mid-century modern aesthetic. Scandinavian simplicity. Geometric construction. Minimalist composition. Clean vector appearance. Never cartoon, never anime, never Pixar, never emoji style, never photorealistic, never 3D.
-
-COMPOSITION: Square canvas. One primary subject. Perfectly centered. Subject occupies 65-70% of canvas. Large negative space. Never crop the subject.
-
-COLOR SYSTEM: Flat colors only. Matte finish. No gradients. No textures. No shadows. No reflections. Maximum 6-8 colors per illustration.
-
-SILHOUETTE: Every illustration must have a strong iconic silhouette. Recognizable in less than one second.
-
-STRICTLY FORBIDDEN: No text. No letters. No numbers. No logos. No borders. No labels. No gradients. No shadows. No 3D. No photorealism. No anime. No Disney. No Pixar. No emoji style. No extra limbs. No extra fingers. No cropped subjects.
-
-FINAL GOAL: Create timeless, premium, instantly recognizable educational illustrations. Every image should feel handcrafted by elite illustrators, never AI-generated.
-WHEN THE SUBJECT IS A VERB (Action):
-- Illustrate one adult person
-- Dynamic exaggerated pose — the pose alone must communicate the action
-- Entire body visible, strong limb separation
-- Correct anatomy: 1 head, 2 arms, 2 hands, 5 fingers each, 2 legs, 2 feet
-
-BACKGROUND: Solid Navy only. No gradients.
-ACCENT: Use #00FF01 ONLY as motion lines, speed effects, or geometric accents. Never dominant.
-
-Return ONLY valid SVG code. Start immediately with <svg. No explanation, no markdown, no text in the image.`,
-        messages: [{role:'user', content:`Background: ${bg}
-Draw a person actively and expressively performing "${verbWord}".
-The action must be instantly recognizable. Exaggerated pose.
-Lime green #00FF01 as main accent. 400x400 SVG.`}]
-      })
+      body: JSON.stringify({word: verbWord, isVerb: true, bgIndex: verbWord.length,
+        show: `a person actively performing the action "${verbWord}"`,
+        avoid: []})
     });
     const data = await res.json();
-    const svgMatch = data.content[0].text.trim().match(/<svg[\s\S]*<\/svg>/i);
-    if(!svgMatch) throw new Error('no svg');
-    const cleanedSVG = cleanSVG(svgMatch[0]);
+    if(data.error) throw new Error(data.error);
+    const cleanedSVG = cleanSVG(data.svg);
     const dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(cleanedSVG);
     imgCache[key] = dataUrl;
     syncThumbs(dataUrl);
   } catch(e) {
     if(bigEmoji) bigEmoji.style.opacity = '1';
+    console.warn('Verb image error:', e);
   }
-}
-
-</script>
-</body>
-</html>
+}>
