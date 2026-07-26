@@ -998,6 +998,14 @@ function goCodeScreen(){
     if(cs)cs.style.display='flex';
   },400);
 }
+function handleCodeBtn(){
+  var step2=document.getElementById('codeStep2');
+  if(!step2||step2.style.display==='none'||step2.style.display===''){
+    if(typeof submitCode==='function') submitCode();
+  } else {
+    if(typeof submitStudentId==='function') submitStudentId();
+  }
+}
 setTimeout(function(){
   var t=document.getElementById('s1tag');
   if(t){t.style.opacity='1';t.style.transform='translateY(0)';}
