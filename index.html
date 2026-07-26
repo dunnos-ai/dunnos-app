@@ -3089,7 +3089,15 @@ function exitQuiz() {
 // ══ END VERBS ═════════════════════════════════════════
 
 function goFromSplash(){showScreen('welcome');updateHome();}
-(function(){initSpeech();checkStreak();const s=localStorage.getItem('dunno_access');if(s){try{const d=JSON.parse(s),now=new Date();if(d.studentId&&d.month===now.getMonth()+1&&d.year===now.getFullYear()){document.getElementById('codeScreen').style.display='none';var is=document.getElementById('introSlides');if(is)is.style.display='none';showScreen('welcome');updateHome();return;}}catch(e){}}})();
+(function(){
+  // Unregister any old service workers and clear caches
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistrations().then(regs=>{
+      regs.forEach(r=>r.unregister());
+    });
+  }
+  caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
+  initSpeech();checkStreak();const s=localStorage.getItem('dunno_access');if(s){try{const d=JSON.parse(s),now=new Date();if(d.studentId&&d.month===now.getMonth()+1&&d.year===now.getFullYear()){document.getElementById('codeScreen').style.display='none';var is=document.getElementById('introSlides');if(is)is.style.display='none';showScreen('welcome');updateHome();return;}}catch(e){}}})();
 // Unregister all old service workers and clear caches
 if('serviceWorker' in navigator){
   navigator.serviceWorker.getRegistrations().then(regs=>{
