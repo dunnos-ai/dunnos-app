@@ -4722,8 +4722,8 @@ async function loadVerbImage(verbWord) {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({word: verbWord, isVerb: true, bgIndex: verbWord.length,
-        show: `a person actively performing the action "${verbWord}"`,
-        avoid: []})
+        show: 'Olympic pictogram silhouette of "'+verbWord+'" — pure geometric shapes, white figure on dark bg, no details',
+        avoid: ['facial features','fingers','clothing details','realistic anatomy','cartoon style','text','labels']})
     });
     const data = await res.json();
     if(data.error) throw new Error(data.error);

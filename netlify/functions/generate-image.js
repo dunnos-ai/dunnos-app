@@ -2,38 +2,39 @@ const Anthropic = require('@anthropic-ai/sdk');
 
 const MASTER_SYSTEM = `You are the Official Illustration Engine for DUNNOS AI.
 
-Your job is to create the world's most consistent educational illustration library for English vocabulary learning.
+PRIMARY OBJECTIVE: The learner must recognize the intended meaning instantly.
 
-PRIMARY OBJECTIVE: The learner should recognize the intended meaning instantly. Recognition is always more important than artistic creativity. Clarity is mandatory.
+CONCEPT INTERPRETATION — Always illustrate the everyday meaning:
+- Water → a glass of drinking water (NEVER H2O molecule)
+- Apple → the fruit (NEVER Apple logo)
+- Coffee → a cup of coffee (NEVER beans)
 
-CONCEPT INTERPRETATION — Always illustrate the intended everyday meaning:
-- Water → a glass of drinking water. NOT H2O molecule or chemical formula
-- Apple → the fruit. NOT Apple Inc or iPhone
-- Coffee → a cup of coffee. NOT coffee beans
-- Milk → a glass of milk. NOT a cow
-- Never illustrate scientific, symbolic, technical or abstract interpretations
+VISUAL STYLE: Premium flat editorial illustration. Mid-century modern. Clean vector. Geometric. Never cartoon, never anime, never Pixar, never emoji, never realistic, never 3D.
 
-VISUAL STYLE: Premium editorial flat illustration. Mid-century modern. Scandinavian minimalism. Clean vector. Geometric. Timeless. Never cartoon, never anime, never Pixar, never Disney, never clipart, never emoji, never realistic, never 3D.
+COMPOSITION: Square canvas 400x400. Single subject centered. Occupies 65-70%. Large negative space.
 
-COMPOSITION: Square canvas. Single primary subject. Centered. Occupies 70% of canvas. Large negative space. Never crop the subject.
+COLOR: Flat colors only. No gradients. No shadows. No textures. Max 6 colors.
 
-COLOR: Flat colors only. No gradients. No shadows. No reflections. No textures. Maximum 8 colors.
+ABSOLUTE PROHIBITIONS: No text, no letters, no numbers, no labels. No gradients. No 3D. No photorealism.
 
-SILHOUETTE: Must identify subject even filled completely black.
+Return ONLY valid SVG. Start with <svg immediately.`;
 
-ABSOLUTE PROHIBITIONS:
-- No text, no letters, no numbers, no labels, no captions, no watermarks
-- No gradients, no shadows, no textures, no 3D, no photorealism
-- No anime, no Disney, no Pixar, no clipart, no emoji
-- No extra limbs, no extra fingers, no cropped subjects
+const PICTOGRAM_SYSTEM = `You are the Official Illustration Engine for DUNNOS AI — Verb Pictogram Style.
 
-QUALITY CHECK before finishing:
-✓ Is the intended meaning obvious?
-✓ Could a 7-year-old identify it?
-✓ Is it recognizable in under one second?
-✓ Zero text or letters visible?
+STYLE: Olympic pictogram / ISO safety icon / airport wayfinding sign.
+Think: Beijing 2008 Olympics icons, London 2012 sports pictograms, airport signs.
 
-Return ONLY valid SVG code. Start immediately with <svg. No explanation, no markdown.`;
+RULES:
+- Dark solid background fills entire 400x400 canvas
+- Single WHITE geometric figure — circles, rectangles, lines ONLY
+- NO facial features, NO fingers, NO clothing, NO hair
+- NO realistic anatomy — pure geometric abstraction
+- The ACTION must be 100% clear from silhouette shape alone
+- Optional: #00FF01 lime green for motion lines or speed effect (minimal, 1-2 lines max)
+- Zero gradients, zero textures, zero details
+- Simple head = circle, body = rectangle, limbs = rectangles/lines
+
+Return ONLY valid SVG. Start with <svg immediately. No text in SVG.`;
 
 exports.handler = async (event) => {
   const headers = {
@@ -54,54 +55,39 @@ exports.handler = async (event) => {
     const VERB_BG = ["#1A1A2E","#16213E","#0F3460","#1B2A4A","#0D1B2A","#1C1C3A"];
     const bg = isVerb ? VERB_BG[(bgIndex||0) % VERB_BG.length] : NOUN_BG[(bgIndex||0) % NOUN_BG.length];
 
-    const avoidStr = (avoid && avoid.length) ? `\nNEVER illustrate: ${avoid.join(', ')}` : '';
+    const avoidStr = (avoid && avoid.length) ? `\nNEVER show: ${avoid.join(', ')}` : '';
 
     const prompt = isVerb
-      ? `Category: Verb
-Action word: ${word}
-Illustrate: ${show || 'a person actively performing the action "'+word+'"'}
-Background: Solid Navy ${bg}
-Accent color: #00FF01 for motion lines only — never dominant${avoidStr}
-One adult person. Dynamic exaggerated pose. Entire body visible. Strong silhouette.
+      ? `Background: ${bg}
+Verb: "${word}"
+Draw an Olympic-style pictogram of a figure performing "${word}".
+White geometric figure on dark background.
+Head = circle, body = rectangle, limbs = thin rectangles.
+The pose must instantly communicate the action "${word}".${avoidStr}
 400x400 SVG.`
-      : `Category: Word (vocabulary flashcard)
-Concept: ${word}
+      : `Background: ${bg}
 Illustrate EXACTLY: ${show || word}
-Background: Solid pastel ${bg}${avoidStr}
-One object, centered, large, instantly recognizable.
+One object, centered, large, instantly recognizable.${avoidStr}
 400x400 SVG.`;
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 3000,
-      system: MASTER_SYSTEM,
+      system: isVerb ? PICTOGRAM_SYSTEM : MASTER_SYSTEM,
       messages: [{ role: 'user', content: prompt }]
     });
 
     let svg = response.content[0].text.trim();
-    
-    // Extract SVG
     const match = svg.match(/<svg[\s\S]*<\/svg>/i);
     if (!match) throw new Error('No SVG in response');
-    svg = match[0];
-    
-    // Remove any text elements
-    svg = svg
+    svg = match[0]
       .replace(/<text[^>]*>[\s\S]*?<\/text>/gi, '')
       .replace(/<tspan[^>]*>[\s\S]*?<\/tspan>/gi, '')
       .replace(/<title>[\s\S]*?<\/title>/gi, '')
       .replace(/<desc>[\s\S]*?<\/desc>/gi, '');
 
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ svg, bg })
-    };
+    return { statusCode: 200, headers, body: JSON.stringify({ svg, bg }) };
   } catch (e) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: e.message })
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: e.message }) };
   }
 };
