@@ -1000,10 +1000,13 @@ function goCodeScreen(){
 }
 function handleCodeBtn(){
   var step2=document.getElementById('codeStep2');
-  if(!step2||step2.style.display==='none'||step2.style.display===''){
-    if(typeof submitCode==='function') submitCode();
-  } else {
+  var onStep2=step2&&step2.style.display==='block';
+  if(onStep2){
     if(typeof submitStudentId==='function') submitStudentId();
+    else alert('Error: submitStudentId not loaded');
+  } else {
+    if(typeof submitCode==='function') submitCode();
+    else alert('Error: submitCode not loaded');
   }
 }
 setTimeout(function(){
@@ -1784,15 +1787,6 @@ function hideCodeScreen() {
   var cs = document.getElementById('codeScreen');
   if(cs) cs.style.display = 'none';
 }
-function handleCodeBtn(){
-  const step2 = document.getElementById('codeStep2');
-  if(!step2 || step2.style.display==='none' || step2.style.display===''){
-    submitCode();
-  } else {
-    submitStudentId();
-  }
-}
-
 function submitCode(){
   const raw = document.getElementById('codeInput').value.toUpperCase().trim().replace(/\s/g,'');
   const err = document.getElementById('codeError');
@@ -4704,4 +4698,7 @@ async function loadVerbImage(verbWord) {
     if(bigEmoji) bigEmoji.style.opacity = '1';
     console.warn('Verb image error:', e);
   }
-}>
+}
+</script>
+</body>
+</html>
