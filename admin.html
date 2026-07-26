@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DUNNOS AI – Panel Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--Y:#BBF000;--G:#64D722;--N:#072A77;--R:#FF1D1D;--W:#fff;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f0f2f5;font-family:'Barlow',sans-serif;color:#222;}
+
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--N);}
+.login-box{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:380px;text-align:center;border:2px solid var(--N);box-shadow:6px 6px 0 var(--N);}
+.login-box h1{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:var(--N);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.login-box .sub{font-size:13px;color:#888;margin-bottom:28px;}
+.login-box input{width:100%;padding:14px 16px;border:2px solid #e0e0e0;border-radius:12px;font-size:16px;margin-bottom:14px;outline:none;letter-spacing:3px;font-family:'Barlow Condensed',sans-serif;font-weight:700;}
+.login-box input:focus{border-color:var(--N);}
+.btn-login{width:100%;background:var(--Y);color:var(--N);border:2px solid var(--N);padding:14px;border-radius:50px;font-size:16px;font-weight:900;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:1px;cursor:pointer;box-shadow:3px 3px 0 var(--N);transition:transform .15s;}
+.btn-login:hover{transform:translate(-1px,-1px);}
+.login-err{color:var(--R);font-size:13px;margin-top:8px;display:none;}
+
+#panel{display:none;min-height:100vh;}
+.top-bar{background:var(--N);color:#fff;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
+.top-bar h1{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;text-transform:uppercase;letter-spacing:1px;}
+.top-bar h1 span{color:var(--Y);}
+.top-bar .logout{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;}
+
+.main{max-width:960px;margin:0 auto;padding:32px 20px;}
+
+.tabs{display:flex;gap:8px;margin-bottom:24px;border-bottom:2px solid #e0e0e0;padding-bottom:0;}
+.tab{padding:10px 22px;border-radius:10px 10px 0 0;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;border:none;background:none;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;}
+.tab.active{color:var(--N);border-bottom:3px solid var(--N);}
+.tab-panel{display:none;} .tab-panel.active{display:block;}
+
+.section{background:#fff;border-radius:18px;padding:28px;border:2px solid #e8e8e8;margin-bottom:24px;}
+.section h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--N);text-transform:uppercase;letter-spacing:.5px;margin-bottom:18px;}
+
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px;}
+label{font-size:12px;font-weight:600;color:#666;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:4px;}
+select,input[type=text],input[type=number],input[type=password]{padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:'Barlow',sans-serif;outline:none;}
+select:focus,input:focus{border-color:var(--N);}
+
+.btn{padding:11px 22px;border-radius:50px;font-size:14px;font-weight:900;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;border:2px solid var(--N);transition:transform .15s;}
+.btn:hover{transform:translate(-1px,-1px);}
+.btn-primary{background:var(--Y);color:var(--N);box-shadow:3px 3px 0 var(--N);}
+.btn-dark{background:var(--N);color:#fff;box-shadow:3px 3px 0 rgba(0,0,0,.3);}
+.btn-sm{padding:7px 14px;font-size:12px;}
+
+.secret-box{background:#fff8e1;border:2px solid #f0c040;border-radius:14px;padding:18px;margin-bottom:20px;}
+.secret-box .label{font-size:11px;font-weight:700;color:#b08000;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.secret-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:#072A77;letter-spacing:4px;}
+
+/* OFFICE CODES TABLE */
+.office-table{width:100%;border-collapse:collapse;}
+.office-table th{text-align:left;font-size:11px;font-weight:700;color:#888;letter-spacing:.5px;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid #f0f0f0;}
+.office-table td{padding:10px 12px;border-bottom:1px solid #f5f5f5;font-size:14px;vertical-align:middle;}
+.office-table tr:last-child td{border-bottom:none;}
+.office-table tr:hover td{background:#fafafa;}
+.code-pill{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:#072A77;background:#f0f4ff;padding:5px 12px;border-radius:8px;display:inline-block;}
+.copy-btn{background:var(--N);color:#fff;border:none;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;}
+.wa-btn{background:#25D366;color:#fff;border:none;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Barlow Condensed',sans-serif;display:inline-flex;align-items:center;gap:5px;}
+.wa-btn svg{width:13px;height:13px;}
+
+/* STUDENT CODES */
+.student-table{width:100%;border-collapse:collapse;}
+.student-table th{text-align:left;font-size:11px;font-weight:700;color:#888;letter-spacing:.5px;text-transform:uppercase;padding:8px 12px;border-bottom:2px solid #f0f0f0;}
+.student-table td{padding:10px 12px;border-bottom:1px solid #f5f5f5;font-size:14px;vertical-align:middle;}
+.student-table tr:last-child td{border-bottom:none;}
+
+.badge-office{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#f0f4ff;color:var(--N);letter-spacing:.5px;}
+
+.helper{background:#f8f8f8;border-radius:12px;padding:14px 16px;font-size:13px;color:#666;line-height:1.6;margin-top:14px;}
+.helper code{background:#e8e8e8;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px;color:#333;}
+
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(80px);background:#0d0d0d;color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;opacity:0;transition:all .3s;z-index:9999;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* WA MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:9000;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:32px;width:100%;max-width:400px;text-align:center;}
+.modal h3{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--N);margin-bottom:8px;}
+.modal .code-preview{font-family:'Barlow Condensed',sans-serif;font-size:20px;letter-spacing:3px;color:var(--N);background:#f0f4ff;padding:10px 20px;border-radius:10px;margin:14px 0;}
+.modal input{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:12px;font-size:15px;margin-bottom:14px;outline:none;}
+.modal input:focus{border-color:var(--N);}
+.modal-btns{display:flex;gap:10px;}
+.modal-btns button{flex:1;}
+
+/* VERIFY */
+#checkResult{margin-top:14px;font-size:15px;display:none;padding:14px;border-radius:12px;font-weight:600;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-box">
+    <h1>DUNNOS <span style="color:var(--N)">AI</span></h1>
+    <p class="sub">Panel de Administración · Inglés Individual®</p>
+    <input type="password" id="adminInput" placeholder="Clave de acceso"
+           onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-login" onclick="doLogin()">Entrar →</button>
+    <p class="login-err" id="loginErr">Clave incorrecta</p>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+  <div class="top-bar">
+    <h1>DUNNOS <span>AI</span> · Admin</h1>
+    <button class="logout" onclick="logout()">Cerrar sesión</button>
+  </div>
+
+  <div class="main">
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('oficinas')">🏢 Códigos de Oficina</button>
+      <button class="tab" onclick="switchTab('alumnos')">🎓 Alumnos</button>
+      <button class="tab" onclick="switchTab('verificar')">🔍 Verificar</button>
+    </div>
+
+    <!-- TAB: OFICINAS -->
+    <div id="tab-oficinas" class="tab-panel active">
+
+      <div class="section">
+        <h2>Configuración del Mes</h2>
+        <div class="row">
+          <div>
+            <label>Mes</label>
+            <select id="selMonth">
+              <option value="1">Enero</option><option value="2">Febrero</option>
+              <option value="3">Marzo</option><option value="4">Abril</option>
+              <option value="5">Mayo</option><option value="6">Junio</option>
+              <option value="7">Julio</option><option value="8">Agosto</option>
+              <option value="9">Septiembre</option><option value="10">Octubre</option>
+              <option value="11">Noviembre</option><option value="12">Diciembre</option>
+            </select>
+          </div>
+          <div>
+            <label>Año</label>
+            <select id="selYear">
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+            </select>
+          </div>
+          <div>
+            <label>Palabra secreta</label>
+            <input type="text" id="secretWord" maxlength="20" placeholder="ej. inglesindividual"
+                   style="text-transform:lowercase;width:200px" oninput="updateSecret()">
+          </div>
+          <button class="btn btn-primary" onclick="generateOfficeCodes()">⚡ Generar Códigos</button>
+        </div>
+
+        <div class="secret-box" id="secretBox" style="display:none">
+          <div class="label">🔐 Secreto del mes (2 caracteres que valida la app)</div>
+          <div class="secret-val" id="secretVal">--</div>
+          <div style="font-size:12px;color:#888;margin-top:6px;">Actualiza este valor en <code>index.html</code> → <code>VALID_SECRET</code> antes de desplegar</div>
+        </div>
+
+        <div class="helper">
+          Formato: <code>DUNNO-[OFICINA]-MMYY-SS</code><br>
+          El secreto de 2 caracteres se calcula automáticamente de tu palabra secreta + el mes. Solo tú lo sabes.
+        </div>
+      </div>
+
+      <div class="section" id="officeSection" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+          <h2 style="margin-bottom:0" id="officeTitle">Códigos de Oficina</h2>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-dark btn-sm" onclick="copyAllOffice()">📋 Copiar todos</button>
+            <button class="btn btn-primary btn-sm" onclick="exportOfficeCSV()">📥 CSV</button>
+          </div>
+        </div>
+        <table class="office-table">
+          <thead><tr><th>#</th><th>Oficina</th><th>Código del Mes</th><th>Acciones</th></tr></thead>
+          <tbody id="officeBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- TAB: ALUMNOS -->
+    <div id="tab-alumnos" class="tab-panel">
+
+      <div class="section">
+        <h2>Nuevo Alumno</h2>
+        <div class="row">
+          <div style="flex:1;min-width:180px;">
+            <label>Nombre del alumno</label>
+            <input type="text" id="studentName" placeholder="ej. María García" style="width:100%">
+          </div>
+          <div>
+            <label>Oficina</label>
+            <select id="studentOffice">
+              <option value="">-- Selecciona --</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="addStudent()">+ Agregar</button>
+        </div>
+        <div class="helper">
+          El <strong>código perpetuo del alumno</strong> se genera una vez y nunca cambia. Su progreso estará vinculado a este código aunque cambien los códigos mensuales.
+        </div>
+      </div>
+
+      <div class="section">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
+          <h2 style="margin-bottom:0">Directorio de Alumnos</h2>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="searchStudent" placeholder="Buscar..." oninput="renderStudents()" style="padding:8px 14px;border-radius:20px;font-size:13px;">
+            <button class="btn btn-dark btn-sm" onclick="exportStudentsCSV()">📥 CSV</button>
+          </div>
+        </div>
+        <table class="student-table">
+          <thead><tr><th>#</th><th>Nombre</th><th>Oficina</th><th>ID Perpetuo</th><th>Código Este Mes</th><th>Acción</th></tr></thead>
+          <tbody id="studentBody"></tbody>
+        </table>
+        <p id="noStudents" style="text-align:center;color:#aaa;padding:30px;display:none;">Sin alumnos registrados aún.</p>
+      </div>
+
+    </div>
+
+    <!-- TAB: VERIFICAR -->
+    <div id="tab-verificar" class="tab-panel">
+      <div class="section">
+        <h2>Verificar Código</h2>
+        <div class="row">
+          <div style="flex:1;">
+            <label>Código a verificar</label>
+            <input type="text" id="checkInput" placeholder="DUNNO-CDMX-0826-K7"
+                   style="text-transform:uppercase;letter-spacing:2px;font-weight:700;width:100%"
+                   onkeydown="if(event.key==='Enter')checkCode()">
+          </div>
+          <div>
+            <label>Palabra secreta</label>
+            <input type="text" id="checkSecret" placeholder="tu palabra secreta" style="width:180px">
+          </div>
+          <button class="btn btn-primary" onclick="checkCode()">Verificar</button>
+        </div>
+        <div id="checkResult"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- WA Modal -->
+<div class="modal-bg" id="waModal">
+  <div class="modal">
+    <h3>📲 Enviar por WhatsApp</h3>
+    <p style="font-size:13px;color:#666;margin-bottom:8px;">Código a enviar:</p>
+    <div class="code-preview" id="waCodePreview"></div>
+    <p id="waStudentName" style="font-size:13px;color:#888;margin-bottom:14px;"></p>
+    <input type="tel" id="waPhone" placeholder="+52 614 000 0000">
+    <div class="modal-btns">
+      <button class="btn btn-dark" onclick="closeWA()">Cancelar</button>
+      <button class="btn btn-primary" onclick="sendWA()">Enviar WhatsApp →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── OFFICES ──────────────────────────────────────────
+const OFFICES = [
+  {id:'AGS',   name:'Aguascalientes'},
+  {id:'CSL',   name:'Cabo San Lucas'},
+  {id:'CHCA',  name:'Chihuahua Cafetales'},
+  {id:'CHHS',  name:'Chihuahua HighSq'},
+  {id:'CHRE',  name:'Chihuahua Reliz'},
+  {id:'GDL',   name:'Guadalajara'},
+  {id:'HMO',   name:'Hermosillo'},
+  {id:'JCE',   name:'Juárez Campos Elíseos'},
+  {id:'JNV',   name:'Juárez Nuevo'},
+  {id:'JPL',   name:'Juárez Plutarco'},
+  {id:'LMO',   name:'Los Mochis'},
+  {id:'MZT',   name:'Mazatlán'},
+  {id:'MDE',   name:'Medellín'},
+  {id:'NVO',   name:'Navojoa'},
+  {id:'NOG',   name:'Nogales'},
+  {id:'OBR',   name:'Obregón'},
+  {id:'TIJ',   name:'Tijuana'},
+  {id:'TRC',   name:'Torreón'},
+];
+
+const MONTHS = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// ── STATE ────────────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwli2lngFDjFlxF_9orR_ykMTiD6OV9yhQARypdQWnwlnt2l7kB3lPUFwWZw4sfByod/exec';
+const SHEET_SECRET = 'camilo2026';
+let students = [];
+let studentsLoaded = false;
+let currentOfficeMonth = null;
+let currentOfficeCodes = [];
+let waContext = {code:'', name:''};
+
+// ── INIT ─────────────────────────────────────────────
+const now = new Date();
+document.getElementById('selMonth').value = now.getMonth() + 1;
+document.getElementById('selYear').value  = now.getFullYear();
+
+// Populate office dropdown
+const sel = document.getElementById('studentOffice');
+OFFICES.forEach(o => {
+  const opt = document.createElement('option');
+  opt.value = o.id; opt.textContent = o.name;
+  sel.appendChild(opt);
+});
+
+// ── LOGIN ────────────────────────────────────────────
+function doLogin(){
+  const key = document.getElementById('adminInput').value.trim();
+  if(!key) return;
+  if(key === 'camilo2026'){
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    renderStudents();
+  } else {
+    document.getElementById('loginErr').textContent = 'Clave incorrecta';
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+
+function logout(){
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('panel').style.display = 'none';
+  document.getElementById('adminInput').value = '';
+}
+
+// ── TABS ─────────────────────────────────────────────
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    const tabs=['oficinas','alumnos','verificar'];
+    t.classList.toggle('active', tabs[i]===id);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active', p.id==='tab-'+id);
+  });
+  if(id==='alumnos'){ loadStudents(); }
+}
+
+// ── SECRET ALGORITHM ─────────────────────────────────
+// Deterministic 2-char secret from: word + month + year
+// Same inputs always produce same output. Only admin knows the word.
+function computeSecret(word, month, year){
+  if(!word) return '--';
+  const seed = (word.toLowerCase() + month + year).split('').reduce((acc,c)=>((acc<<5)-acc+c.charCodeAt(0))|0, 0);
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no ambiguous chars (0,O,1,I)
+  const a = chars[Math.abs(seed) % chars.length];
+  const b = chars[Math.abs(seed >> 5) % chars.length];
+  return a + b;
+}
+
+function updateSecret(){
+  const word  = document.getElementById('secretWord').value.trim();
+  const month = parseInt(document.getElementById('selMonth').value);
+  const year  = parseInt(document.getElementById('selYear').value);
+  const s = computeSecret(word, month, year);
+  document.getElementById('secretVal').textContent = s;
+  document.getElementById('secretBox').style.display = word ? 'block' : 'none';
+}
+
+// ── GENERATE OFFICE CODES ─────────────────────────────
+function generateOfficeCodes(){
+  const word  = document.getElementById('secretWord').value.trim();
+  const month = parseInt(document.getElementById('selMonth').value);
+  const year  = parseInt(document.getElementById('selYear').value);
+
+  if(!word){ showToast('⚠️ Escribe tu palabra secreta'); return; }
+
+  const secret = computeSecret(word, month, year);
+  const MM = String(month).padStart(2,'0');
+  const YY = String(year).slice(-2);
+
+  document.getElementById('secretVal').textContent = secret;
+  document.getElementById('secretBox').style.display = 'block';
+
+  currentOfficeCodes = OFFICES.map(o => ({
+    id: o.id,
+    name: o.name,
+    code: `DUNNO-${o.id}-${MM}${YY}-${secret}`,
+    month, year, secret
+  }));
+
+  currentOfficeMonth = {month, year, secret, MM, YY};
+
+  document.getElementById('officeTitle').textContent =
+    `Códigos de Oficina — ${MONTHS[month]} ${year}`;
+  document.getElementById('officeSection').style.display = 'block';
+
+  const tbody = document.getElementById('officeBody');
+  tbody.innerHTML = currentOfficeCodes.map((c,i) => `
+    <tr>
+      <td style="color:#aaa;font-size:12px">${i+1}</td>
+      <td><strong>${c.name}</strong><br><span style="font-size:11px;color:#aaa">${c.id}</span></td>
+      <td><span class="code-pill">${c.code}</span></td>
+      <td style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="copy-btn" onclick="copyText('${c.code}',this)">Copiar</button>
+        <button class="wa-btn" onclick="openWA('${c.code}','${c.name}')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </button>
+      </td>
+    </tr>
+  `).join('');
+
+  showToast(`✅ ${OFFICES.length} códigos generados — Secreto: ${secret}`);
+}
+
+function copyAllOffice(){
+  const text = currentOfficeCodes.map(c=>`${c.name}: ${c.code}`).join('\n');
+  navigator.clipboard.writeText(text);
+  showToast('📋 Todos los códigos copiados');
+}
+
+function exportOfficeCSV(){
+  if(!currentOfficeCodes.length){ showToast('⚠️ Genera los códigos primero'); return; }
+  const rows = [['Oficina','ID','Código','Mes','Año']];
+  currentOfficeCodes.forEach(c=>rows.push([c.name,c.id,c.code,MONTHS[c.month],c.year]));
+  downloadCSV(rows, `codigos-oficina-${currentOfficeMonth.MM}${currentOfficeMonth.YY}.csv`);
+}
+
+// ── STUDENTS ──────────────────────────────────────────
+function genStudentId(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');
+}
+
+async function loadStudents(){
+  if(studentsLoaded) return;
+  document.getElementById('studentBody').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:20px;">Cargando alumnos...</td></tr>';
+  try {
+    const res = await fetch(SHEET_URL + '?secret=' + SHEET_SECRET + '&action=getStudents');
+    const data = await res.json();
+    students = (data.students || []).map(s=>({
+      id: s.id, name: s.nombre, officeId: s.officeId, officeName: s.oficina, createdAt: s.createdAt
+    }));
+    studentsLoaded = true;
+    renderStudents();
+  } catch(e) {
+    document.getElementById('studentBody').innerHTML = '<tr><td colspan="6" style="text-align:center;color:#c00;padding:20px;">Error conectando con la base de datos</td></tr>';
+  }
+}
+
+async function addStudent(){
+  const name = document.getElementById('studentName').value.trim();
+  const officeId = document.getElementById('studentOffice').value;
+  if(!name){ showToast('⚠️ Escribe el nombre del alumno'); return; }
+  if(!officeId){ showToast('⚠️ Selecciona una oficina'); return; }
+
+  let id;
+  do { id = genStudentId(); } while(students.find(s=>s.id===id));
+
+  const office = OFFICES.find(o=>o.id===officeId);
+  const student = {id, name, officeId, officeName: office.name, createdAt: new Date().toISOString()};
+
+  // Optimistic update
+  students.push(student);
+  renderStudents();
+  document.getElementById('studentName').value = '';
+  document.getElementById('studentOffice').value = '';
+  showToast(`✅ ${name} agregado · ID: ${id}`);
+
+  // Save to Sheet
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        secret: SHEET_SECRET, action: 'addStudent',
+        id, nombre: name, oficina: office.name, officeId, createdAt: student.createdAt
+      })
+    });
+  } catch(e) { showToast('⚠️ Error guardando en la nube'); }
+}
+
+async function deleteStudent(id){
+  if(!confirm('¿Eliminar este alumno?')) return;
+  students = students.filter(s=>s.id!==id);
+  renderStudents();
+  showToast('🗑️ Alumno eliminado');
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      body: JSON.stringify({secret: SHEET_SECRET, action: 'deleteStudent', id})
+    });
+  } catch(e) { showToast('⚠️ Error eliminando en la nube'); }
+}
+
+function saveStudents(){ /* ahora en la nube */ }
+
+function renderStudents(){
+  const q = (document.getElementById('searchStudent')?.value||'').toLowerCase();
+  const filtered = students.filter(s=>
+    s.name.toLowerCase().includes(q) ||
+    s.officeName.toLowerCase().includes(q) ||
+    s.id.toLowerCase().includes(q)
+  );
+
+  document.getElementById('noStudents').style.display = filtered.length ? 'none' : 'block';
+
+  // Compute current month code if we have secret
+  const word   = document.getElementById('secretWord')?.value.trim() || '';
+  const month  = parseInt(document.getElementById('selMonth')?.value || now.getMonth()+1);
+  const year   = parseInt(document.getElementById('selYear')?.value || now.getFullYear());
+  const MM     = String(month).padStart(2,'0');
+  const YY     = String(year).slice(-2);
+  const secret = word ? computeSecret(word, month, year) : '??';
+
+  document.getElementById('studentBody').innerHTML = filtered.map((s,i) => {
+    const monthCode = `DUNNO-${s.officeId}-${MM}${YY}-${secret} + ${s.id}`;
+    return `
+    <tr>
+      <td style="color:#aaa;font-size:12px">${i+1}</td>
+      <td><strong>${s.name}</strong></td>
+      <td><span class="badge-office">${s.officeName}</span></td>
+      <td><span class="code-pill">${s.id}</span>
+          <button class="copy-btn" style="margin-left:6px" onclick="copyText('${s.id}',this)">Copiar</button></td>
+      <td style="font-size:12px;color:#555;">${monthCode}</td>
+      <td>
+        <button class="wa-btn" onclick="openWA('${s.id}','${s.name}')">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WA
+        </button>
+        <button onclick="deleteStudent('${s.id}')" style="background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;margin-left:4px;" title="Eliminar">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function exportStudentsCSV(){
+  const rows=[['Nombre','Oficina','ID Perpetuo','Creado']];
+  students.forEach(s=>rows.push([s.name, s.officeName, s.id, s.createdAt?.slice(0,10)||'']));
+  downloadCSV(rows,'alumnos-dunnos.csv');
+}
+
+// ── VERIFY ───────────────────────────────────────────
+function checkCode(){
+  const raw    = document.getElementById('checkInput').value.toUpperCase().trim().replace(/\s/g,'');
+  const word   = document.getElementById('checkSecret').value.trim();
+  const result = document.getElementById('checkResult');
+  result.style.display = 'block';
+
+  // Format: DUNNO-OFFICE-MMYY-SS
+  const m = raw.match(/^DUNNO-([A-Z0-9]+)-(\d{2})(\d{2})-([A-Z0-9]{2})$/);
+  if(!m){ result.style.background='#fff0f0'; result.style.color='#c00'; result.textContent='❌ Formato inválido'; return; }
+
+  const officeId = m[1], month=parseInt(m[2]), year=parseInt('20'+m[3]), secret=m[4];
+  const nowM=now.getMonth()+1, nowY=now.getFullYear();
+
+  const office = OFFICES.find(o=>o.id===officeId);
+  const expectedSecret = word ? computeSecret(word, month, year) : null;
+
+  const lines = [];
+  lines.push(`Oficina: ${office ? office.name : '⚠️ No registrada ('+officeId+')'}`);
+  lines.push(`Vigencia: ${MONTHS[month]||'?'} 20${m[3]}`);
+  lines.push(`Estado mes: ${month===nowM && year===nowY ? '✅ Activo' : month<nowM||year<nowY ? '❌ Vencido' : '⏳ Futuro'}`);
+  if(expectedSecret) lines.push(`Secreto: ${secret===expectedSecret ? '✅ Correcto ('+secret+')' : '❌ Incorrecto (esperado: '+expectedSecret+')'}`);
+  else lines.push(`Secreto: ${secret} (escribe tu palabra secreta para verificar)`);
+
+  const ok = office && month===nowM && year===nowY && (!expectedSecret || secret===expectedSecret);
+  result.style.background = ok ? '#f0fff4' : '#fff8e1';
+  result.style.color = ok ? '#007700' : '#805000';
+  result.innerHTML = lines.join('<br>');
+}
+
+// ── WHATSAPP ─────────────────────────────────────────
+function openWA(code, name){
+  waContext = {code, name};
+  document.getElementById('waCodePreview').textContent = code;
+  document.getElementById('waStudentName').textContent = name ? `Para: ${name}` : '';
+  document.getElementById('waPhone').value = '';
+  document.getElementById('waModal').classList.add('open');
+  setTimeout(()=>document.getElementById('waPhone').focus(),100);
+}
+
+function closeWA(){ document.getElementById('waModal').classList.remove('open'); }
+
+function sendWA(){
+  const phone = document.getElementById('waPhone').value.replace(/\D/g,'');
+  if(!phone){ showToast('⚠️ Escribe el número'); return; }
+  const msg = encodeURIComponent(
+    `¡Hola! 👋 Aquí está tu código de acceso para *DUNNOS AI* este mes:\n\n🔐 *${waContext.code}*\n\nÚsalo en: https://dunnos.app`
+  );
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+  closeWA();
+}
+
+// ── UTILS ─────────────────────────────────────────────
+function copyText(text, btn){
+  navigator.clipboard.writeText(text);
+  if(btn){ const orig=btn.textContent; btn.textContent='✓'; setTimeout(()=>btn.textContent=orig,1500); }
+  showToast('📋 Copiado');
+}
+
+function downloadCSV(rows, filename){
+  const csv = rows.map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = filename; a.click();
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+</script>
+</body>
+</html>

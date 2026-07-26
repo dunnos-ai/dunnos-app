@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DUNNOS AI — Image Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=DM+Sans:wght@400;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0d0d0d;color:#fff;font-family:'DM Sans',sans-serif;padding:20px;}
+h1{font-family:'Syne',sans-serif;font-size:24px;color:#00FF01;margin-bottom:4px;}
+.sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:24px;}
+
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:flex-end;}
+label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:4px;}
+input,select{background:#1a1a1a;border:1px solid rgba(255,255,255,.15);color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;}
+input:focus,select:focus{border-color:#00FF01;}
+input[type=text]{width:220px;}
+
+.btn{background:#00FF01;color:#0d0d0d;border:none;padding:11px 22px;border-radius:50px;font-size:14px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;letter-spacing:.5px;}
+.btn:hover{background:#00dd00;}
+.btn-all{background:#1a1a1a;color:#fff;border:1px solid rgba(255,255,255,.2);}
+.btn-all:hover{background:#222;}
+.btn-copy{background:#333;color:#fff;border:none;padding:6px 14px;border-radius:20px;font-size:11px;cursor:pointer;font-family:'DM Mono',monospace;}
+.btn-export{background:#00FF01;color:#0d0d0d;border:none;padding:10px 20px;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;margin-top:20px;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:20px;}
+.card{background:#1a1a1a;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+.card-img{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;}
+.card-img svg{width:100%;height:100%;}
+.card-img .loading{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);letter-spacing:1px;}
+.card-info{padding:12px;}
+.card-word{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;margin-bottom:4px;}
+.card-type{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(255,255,255,.3);}
+.card-actions{display:flex;gap:6px;margin-top:8px;}
+.card.done .card-img{border-bottom:2px solid #00FF01;}
+.card.error .card-img{border-bottom:2px solid #ff4444;}
+
+.progress{background:#1a1a1a;border-radius:50px;height:4px;margin-bottom:16px;overflow:hidden;display:none;}
+.progress-fill{height:100%;background:#00FF01;transition:width .3s;border-radius:50px;}
+#status{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px;}
+
+.export-box{background:#1a1a1a;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;margin-top:20px;display:none;}
+.export-box h3{font-family:'Syne',sans-serif;font-size:14px;margin-bottom:8px;color:#00FF01;}
+textarea{width:100%;background:#0d0d0d;border:1px solid rgba(255,255,255,.1);color:#fff;padding:12px;border-radius:10px;font-family:'DM Mono',monospace;font-size:11px;height:120px;resize:vertical;}
+</style>
+</head>
+<body>
+
+<h1>DUNNOS AI — Image Generator</h1>
+<div class="sub">Sistema de imágenes · Diseño editorial flat</div>
+
+<div class="controls">
+  <div>
+    <label>Palabra</label>
+    <input type="text" id="singleWord" placeholder="ej. A LEMONADE" value="A LEMONADE">
+  </div>
+  <div>
+    <label>Tipo</label>
+    <select id="singleType">
+      <option value="noun">Objeto / Noun</option>
+      <option value="verb">Verbo / Verb</option>
+    </select>
+  </div>
+  <button class="btn" onclick="generateSingle()">⚡ Generar</button>
+  <button class="btn btn-all" onclick="generateAll()">🚀 Generar Todas (339)</button>
+</div>
+
+<div class="progress" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+<div id="status"></div>
+<div class="grid" id="grid"></div>
+
+<div class="export-box" id="exportBox">
+  <h3>📋 Código para index.html</h3>
+  <p style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:10px;">Copia esto y reemplaza el objeto IMAGE_CACHE en index.html</p>
+  <textarea id="exportCode" readonly></textarea>
+  <button class="btn-export" onclick="copyExport()">Copiar código →</button>
+</div>
+
+<script>
+// ── DESIGN SYSTEM ─────────────────────────────────────────────────────
+const NOUN_BG = ["#E8F4F8","#FFF8E7","#F0F7EE","#FFF0F5","#F5F0FF","#FFFBF0","#F0F8F0","#FEF9F0","#F0F4FE","#FFF5F5"];
+const VERB_BG = ["#1A1A2E","#16213E","#0F3460","#1B2A4A","#0D1B2A","#1C1C3A"];
+
+const NOUN_SYSTEM = `You are an expert illustrator for DUNNOS AI, an English learning app. Create flat editorial illustrations in the style of mid-century modern food posters.
+
+STRICT DESIGN RULES:
+- Flat colors only, NO gradients
+- Bold, saturated colors (3-4 max per image)
+- Object is large, centered, 65-75% of canvas
+- Solid background color (use the exact hex provided)
+- Subtle geometric shadow if needed (flat, offset rectangle)
+- Clean, recognizable silhouette
+- Style reference: like the Lemon poster or Lemonade poster — editorial, clean, bold
+- NO text, NO labels, NO patterns
+- viewBox="0 0 400 400"
+
+Return ONLY the SVG. No explanation. Start immediately with <svg`;
+
+const VERB_SYSTEM = `You are an expert illustrator for DUNNOS AI, an English learning app. Create bold flat illustrations of people performing actions.
+
+STRICT DESIGN RULES:
+- Dark solid background (use exact hex provided)
+- Person is simple, expressive cartoon — clear action pose
+- Accent colors: #00FF01 (lime), white, and one warm color
+- Action must be INSTANTLY recognizable from silhouette alone
+- Dynamic, energetic — exaggerated pose
+- Flat colors only, NO gradients
+- viewBox="0 0 400 400"
+- NO text, NO labels
+
+Return ONLY the SVG. No explanation. Start immediately with <svg`;
+
+// All words from the app
+const ALL_WORDS = [
+  {w:"WATER",v:false},{w:"ICE",v:false},{w:"ICED TEA",v:false},{w:"COFFEE",v:false},
+  {w:"A JUICE",v:false},{w:"A GLASS OF MILK",v:false},{w:"A LEMONADE",v:false},{w:"A SODA",v:false},
+  {w:"ICE CREAM",v:false},{w:"AN ORANGE",v:false},{w:"AN APPLE",v:false},{w:"A BANANA",v:false},
+  {w:"A PEAR",v:false},{w:"A STRAWBERRY",v:false},{w:"A PEACH",v:false},{w:"GRAPES",v:false},
+  {w:"A WATERMELON",v:false},{w:"A LEMON",v:false},{w:"LETTUCE",v:false},{w:"A TOMATO",v:false},
+  {w:"AN ONION",v:false},{w:"A CARROT",v:false},{w:"A POTATO",v:false},{w:"AN AVOCADO",v:false},
+  {w:"BREAD",v:false},{w:"CHEESE",v:false},{w:"A HAMBURGER",v:false},{w:"A HOT DOG",v:false},
+  {w:"FRENCH FRIES",v:false},{w:"EGGS",v:false},{w:"SOUP",v:false},{w:"A CAKE",v:false},
+  {w:"PANCAKES",v:false},{w:"BUTTER",v:false},{w:"A CAR",v:false},{w:"A BUS",v:false},
+  {w:"A TRAIN",v:false},{w:"AN AIRPLANE",v:false},{w:"A SHIP",v:false},{w:"A BICYCLE",v:false},
+  {w:"A MOTORCYCLE",v:false},{w:"A HELICOPTER",v:false},{w:"A SUBWAY",v:false},{w:"A TRUCK",v:false},
+  {w:"A HAIR DRYER",v:false},{w:"A TOOTHBRUSH",v:false},{w:"A BRUSH",v:false},{w:"A COMB",v:false},
+  {w:"A DEODORANT",v:false},{w:"A RAZOR",v:false},{w:"A BAR OF SOAP",v:false},{w:"MAKE-UP",v:false},
+  {w:"LOTION",v:false},{w:"I AM",v:false},{w:"YOU ARE",v:false},{w:"HE IS",v:false},
+  {w:"BURN",v:true},{w:"SWING",v:true},{w:"LEAP",v:true},{w:"GET",v:true},{w:"THROW",v:true},
+  {w:"RISE",v:true},{w:"DRINK",v:true},{w:"FIGHT",v:true},{w:"FEED",v:true},{w:"DO",v:true},
+  {w:"GROW",v:true},{w:"EAT",v:true},{w:"CATCH",v:true},{w:"BEGIN",v:true},{w:"HIT",v:true},
+  {w:"SING",v:true},{w:"HEAR",v:true},{w:"SHOOT",v:true},{w:"SPEND",v:true},{w:"SELL",v:true},
+];
+
+const cache = {};
+let generating = false;
+let genIndex = 0;
+
+function cleanWord(w) {
+  return w.replace(/^(A |AN |THE |SOME |MANY )/i,'').trim();
+}
+
+function getBg(word, isVerb, index) {
+  const pool = isVerb ? VERB_BG : NOUN_BG;
+  return pool[index % pool.length];
+}
+
+
+
+function extractSVG(text) {
+  const m = text.match(/<svg[\s\S]*<\/svg>/i);
+  return m ? m[0] : null;
+}
+
+async function generateImage(word, isVerb, bgIndex) {
+  // Use Netlify function as proxy (avoids CORS)
+  const res = await fetch('/.netlify/functions/generate-image', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ word, isVerb, bgIndex })
+  });
+  const data = await res.json();
+  if(data.error) throw new Error(data.error);
+  return { svg: data.svg, bg: data.bg };
+}
+
+function addCard(word, isVerb, index) {
+  const grid = document.getElementById('grid');
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.id = 'card-' + word.toLowerCase().replace(/[^a-z0-9]/g,'_');
+  card.innerHTML = `
+    <div class="card-img" id="img-${index}">
+      <div class="loading">generating...</div>
+    </div>
+    <div class="card-info">
+      <div class="card-word">${word}</div>
+      <div class="card-type">${isVerb ? '⚡ Verb' : '📦 Noun'}</div>
+      <div class="card-actions">
+        <button class="btn-copy" onclick="copyCardSVG('${word}')">Copy SVG</button>
+      </div>
+    </div>`;
+  grid.appendChild(card);
+  return card;
+}
+
+async function generateSingle() {
+  const word = document.getElementById('singleWord').value.trim().toUpperCase();
+  const isVerb = document.getElementById('singleType').value === 'verb';
+  if(!word) return;
+  
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const card = addCard(word, isVerb, 0);
+  
+  try {
+    const result = await generateImage(word, isVerb, 0);
+    if(result.svg) {
+      cache[word.toLowerCase() + (isVerb?'_verb':'')] = result.svg;
+      document.getElementById('img-0').innerHTML = result.svg;
+      card.classList.add('done');
+    } else {
+      card.classList.add('error');
+      document.getElementById('img-0').innerHTML = '<div class="loading">❌ no svg</div>';
+    }
+  } catch(e) {
+    card.classList.add('error');
+    document.getElementById('img-0').innerHTML = `<div class="loading">❌ ${e.message}</div>`;
+  }
+}
+
+async function generateAll() {
+  if(generating) return;
+  generating = true;
+  genIndex = 0;
+  
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  const progress = document.getElementById('progressBar');
+  progress.style.display = 'block';
+  
+  for(let i=0; i<ALL_WORDS.length; i++) {
+    const {w, v} = ALL_WORDS[i];
+    addCard(w, v, i);
+  }
+  
+  // Generate in batches of 3
+  const BATCH = 3;
+  for(let i=0; i<ALL_WORDS.length; i+=BATCH) {
+    const batch = ALL_WORDS.slice(i, i+BATCH);
+    document.getElementById('status').textContent = `Generating ${i+1}-${Math.min(i+BATCH, ALL_WORDS.length)} of ${ALL_WORDS.length}...`;
+    document.getElementById('progressFill').style.width = (i/ALL_WORDS.length*100)+'%';
+    
+    await Promise.all(batch.map(async ({w,v}, bi) => {
+      const idx = i + bi;
+      const card = document.getElementById('card-' + w.toLowerCase().replace(/[^a-z0-9]/g,'_'));
+      try {
+        const result = await generateImage(w, v, idx);
+        if(result.svg) {
+          const key = w.toLowerCase() + (v?'_verb':'');
+          cache[key] = result.svg;
+          document.getElementById('img-'+idx).innerHTML = result.svg;
+          card.classList.add('done');
+        } else {
+          card.classList.add('error');
+        }
+      } catch(e) {
+        card.classList.add('error');
+        document.getElementById('img-'+idx).innerHTML = `<div class="loading">❌</div>`;
+      }
+    }));
+    
+    await new Promise(r => setTimeout(r, 300));
+  }
+  
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('status').textContent = `✅ Completado — ${Object.keys(cache).length} imágenes generadas`;
+  generating = false;
+  showExport();
+}
+
+function showExport() {
+  const box = document.getElementById('exportBox');
+  box.style.display = 'block';
+  const code = `const IMAGE_CACHE = ${JSON.stringify(cache, null, 2)};`;
+  document.getElementById('exportCode').value = code;
+}
+
+function copyExport() {
+  const ta = document.getElementById('exportCode');
+  ta.select();
+  document.execCommand('copy');
+  alert('¡Código copiado! Pégalo en index.html');
+}
+
+function copyCardSVG(word) {
+  const key = word.toLowerCase();
+  const svg = cache[key] || cache[key+'_verb'];
+  if(svg) {
+    navigator.clipboard.writeText(svg);
+    alert('SVG copiado');
+  }
+}
+</script>
+</body>
+</html>
