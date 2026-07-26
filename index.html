@@ -4637,6 +4637,15 @@ const VERB_BG_PALETTE = [
 ];
 
 async function loadLearnImageSVG(word, imgEl, loader, emojiEl, isVerb) {
+  // Opción A: los verbos usan su emoji limpio (dibujar personas en SVG sale
+  // distorsionado). Dejamos visible el emoji que la pantalla ya puso y no
+  // cargamos ningún SVG para verbos.
+  if(isVerb){
+    if(emojiEl){ emojiEl.style.display=''; emojiEl.style.opacity='1'; }
+    if(imgEl) imgEl.style.display='none';
+    if(loader) loader.style.display='none';
+    return;
+  }
   const key = word.toLowerCase() + (isVerb ? '_verb' : '_svg');
   if(imgCache[key]) {
     imgEl.src = imgCache[key];
@@ -4700,6 +4709,10 @@ async function loadVerbImage(verbWord) {
   const imgEl = document.getElementById('vdAiImage');
   const bigEmoji = document.getElementById('vdBigEmoji');
   if(!imgEl) return;
+
+  // Opción A: no tapamos con el SVG generado (personas distorsionadas).
+  // Dejamos el ícono limpio de VERB_ICONS (o el emoji) que la pantalla ya puso.
+  return;
 
   const key = verbWord.toLowerCase() + '_verb';
   const syncThumbs = (src) => {
