@@ -3800,6 +3800,37 @@ async function fcShowSummary() {
 // Cache so we don't regenerate same word twice
 const imgCache = {};
 
+// ── Precargar banco de imágenes (imgbank.json) ──────────────────────────
+// Carga las imágenes ya generadas para NO llamar a la API en vivo.
+// Corre en segundo plano al abrir la app. Si una palabra no está en el
+// banco, la app la genera en vivo como antes (comportamiento de respaldo).
+(async function preloadImageBank(){
+  try {
+    const res = await fetch('/imgbank.json', { cache: 'no-cache' });
+    if(!res.ok) return;
+    const bank = await res.json();
+    let n = 0;
+    for(const rawKey in bank){
+      const svg = bank[rawKey];
+      if(typeof svg !== 'string' || svg.indexOf('<svg') === -1) continue;
+      const dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(cleanSVG(svg));
+      if(rawKey.endsWith('_verb')){
+        // Verbo: la llave del banco ya coincide con la del loader
+        if(!imgCache[rawKey]) imgCache[rawKey] = dataUrl;
+      } else {
+        // Sustantivo: el loader busca la llave con sufijo _svg.
+        // Guardamos ambas variantes para cubrir todos los caminos.
+        if(!imgCache[rawKey + '_svg']) imgCache[rawKey + '_svg'] = dataUrl;
+        if(!imgCache[rawKey]) imgCache[rawKey] = dataUrl;
+      }
+      n++;
+    }
+    console.log('🖼️ Banco de imágenes cargado:', n, 'de', Object.keys(bank).length);
+  } catch(e){
+    console.warn('No se pudo cargar imgbank.json:', e);
+  }
+})();
+
 const WORD_CONTEXTS = {
 "WATER": {
 "show": "a clear glass filled with drinking water",
