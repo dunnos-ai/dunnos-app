@@ -1888,13 +1888,13 @@ function startLesson(id){
   curLesson=LESSONS.find(l=>l.id===id);
   if(!curLesson){ console.error('Lesson not found:',id,'Available:',...LESSONS.map(l=>l.id)); return; }
   // Resume if we have saved progress for this lesson
-  const saved=localStorage.getItem('dunno_progress_'+id);
+  const saved=localStorage.getItem('dunno_progress_'+getStudentId()+'_'+id)||localStorage.getItem('dunno_progress_'+id);
   const savedIdx=saved?parseInt(saved):0;
   curIdx=(savedIdx>0 && savedIdx<curLesson.words.length)?savedIdx:0;
   curPhase=1;sessionScores=[];showScreen('learn');loadWord();
 }
-function saveProgress(){if(curLesson)localStorage.setItem('dunno_progress_'+curLesson.id,curIdx);}
-function clearProgress(id){localStorage.removeItem('dunno_progress_'+id);}
+function saveProgress(){if(curLesson)localStorage.setItem('dunno_progress_'+getStudentId()+'_'+curLesson.id,curIdx);}
+function clearProgress(id){localStorage.removeItem('dunno_progress_'+getStudentId()+'_'+id);}
 function goList(){stopMic();showLessons();}
 function loadWord(){
   const w=curLesson.words[curIdx];
@@ -4637,15 +4637,6 @@ const VERB_BG_PALETTE = [
 ];
 
 async function loadLearnImageSVG(word, imgEl, loader, emojiEl, isVerb) {
-  // Opción A: los verbos usan su emoji limpio (dibujar personas en SVG sale
-  // distorsionado). Dejamos visible el emoji que la pantalla ya puso y no
-  // cargamos ningún SVG para verbos.
-  if(isVerb){
-    if(emojiEl){ emojiEl.style.display=''; emojiEl.style.opacity='1'; }
-    if(imgEl) imgEl.style.display='none';
-    if(loader) loader.style.display='none';
-    return;
-  }
   const key = word.toLowerCase() + (isVerb ? '_verb' : '_svg');
   if(imgCache[key]) {
     imgEl.src = imgCache[key];
@@ -4710,10 +4701,6 @@ async function loadVerbImage(verbWord) {
   const bigEmoji = document.getElementById('vdBigEmoji');
   if(!imgEl) return;
 
-  // Opción A: no tapamos con el SVG generado (personas distorsionadas).
-  // Dejamos el ícono limpio de VERB_ICONS (o el emoji) que la pantalla ya puso.
-  return;
-
   const key = verbWord.toLowerCase() + '_verb';
   const syncThumbs = (src) => {
     imgEl.src = src; imgEl.style.display = 'block';
@@ -4735,8 +4722,8 @@ async function loadVerbImage(verbWord) {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({word: verbWord, isVerb: true, bgIndex: verbWord.length,
-        show: 'Olympic pictogram silhouette of "'+verbWord+'" — pure geometric shapes, white figure on dark bg, no details',
-        avoid: ['facial features','fingers','clothing details','realistic anatomy','cartoon style','text','labels']})
+        show: `a person actively performing the action "${verbWord}"`,
+        avoid: []})
     });
     const data = await res.json();
     if(data.error) throw new Error(data.error);
