@@ -1888,13 +1888,13 @@ function startLesson(id){
   curLesson=LESSONS.find(l=>l.id===id);
   if(!curLesson){ console.error('Lesson not found:',id,'Available:',...LESSONS.map(l=>l.id)); return; }
   // Resume if we have saved progress for this lesson
-  const saved=localStorage.getItem('dunno_progress_'+getStudentId()+'_'+id)||localStorage.getItem('dunno_progress_'+id);
+  const saved=localStorage.getItem('dunno_progress_'+id);
   const savedIdx=saved?parseInt(saved):0;
   curIdx=(savedIdx>0 && savedIdx<curLesson.words.length)?savedIdx:0;
   curPhase=1;sessionScores=[];showScreen('learn');loadWord();
 }
-function saveProgress(){if(curLesson)localStorage.setItem('dunno_progress_'+getStudentId()+'_'+curLesson.id,curIdx);}
-function clearProgress(id){localStorage.removeItem('dunno_progress_'+getStudentId()+'_'+id);}
+function saveProgress(){if(curLesson)localStorage.setItem('dunno_progress_'+curLesson.id,curIdx);}
+function clearProgress(id){localStorage.removeItem('dunno_progress_'+id);}
 function goList(){stopMic();showLessons();}
 function loadWord(){
   const w=curLesson.words[curIdx];
@@ -1922,7 +1922,9 @@ function retryWord(){showScreen('learn');setPhase(2);setTimeout(()=>speak(curLes
 function aiNext(){const xp=lastScore>=95?XP_WORD+XP_PERFECT:lastScore>=60?XP_WORD:0;if(xp>0)addXP(xp);done['w_'+curLesson.id+'_'+curIdx]=true;saveDone();if(lastScore>=60){showScreen('learn');setPhase(3);setTimeout(nextWord,1000);}else nextWord();}
 function nextWord(){curIdx++;saveProgress();if(curIdx>=curLesson.words.length){clearProgress(curLesson.id);showCelebration();return;}showScreen('learn');loadWord();}
 const EMOJIS=['🎉','🔥','⚡','🏆','💥','🌟','🎊','🚀','✨','💪'];
-function showCelebration(){done['l'+curLesson.id]=true;saveDone();checkBadges();saveGame();const avg=Math.round(sessionScores.reduce((a,b)=>a+b,0)/Math.max(sessionScores.length,1));const xpE=curLesson.words.length*XP_WORD+(avg>=90?50:avg>=70?25:0);document.getElementById('celebEmoji').textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];document.getElementById('celebXPVal').textContent='+'+xpE;document.getElementById('celebLesson').textContent=`${curLesson.lesson} · ${curLesson.name}`;document.getElementById('igLessonName').textContent=curLesson.name;document.getElementById('igWords').textContent=curLesson.words.length+' palabras';document.getElementById('igScore').textContent=avg+'% accuracy';document.getElementById('nextLessonBtn').classList.add('hidden');showScreen('celeb');spawnConfetti();}
+function showCelebration(){done['l'+curLesson.id]=true;saveDone();checkBadges();saveGame();
+  // Report to Google Sheets
+  reportProgress();const avg=Math.round(sessionScores.reduce((a,b)=>a+b,0)/Math.max(sessionScores.length,1));const xpE=curLesson.words.length*XP_WORD+(avg>=90?50:avg>=70?25:0);document.getElementById('celebEmoji').textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];document.getElementById('celebXPVal').textContent='+'+xpE;document.getElementById('celebLesson').textContent=`${curLesson.lesson} · ${curLesson.name}`;document.getElementById('igLessonName').textContent=curLesson.name;document.getElementById('igWords').textContent=curLesson.words.length+' palabras';document.getElementById('igScore').textContent=avg+'% accuracy';document.getElementById('nextLessonBtn').classList.add('hidden');showScreen('celeb');spawnConfetti();}
 function spawnConfetti(){const cols=['#00FF01','#FF5F94','#FF1D1D','#FAC775','#00CC00','#fff','#00FF01'];const c=document.getElementById('cconf');c.innerHTML='';for(let i=0;i<28;i++){const d=document.createElement('div');d.className='cdot';const sz=6+Math.random()*8;d.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${2+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;`;c.appendChild(d);}}
 function shareIG(){const text=`🎯 ¡Completé ${curLesson.name} en DUNNOS AI!\n\nThink in English · Speak in English 🇺🇸\n\n#DunnosAI #InglésIndividual #AprendeInglés`;if(navigator.share){navigator.share({title:'DUNNOS AI',text,url:'https://dunnos.app'}).then(afterShare).catch(()=>fallbackShare(text));}else fallbackShare(text);}
 function fallbackShare(text){navigator.clipboard.writeText(text).catch(()=>{});const t=document.createElement('div');t.style.cssText='position:absolute;top:20px;left:50%;transform:translateX(-50%);background:#EAF3DE;color:#3B6D11;border:1px solid #C0DD97;padding:12px 20px;border-radius:12px;font-weight:600;font-size:13px;z-index:999;white-space:nowrap;';t.textContent='✓ Texto copiado';document.querySelector('.device').appendChild(t);setTimeout(()=>{t.remove();afterShare();},2200);setTimeout(()=>window.open('https://www.instagram.com/','_blank'),600);}
@@ -4734,6 +4736,30 @@ async function loadVerbImage(verbWord) {
   } catch(e) {
     if(bigEmoji) bigEmoji.style.opacity = '1';
     console.warn('Verb image error:', e);
+  }
+}
+
+// ── REPORT PROGRESS TO GOOGLE SHEETS ───────────────────────────────
+async function reportProgress() {
+  try {
+    const access = JSON.parse(localStorage.getItem('dunno_access') || '{}');
+    const avg = Math.round(sessionScores.reduce((a,b)=>a+b,0)/Math.max(sessionScores.length,1));
+    await fetch('https://script.google.com/macros/s/AKfycbwli2lngFDjFlxF_9orR_ykMTiD6OV9yhQARypdQWnwlnt2l7kB3lPUFwWZw4sfByod/exec', {
+      method: 'POST',
+      body: JSON.stringify({
+        secret: 'camilo2026',
+        action: 'logProgress',
+        studentId: access.studentId || 'unknown',
+        officeId:  access.officeId  || 'unknown',
+        lessonId:  curLesson.id,
+        lessonName: curLesson.name,
+        score:  avg,
+        xp:     game.xp || 0,
+        streak: game.streak || 0
+      })
+    });
+  } catch(e) {
+    // Silent fail — never block the user
   }
 }
 </script>

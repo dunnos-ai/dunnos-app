@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DUNNOS AI — Métricas</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--Y:#BBF000;--ink:#0d0d0d;--bg:#f5f5f3;--card:#fff;--border:rgba(0,0,0,.08);--muted:#888;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;}
+
+/* LOGIN */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ink);}
+.login-box{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:360px;text-align:center;}
+.login-box h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
+.login-box .sub{font-size:12px;color:var(--muted);margin-bottom:24px;}
+.login-box input{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;margin-bottom:12px;outline:none;}
+.login-box input:focus{border-color:var(--ink);}
+.btn-login{width:100%;background:#0d0d0d;color:#fff;border:none;padding:13px;border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;}
+.login-err{color:#e00;font-size:12px;margin-top:8px;display:none;}
+
+/* PANEL */
+#panel{display:none;}
+.topbar{background:var(--ink);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;}
+.topbar h1{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.topbar h1 span{color:#BBF000;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.logout{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;}
+.refresh-btn{background:#BBF000;color:#0d0d0d;border:none;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;}
+
+.main{max-width:1100px;margin:0 auto;padding:28px 20px;}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:2px solid #e8e8e8;padding-bottom:0;}
+.tab{padding:9px 20px;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;}
+.tab.active{color:var(--ink);border-bottom:2px solid var(--ink);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;}
+.stat-card .label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.stat-card .value{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;line-height:1;}
+.stat-card .sub{font-size:12px;color:var(--muted);}
+.stat-card.highlight{background:var(--ink);color:#fff;}
+.stat-card.highlight .label{color:rgba(255,255,255,.4);}
+.stat-card.highlight .sub{color:rgba(255,255,255,.5);}
+
+/* TABLES */
+.section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:18px;}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.section-header h2{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;}
+.search-box{padding:7px 14px;border:1px solid #e0e0e0;border-radius:20px;font-size:12px;outline:none;width:200px;}
+
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:2px solid #f0f0f0;}
+td{padding:10px 12px;border-bottom:1px solid #f7f7f7;font-size:13px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafafa;}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge-office{background:#f0f4ff;color:#2040a0;}
+.badge-active{background:#f0fff0;color:#007700;}
+.badge-warn{background:#fff8e0;color:#886600;}
+.badge-none{background:#f5f5f5;color:#aaa;}
+
+.progress-bar{background:#f0f0f0;border-radius:20px;height:6px;width:100px;overflow:hidden;}
+.progress-fill{height:100%;background:#0d0d0d;border-radius:20px;transition:width .3s;}
+
+/* LESSON HEATMAP */
+.heatmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;}
+.heat-cell{background:#f5f5f3;border-radius:10px;padding:10px;text-align:center;}
+.heat-cell .lesson-name{font-size:10px;color:var(--muted);margin-bottom:4px;}
+.heat-cell .count{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
+.heat-cell.hot{background:#0d0d0d;color:#fff;}
+.heat-cell.hot .lesson-name{color:rgba(255,255,255,.4);}
+.heat-cell.warm{background:#e8e8e8;}
+
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px;}
+.loading{text-align:center;padding:30px;color:var(--muted);font-size:12px;}
+
+#lastUpdated{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-box">
+    <h1>DUNNOS AI</h1>
+    <p class="sub">Portal de Métricas · Dirección</p>
+    <input type="password" id="pw" placeholder="Clave de acceso" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn-login" onclick="login()">Entrar →</button>
+    <p class="login-err" id="loginErr">Clave incorrecta</p>
+  </div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+  <div class="topbar">
+    <h1>DUNNOS <span>AI</span> · Métricas</h1>
+    <div class="topbar-right">
+      <span id="lastUpdated"></span>
+      <button class="refresh-btn" onclick="loadAll()">↻ Actualizar</button>
+      <button class="logout" onclick="logout()">Salir</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('resumen')">📊 Resumen</button>
+      <button class="tab" onclick="switchTab('alumnos')">🎓 Alumnos</button>
+      <button class="tab" onclick="switchTab('lecciones')">📚 Lecciones</button>
+      <button class="tab" onclick="switchTab('oficinas')">🏢 Oficinas</button>
+    </div>
+
+    <!-- RESUMEN -->
+    <div id="tab-resumen" class="tab-panel active">
+      <div class="stats-grid" id="statsGrid">
+        <div class="loading">Cargando métricas...</div>
+      </div>
+      <div class="section">
+        <div class="section-header"><h2>Actividad Reciente</h2></div>
+        <table>
+          <thead><tr><th>Alumno</th><th>Oficina</th><th>Lección</th><th>Score</th><th>XP</th><th>Fecha</th></tr></thead>
+          <tbody id="recentTable"><tr><td colspan="6" class="loading">Cargando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ALUMNOS -->
+    <div id="tab-alumnos" class="tab-panel">
+      <div class="section">
+        <div class="section-header">
+          <h2>Directorio de Alumnos</h2>
+          <input type="text" class="search-box" placeholder="Buscar alumno..." oninput="filterStudents(this.value)">
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>Nombre</th><th>Oficina</th><th>ID</th><th>Lecciones</th><th>Score Prom</th><th>Última Actividad</th><th>Estado</th></tr></thead>
+          <tbody id="studentsTable"><tr><td colspan="8" class="loading">Cargando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LECCIONES -->
+    <div id="tab-lecciones" class="tab-panel">
+      <div class="section">
+        <div class="section-header"><h2>Lecciones Más Completadas</h2></div>
+        <div class="heatmap" id="lessonHeatmap"><div class="loading">Cargando...</div></div>
+      </div>
+    </div>
+
+    <!-- OFICINAS -->
+    <div id="tab-oficinas" class="tab-panel">
+      <div class="section">
+        <div class="section-header"><h2>Rendimiento por Oficina</h2></div>
+        <table>
+          <thead><tr><th>Oficina</th><th>Alumnos Registrados</th><th>Alumnos Activos</th><th>Lecciones Totales</th><th>Score Promedio</th></tr></thead>
+          <tbody id="officesTable"><tr><td colspan="5" class="loading">Cargando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwli2lngFDjFlxF_9orR_ykMTiD6OV9yhQARypdQWnwlnt2l7kB3lPUFwWZw4sfByod/exec';
+const SECRET   = 'camilo2026';
+const PASS     = 'camilo2026';
+
+let allStudents = [];
+let allMetrics  = [];
+
+// ── AUTH ────────────────────────────────────────────────────────────────
+function login(){
+  const pw = document.getElementById('pw').value.trim();
+  if(pw === PASS){
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    loadAll();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+function logout(){
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('panel').style.display = 'none';
+  document.getElementById('pw').value = '';
+}
+document.getElementById('pw').addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+// ── TABS ────────────────────────────────────────────────────────────────
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const tabs = ['resumen','alumnos','lecciones','oficinas'];
+    t.classList.toggle('active', tabs[i]===id);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => {
+    p.classList.toggle('active', p.id==='tab-'+id);
+  });
+}
+
+// ── LOAD DATA ────────────────────────────────────────────────────────────
+async function loadAll(){
+  document.getElementById('lastUpdated').textContent = 'Actualizando...';
+  try {
+    const [studRes, metRes] = await Promise.all([
+      fetch(SHEET_URL+'?secret='+SECRET+'&action=getStudents'),
+      fetch(SHEET_URL+'?secret='+SECRET+'&action=getMetrics')
+    ]);
+    const studData = await studRes.json();
+    const metData  = await metRes.json();
+
+    allStudents = studData.students || [];
+    allMetrics  = metData.metrics   || [];
+
+    renderAll();
+    document.getElementById('lastUpdated').textContent =
+      'Actualizado: ' + new Date().toLocaleTimeString('es-MX');
+  } catch(e) {
+    console.error(e);
+    document.getElementById('lastUpdated').textContent = 'Error de conexión';
+  }
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────
+function renderAll(){
+  renderStats();
+  renderRecent();
+  renderStudents();
+  renderLessons();
+  renderOffices();
+}
+
+function renderStats(){
+  // Compute stats from metrics
+  const thisMonth = new Date().toISOString().slice(0,7);
+  const monthMet  = allMetrics.filter(m => (m.timestamp||'').startsWith(thisMonth));
+  const activeIds = [...new Set(monthMet.map(m => m.studentId))];
+  const scores    = allMetrics.map(m => Number(m.score)).filter(s => s>0);
+  const avgScore  = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  const totalLess = allMetrics.length;
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card highlight">
+      <div class="label">Alumnos Activos (mes)</div>
+      <div class="value">${activeIds.length}</div>
+      <div class="sub">de ${allStudents.length} registrados</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Lecciones Completadas</div>
+      <div class="value">${totalLess}</div>
+      <div class="sub">total histórico</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Score Promedio</div>
+      <div class="value">${avgScore}<span style="font-size:16px;font-weight:400"> / 100</span></div>
+      <div class="sub">pronunciación</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Este Mes</div>
+      <div class="value">${monthMet.length}</div>
+      <div class="sub">lecciones completadas</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Oficinas Activas</div>
+      <div class="value">${[...new Set(monthMet.map(m=>m.officeId))].length}</div>
+      <div class="sub">de ${[...new Set(allStudents.map(s=>s.officeId))].length} registradas</div>
+    </div>
+  `;
+}
+
+function renderRecent(){
+  const recent = [...allMetrics].reverse().slice(0,20);
+  if(!recent.length){
+    document.getElementById('recentTable').innerHTML = '<tr><td colspan="6" class="empty">Sin actividad aún</td></tr>';
+    return;
+  }
+  document.getElementById('recentTable').innerHTML = recent.map(m => {
+    const stu = allStudents.find(s => s.id === m.studentId);
+    const name = stu ? stu.nombre : m.studentId;
+    const date = m.timestamp ? new Date(m.timestamp).toLocaleDateString('es-MX',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—';
+    return `<tr>
+      <td><strong>${name}</strong></td>
+      <td><span class="badge badge-office">${m.officeId||'—'}</span></td>
+      <td>${m.lessonName||'Lección '+m.lessonId}</td>
+      <td>${m.score||0}/100</td>
+      <td>+${m.xp||0} XP</td>
+      <td style="color:#aaa;font-size:11px">${date}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderStudents(filter=''){
+  const filtered = allStudents.filter(s =>
+    !filter || s.nombre?.toLowerCase().includes(filter.toLowerCase()) ||
+    s.oficina?.toLowerCase().includes(filter.toLowerCase()) ||
+    s.id?.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  if(!filtered.length){
+    document.getElementById('studentsTable').innerHTML = '<tr><td colspan="8" class="empty">Sin alumnos</td></tr>';
+    return;
+  }
+
+  document.getElementById('studentsTable').innerHTML = filtered.map((s,i) => {
+    const stuMet = allMetrics.filter(m => m.studentId === s.id);
+    const lessCount = stuMet.length;
+    const scores = stuMet.map(m=>Number(m.score)).filter(x=>x>0);
+    const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+    const lastAct = stuMet.length ? new Date(stuMet[stuMet.length-1].timestamp) : null;
+    const daysSince = lastAct ? Math.floor((Date.now()-lastAct)/86400000) : null;
+    const status = daysSince===null ? 'Sin actividad' : daysSince<=7 ? 'Activo' : daysSince<=30 ? 'Reciente' : 'Inactivo';
+    const badgeClass = status==='Activo' ? 'badge-active' : status==='Reciente' ? 'badge-warn' : 'badge-none';
+    const pct = Math.min(100, Math.round(lessCount/35*100));
+
+    return `<tr>
+      <td style="color:#aaa;font-size:11px">${i+1}</td>
+      <td><strong>${s.nombre||'—'}</strong></td>
+      <td><span class="badge badge-office">${s.oficina||'—'}</span></td>
+      <td style="font-family:'DM Mono',monospace;font-size:12px">${s.id}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <span style="font-size:11px;color:#888">${lessCount}/35</span>
+        </div>
+      </td>
+      <td>${avg ? avg+'/100' : '—'}</td>
+      <td style="font-size:11px;color:#aaa">${lastAct ? lastAct.toLocaleDateString('es-MX') : '—'}</td>
+      <td><span class="badge ${badgeClass}">${status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterStudents(val){ renderStudents(val); }
+
+function renderLessons(){
+  const counts = {};
+  allMetrics.forEach(m => {
+    const key = m.lessonName || 'Lección '+m.lessonId;
+    counts[key] = (counts[key]||0)+1;
+  });
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max = sorted[0]?.[1]||1;
+
+  if(!sorted.length){
+    document.getElementById('lessonHeatmap').innerHTML = '<div class="empty">Sin datos aún</div>';
+    return;
+  }
+
+  document.getElementById('lessonHeatmap').innerHTML = sorted.map(([name,count]) => {
+    const pct = count/max;
+    const cls = pct>0.66 ? 'hot' : pct>0.33 ? 'warm' : '';
+    return `<div class="heat-cell ${cls}">
+      <div class="lesson-name">${name}</div>
+      <div class="count">${count}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderOffices(){
+  const officeMap = {};
+  allStudents.forEach(s => {
+    if(!officeMap[s.officeId]) officeMap[s.officeId] = {name:s.oficina, students:0, active:new Set(), lessons:0, scores:[]};
+    officeMap[s.officeId].students++;
+  });
+  allMetrics.forEach(m => {
+    if(!officeMap[m.officeId]) officeMap[m.officeId] = {name:m.officeId, students:0, active:new Set(), lessons:0, scores:[]};
+    officeMap[m.officeId].active.add(m.studentId);
+    officeMap[m.officeId].lessons++;
+    if(m.score) officeMap[m.officeId].scores.push(Number(m.score));
+  });
+
+  const rows = Object.entries(officeMap).sort((a,b)=>b[1].lessons-a[1].lessons);
+  if(!rows.length){
+    document.getElementById('officesTable').innerHTML = '<tr><td colspan="5" class="empty">Sin datos</td></tr>';
+    return;
+  }
+
+  document.getElementById('officesTable').innerHTML = rows.map(([id,o]) => {
+    const avg = o.scores.length ? Math.round(o.scores.reduce((a,b)=>a+b,0)/o.scores.length) : 0;
+    return `<tr>
+      <td><strong>${o.name||id}</strong> <span style="font-size:10px;color:#aaa">${id}</span></td>
+      <td>${o.students}</td>
+      <td>${o.active.size}</td>
+      <td>${o.lessons}</td>
+      <td>${avg ? avg+'/100' : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
