@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Materiales · Inglés Individual</title>
+<meta name="description" content="Portal de franquicias Inglés Individual: catálogo de materiales, tabulador de descuentos por clasificación y gestión de pedidos.">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A0A0A'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='15' font-weight='700' fill='%23009D4C' text-anchor='middle'%3EII%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── Brand ─────────────────────────────────────── */
+  --green:#009D4C;
+  --green-dk:#00301A;
+  --green-lt:rgba(0,157,76,.1);
+  --blue:#7E94DD;
+  --blue-dk:#28356B;
+  --blue-lt:rgba(126,148,221,.12);
+  --black:#0A0A0A;
+  --white:#FFFFFF;
+  --clarity:#F2F0EB;
+  --rojo:#F02504;
+  --rojo-dk:#8C1000;
+  --amarillo:#D08E20;
+  --beige:#CFC2BA;
+  /* ── Neutrals (warm) ────────────────────────────── */
+  --n-50:#F2F0EB;
+  --n-100:rgba(10,10,10,.06);
+  --n-200:rgba(10,10,10,.08);
+  --n-300:rgba(10,10,10,.12);
+  --n-400:rgba(10,10,10,.38);
+  --n-500:rgba(10,10,10,.55);
+  --n-700:#3A3836;
+  --n-900:#0A0A0A;
+  /* ── Typography ─────────────────────────────────── */
+  --ff-sans:'Space Grotesk',system-ui,sans-serif;
+  --ff-serif:'Space Grotesk',system-ui,sans-serif;
+  --ff-mono:'JetBrains Mono',monospace;
+  /* ── Radii ──────────────────────────────────────── */
+  --radius-sm:8px;
+  --radius-md:10px;
+  --radius-lg:14px;
+  --radius-xl:18px;
+  /* ── Shadows ────────────────────────────────────── */
+  --shadow-xs:0 1px 2px rgba(10,10,10,.06);
+  --shadow-sm:0 1px 4px rgba(10,10,10,.08);
+  --shadow-md:0 4px 12px rgba(10,10,10,.08);
+  --shadow-lg:0 12px 32px rgba(10,10,10,.1);
+}
+html,body{height:100%;overflow:hidden;background:var(--clarity);font-family:var(--ff-sans);font-size:14px;color:#0A0A0A;-webkit-font-smoothing:antialiased}
+
+/* ═══ VIEWS ═══════════════════════════════════════════════════ */
+.view{display:none;height:100vh;height:100dvh}
+.view.active{display:flex}
+
+/* ═══ LOGIN ════════════════════════════════════════════════════ */
+/* ── LOGIN — Enterprise ─────────────────────────────── */
+#v-login{
+  background:#0A0A0A;
+  flex-direction:row;
+  min-height:100vh;
+  min-height:100dvh;
+}
+
+/* Left panel — brand side */
+.login-left{
+  width:44%;background:#0A0A0A;color:#F2F0EB;
+  border-right:1px solid rgba(242,240,235,.1);
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  padding:48px 56px;
+  position:relative;overflow:hidden;
+}
+.login-left::after{
+  content:'';position:absolute;
+  right:-80px;bottom:-80px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,157,76,.22) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.login-right{
+  flex:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:48px 40px;
+  background:#F2F0EB;
+}
+
+/* Card */
+.login-card{
+  width:100%;max-width:380px;
+  display:flex;flex-direction:column;gap:26px;
+  animation:fadeIn .35s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+
+.login-logo-wrap{margin-bottom:32px}
+
+.login-heading{
+  font-size:29px;letter-spacing:-.03em;font-weight:500;
+  color:#0A0A0A;line-height:1.1;
+}
+.login-sub{font-size:14px;color:rgba(10,10,10,.5)}
+
+.field-group{margin-bottom:16px}
+.field-label{
+  display:block;
+  font-family:var(--ff-mono);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(10,10,10,.45);margin-bottom:6px;
+}
+.field-input{
+  width:100%;padding:14px 16px;
+  border:1px solid rgba(10,10,10,.14);border-radius:10px;
+  font-size:14px;font-family:var(--ff-sans);
+  color:#0A0A0A;background:#FFFFFF;
+  outline:none;transition:border .15s;
+}
+.field-input:focus{border-color:#0A0A0A}
+.field-input::placeholder{color:rgba(10,10,10,.3)}
+
+.login-err{
+  display:none;
+  background:rgba(240,37,4,.05);border:1px solid rgba(240,37,4,.2);
+  border-radius:10px;padding:10px 14px;
+  font-size:12.5px;color:#8C1000;
+}
+.btn-login{
+  margin-top:6px;width:100%;padding:15px;
+  background:#0A0A0A;color:#F2F0EB;
+  border:none;border-radius:10px;
+  font-size:14px;font-weight:500;
+  cursor:pointer;transition:opacity .15s;
+}
+.btn-login:hover{opacity:.85}
+.login-sep{display:none}
+.login-tagline{
+  text-align:center;font-size:10.5px;
+  color:#9CA3AF;letter-spacing:.1em;text-transform:uppercase;
+}
+
+/* Left panel content */
+.login-lp-top{}
+.login-lp-logo{height:24px;display:block;filter:brightness(0) invert(1);opacity:.85}
+.login-lp-hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0}
+.login-lp-h1{
+  font-family:var(--ff-sans);
+  font-size:58px;line-height:.98;letter-spacing:-.035em;font-weight:500;
+  color:#F2F0EB;margin-bottom:16px;
+}
+.login-lp-h1 em{font-family:Georgia,serif;font-style:italic;font-weight:400;color:#009D4C}
+.login-lp-desc{
+  font-size:16px;line-height:1.55;color:rgba(242,240,235,.62);
+  max-width:430px;margin-bottom:32px;
+}
+.login-lp-rule{
+  width:32px;height:2px;
+  background:#009D4C;
+  border-radius:1px;margin-bottom:24px;
+}
+
+/* Stats row */
+.login-lp-stats{
+  display:flex;gap:34px;
+  padding-top:14px;
+  border-top:1px solid rgba(242,240,235,.14);
+}
+.stat-item{display:flex;flex-direction:column;gap:2px}
+.stat-n{font-family:var(--ff-mono);font-size:26px;color:#F2F0EB;letter-spacing:-.03em}
+.stat-l{font-family:var(--ff-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(242,240,235,.42);margin-top:2px}
+
+/* Isotipo watermark */
+.login-isotipo-wrap{
+  position:absolute;right:-150px;top:-130px;
+  width:620px;opacity:.22;pointer-events:none;
+}
+.login-isotipo-wrap img{width:100%;height:auto;filter:brightness(0) invert(1)}
+
+/* Social proof / network strip */
+.login-network{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--ff-mono);
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(10,10,10,.38);
+  position:relative;
+}
+.login-network .dot{width:6px;height:6px;border-radius:50%;background:#009D4C;flex-shrink:0}
+
+
+/* ══════════════════════════════════════════════════════
+   APP SHELL — Sistema Visual Inglés Individual
+   Space Grotesk + JetBrains Mono · #0A0A0A · #F2F0EB
+   ══════════════════════════════════════════════════════ */
+#v-app{flex-direction:row}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+.sidebar{
+  width:242px;flex-shrink:0;
+  background:#0A0A0A;color:#F2F0EB;
+  display:flex;flex-direction:column;
+  transition:width .2s ease;overflow:hidden;
+}
+.sb-brand{
+  height:60px;padding:0 16px;
+  display:flex;align-items:center;gap:10px;
+  flex-shrink:0;
+  border-bottom:1px solid rgba(242,240,235,.08);
+}
+.sb-brand-logo{
+  height:20px;display:block;
+  filter:brightness(0) invert(1);opacity:.9;
+}
+.sb-brand-isotipo{
+  width:24px;height:24px;object-fit:contain;display:block;flex-shrink:0;
+  filter:brightness(0) invert(1);opacity:.7;
+}
+
+/* Office pill */
+.sb-office{
+  margin:8px 10px;
+  padding:10px 12px;
+  border-radius:9px;
+  background:rgba(242,240,235,.06);
+  border:1px solid rgba(242,240,235,.1);
+  flex-shrink:0;
+}
+.sb-office-lbl{
+  font-family:var(--ff-mono);
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,240,235,.38);margin-bottom:3px;
+}
+.sb-office-name{
+  font-size:12.5px;font-weight:500;
+  color:#F2F0EB;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.sb-office-stars{
+  font-family:var(--ff-mono);
+  font-size:10px;color:#009D4C;
+  margin-top:2px;letter-spacing:.04em;
+}
+
+/* Nav */
+nav.sb-nav{flex:1;padding:8px;overflow-y:auto;scrollbar-width:none}
+nav.sb-nav::-webkit-scrollbar{display:none}
+
+.nav-section-lbl{
+  font-family:var(--ff-mono);
+  font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(242,240,235,.38);padding:10px 12px 4px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;border-radius:9px;
+  cursor:pointer;
+  font-size:13.5px;font-weight:400;
+  color:rgba(242,240,235,.6);
+  transition:all .12s;margin-bottom:1px;
+  user-select:none;
+}
+.nav-item:hover{color:#F2F0EB;background:rgba(242,240,235,.07)}
+.nav-item.active{color:#F2F0EB;background:rgba(242,240,235,.1);font-weight:500}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;opacity:.6;transition:opacity .12s}
+.nav-item:hover svg,.nav-item.active svg{opacity:1}
+/* Green dot on active */
+.nav-item.active::before{
+  content:'';width:3px;height:14px;
+  background:#009D4C;border-radius:2px;
+  margin-right:-5px;margin-left:-7px;flex-shrink:0;
+}
+
+/* Footer — user pill */
+.sb-footer{
+  padding:12px 10px;
+  border-top:1px solid rgba(242,240,235,.08);
+  flex-shrink:0;
+}
+.sb-user-pill{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:9px;
+  cursor:pointer;transition:background .12s;
+}
+.sb-user-pill:hover{background:rgba(242,240,235,.07)}
+.sb-user-avatar{
+  width:32px;height:32px;border-radius:8px;
+  background:#009D4C;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--ff-mono);font-size:11px;font-weight:500;
+  color:#0A0A0A;flex-shrink:0;letter-spacing:.02em;
+}
+.sb-user-info{flex:1;min-width:0}
+.sb-user-name{
+  font-size:12.5px;font-weight:500;
+  color:#F2F0EB;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sb-user-email{
+  font-family:var(--ff-mono);
+  font-size:9.5px;letter-spacing:.04em;
+  color:rgba(242,240,235,.4);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;
+}
+.btn-signout{display:none} /* handled by pill click */
+
+/* ── Main area ───────────────────────────────────────── */
+.main-area{
+  flex:1;background:#F2F0EB;
+  overflow-y:auto;display:flex;flex-direction:column;min-width:0;
+}
+.page{display:none;flex:1;flex-direction:column;animation:pageIn .2s ease}
+.page.active{display:flex}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ── Page header ─────────────────────────────────────── */
+.ph{
+  background:rgba(242,240,235,.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(10,10,10,.09);
+  padding:18px 34px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  position:sticky;top:0;z-index:10;
+}
+.ph-left{}
+.ph-title{
+  font-size:20px;font-weight:500;
+  color:#0A0A0A;line-height:1.2;
+  letter-spacing:-.02em;
+}
+.ph-sub{
+  font-family:var(--ff-mono);
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(10,10,10,.4);margin-top:3px;
+}
+.ph-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+
+/* ── Body ────────────────────────────────────────────── */
+.body{padding:30px 34px;flex:1}
+
+/* ── Cards ───────────────────────────────────────────── */
+.card{
+  background:#FFFFFF;
+  border:1px solid rgba(10,10,10,.08);
+  border-radius:14px;overflow:hidden;
+}
+.card-hd{
+  padding:17px 20px;
+  border-bottom:1px solid rgba(10,10,10,.07);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-hd-title{
+  font-size:15px;font-weight:500;
+  color:#0A0A0A;
+}
+.card-bd{padding:20px}
+
+/* ── KPI Grid ────────────────────────────────────────── */
+.kpi-grid{display:grid;gap:14px;margin-bottom:24px}
+.kpi-4{grid-template-columns:repeat(4,1fr)}
+.kpi-3{grid-template-columns:repeat(3,1fr)}
+.kpi-2{grid-template-columns:repeat(2,1fr)}
+
+.kpi{
+  background:#FFFFFF;
+  border:1px solid rgba(10,10,10,.08);
+  border-radius:14px;padding:20px;
+  display:flex;flex-direction:column;gap:12px;
+  transition:box-shadow .15s;
+}
+.kpi:hover{box-shadow:0 4px 20px rgba(10,10,10,.08)}
+.kpi-lbl{
+  font-family:var(--ff-mono);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(10,10,10,.45);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.kpi-val{
+  font-family:var(--ff-mono);
+  font-size:30px;letter-spacing:-.04em;line-height:1;
+  color:#0A0A0A;
+}
+.kpi-val.sm{font-size:22px}
+.kpi-note{font-size:12px;color:rgba(10,10,10,.45)}
+.kpi-note.pos{color:#009D4C}
+.kpi-note.neg{color:#F02504}
+
+/* ── Layouts ─────────────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+.mb-4{margin-bottom:16px}
+.mb-6{margin-bottom:24px}
+
+/* ── Tables ──────────────────────────────────────────── */
+.tbl-wrap{overflow-x:auto}
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+table.tbl thead tr{background:transparent}
+table.tbl th{
+  padding:13px 20px;text-align:left;
+  font-family:var(--ff-mono);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(10,10,10,.45);
+  border-bottom:1px solid rgba(10,10,10,.08);
+  font-weight:400;
+}
+table.tbl th.r{text-align:right}
+table.tbl td{
+  padding:15px 20px;
+  border-bottom:1px solid rgba(10,10,10,.06);
+  color:#0A0A0A;vertical-align:middle;
+}
+table.tbl td.r{text-align:right}
+table.tbl tbody tr{transition:background .1s;cursor:default}
+table.tbl tbody tr:hover td{background:rgba(10,10,10,.02)}
+table.tbl tbody tr:last-child td{border-bottom:none}
+table.tbl tfoot td{
+  padding:13px 20px;
+  font-weight:500;border-top:1px solid rgba(10,10,10,.08);
+  background:rgba(10,10,10,.02);
+}
+
+/* ── Badges ──────────────────────────────────────────── */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:5px 10px;border-radius:20px;
+  font-family:var(--ff-mono);
+  font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:400;white-space:nowrap;
+}
+.b-green{background:rgba(0,157,76,.1);color:#009D4C;border:1px solid rgba(0,157,76,.2)}
+.b-blue{background:rgba(126,148,221,.12);color:#28356B;border:1px solid rgba(126,148,221,.25)}
+.b-yellow{background:rgba(208,142,32,.1);color:#6B4708;border:1px solid rgba(208,142,32,.2)}
+.b-red{background:rgba(240,37,4,.07);color:#8C1000;border:1px solid rgba(240,37,4,.15)}
+.b-stone{background:rgba(10,10,10,.06);color:rgba(10,10,10,.55);border:1px solid rgba(10,10,10,.1)}
+.b-purple{background:rgba(126,148,221,.12);color:#28356B;border:1px solid rgba(126,148,221,.2)}
+.b-indigo{background:rgba(126,148,221,.12);color:#28356B;border:1px solid rgba(126,148,221,.2)}
+
+/* ── Buttons ─────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 16px;border-radius:9px;
+  font-size:13.5px;font-weight:500;
+  font-family:var(--ff-sans);
+  cursor:pointer;transition:all .15s;border:none;white-space:nowrap;
+}
+.btn-primary{background:#0A0A0A;color:#F2F0EB}
+.btn-primary:hover{background:#1a1a1a}
+.btn-green{background:#009D4C;color:#0A0A0A;font-weight:500}
+.btn-green:hover{background:#008540}
+.btn-outline{
+  background:transparent;color:#0A0A0A;
+  border:1px solid rgba(10,10,10,.16);
+}
+.btn-outline:hover{background:rgba(10,10,10,.04)}
+.btn-sm{padding:7px 13px;font-size:12.5px}
+.btn-full{width:100%;justify-content:center}
+
+/* ── Form fields ─────────────────────────────────────── */
+.field{margin-bottom:16px}
+.lbl{
+  display:block;
+  font-family:var(--ff-mono);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(10,10,10,.45);margin-bottom:7px;
+}
+.inp{
+  width:100%;padding:14px 16px;
+  border:1px solid rgba(10,10,10,.14);border-radius:10px;
+  font-size:14px;font-family:var(--ff-sans);
+  color:#0A0A0A;background:#FFFFFF;
+  outline:none;transition:border .15s;
+}
+.inp:focus{border-color:#0A0A0A}
+textarea.inp{resize:vertical}
+select.inp{cursor:pointer}
+
+/* ── Search bar ──────────────────────────────────────── */
+.search-bar{
+  display:flex;gap:10px;
+  padding:14px 20px;
+  border-bottom:1px solid rgba(10,10,10,.08);
+  background:rgba(242,240,235,.6);
+}
+.search-inp{
+  padding:10px 14px;
+  border:1px solid rgba(10,10,10,.12);border-radius:9px;
+  font-size:13px;font-family:var(--ff-sans);
+  color:#0A0A0A;background:#FFFFFF;
+  outline:none;transition:border .15s;
+}
+.search-inp:focus{border-color:#0A0A0A}
+
+/* ── Misc ────────────────────────────────────────────── */
+.text-strong{font-weight:500;color:#0A0A0A}
+.text-muted{color:rgba(10,10,10,.45)}
+.mono{font-family:var(--ff-mono);font-size:12px}
+.tag-sku{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;
+  background:rgba(10,10,10,.06);padding:3px 8px;border-radius:6px;
+  color:rgba(10,10,10,.55);
+}
+
+
+/* Search */
+.search-bar{display:flex;gap:10px;padding:14px 18px;border-bottom:1px solid var(--n-100);background:var(--n-50)}
+.search-inp{padding:8px 12px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:12.5px;font-family:var(--ff-sans);color:var(--n-900);background:var(--white);outline:none;transition:border .15s}
+.search-inp:focus{border-color:var(--green)}
+
+/* Progress bar */
+.prog-row{margin-bottom:14px}
+.prog-row-hd{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--n-700)}
+.prog-row-hd strong{color:var(--n-900);font-weight:700}
+.prog-track{height:7px;background:var(--n-100);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;transition:width .5s ease}
+
+/* Req items */
+.req-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--n-100)}
+.req-item:last-child{border-bottom:none}
+.req-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.req-dot.met{background:var(--green-lt);color:var(--green-dk)}
+.req-dot.unmet{background:var(--n-100);color:var(--n-400)}
+.req-text{font-size:12.5px;flex:1}
+.req-text.met{color:var(--n-900);font-weight:500}
+.req-text.unmet{color:var(--n-400)}
+
+/* Discount rows */
+.disc-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:var(--radius-sm);font-size:12.5px;transition:background .1s}
+.disc-row:hover{background:var(--n-50)}
+.disc-row.highlight{background:var(--green);color:#fff;border-radius:var(--radius-md)}
+.disc-row.highlight .disc-pct{color:#A8F0C6}
+.disc-lbl{color:var(--n-500)}
+.disc-pct{font-weight:700;color:var(--n-900)}
+
+/* Product card */
+.product-card{
+  background:var(--white);border:1.5px solid var(--n-200);border-radius:var(--radius-lg);
+  padding:22px;display:flex;gap:20px;margin-bottom:14px;
+  box-shadow:var(--shadow-xs);transition:box-shadow .15s,border-color .15s;
+}
+.product-card:hover{box-shadow:var(--shadow-sm);border-color:var(--n-300)}
+.product-icon{
+  width:64px;height:64px;border-radius:var(--radius-md);
+  background:var(--green-lt);border:1.5px solid rgba(0,157,76,.15);
+  display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;
+}
+.product-body{flex:1;min-width:0}
+.product-name{font-family:var(--ff-sans);font-size:15px;font-weight:600;color:var(--n-900)}
+.product-desc{font-size:12px;color:var(--n-400);margin-top:4px;line-height:1.5}
+.product-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.product-tag{font-size:10px;font-weight:600;background:var(--n-100);color:var(--n-500);padding:3px 10px;border-radius:20px}
+.product-price-col{text-align:right;flex-shrink:0}
+.price-big{font-family:var(--ff-serif);font-size:26px;font-weight:400;color:var(--n-900)}
+.price-unit{font-size:10px;color:var(--n-400);text-transform:uppercase;letter-spacing:.05em}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--n-200);border-radius:var(--radius-md);overflow:hidden;margin-top:12px;width:fit-content}
+.qty-btn{width:34px;height:34px;background:var(--white);border:none;cursor:pointer;font-size:16px;color:var(--n-400);transition:background .1s;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:var(--n-50);color:var(--green)}
+.qty-num{width:52px;text-align:center;border:none;border-left:1.5px solid var(--n-200);border-right:1.5px solid var(--n-200);font-size:14px;font-weight:600;color:var(--n-900);font-family:var(--ff-sans);padding:0;height:34px;background:var(--white);outline:none}
+
+/* Order summary */
+.summary-sticky{position:sticky;top:20px}
+.summary-card{background:var(--white);border:1.5px solid var(--n-200);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)}
+.summary-title{font-family:var(--ff-serif);font-size:16px;color:var(--n-900);margin-bottom:16px}
+.sum-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px}
+.sum-row span:first-child{color:var(--n-400)}
+.sum-row.total{border-top:1.5px solid var(--n-200);margin-top:8px;padding-top:12px;font-size:15px;font-weight:700;color:var(--n-900)}
+.sum-row.total span:first-child{color:var(--n-900)}
+.sum-hint{background:#FFFBEB;border:1.5px solid rgba(208,142,32,.3);border-radius:var(--radius-md);padding:10px 12px;font-size:11.5px;color:#795610;margin:12px 0}
+.sum-savings{font-size:11px;color:var(--green);text-align:right;margin-top:4px;font-weight:600}
+.disc-tag{color:var(--green);font-weight:700}
+.empty-cart{text-align:center;padding:32px 16px}
+.empty-cart .ec-icon{font-size:40px;margin-bottom:10px}
+.empty-cart p{color:var(--n-400);font-size:13px;margin-bottom:14px}
+
+/* Timeline */
+.tl-item{display:flex;gap:12px;margin-bottom:4px}
+.tl-side{display:flex;flex-direction:column;align-items:center}
+.tl-dot{width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0;background:var(--green)}
+.tl-line{width:1.5px;background:var(--n-200);flex:1;margin:4px 0}
+.tl-body{flex:1;padding-bottom:14px}
+.tl-action{font-size:12px;font-weight:600;color:var(--n-900)}
+.tl-meta{font-size:11px;color:var(--n-400);margin-top:2px}
+
+/* Status manager */
+.status-manager{background:var(--white);border:1.5px solid var(--n-200);border-radius:var(--radius-lg);padding:18px}
+.status-manager .sm-title{font-family:var(--ff-serif);font-size:15px;color:var(--n-900);margin-bottom:14px}
+
+/* Chart bars */
+.cb-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cb-label{font-size:11px;color:var(--n-400);width:100px;text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cb-track{flex:1;height:26px;background:var(--n-100);border-radius:4px;overflow:hidden}
+.cb-fill{height:100%;display:flex;align-items:center;padding-left:10px;border-radius:4px;transition:width .6s ease}
+.cb-val{font-size:11px;font-weight:700;white-space:nowrap}
+
+/* QA actions */
+.qa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.qa-item{
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:18px 10px;border:1.5px solid var(--n-200);
+  border-radius:var(--radius-lg);cursor:pointer;transition:all .15s;
+  text-align:center;background:var(--white);
+}
+.qa-item:hover{border-color:var(--green);background:var(--green-lt);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.qa-icon{font-size:22px}
+.qa-label{font-size:11px;font-weight:600;color:var(--n-700);line-height:1.3}
+
+/* Eval */
+.eval-req{border:1.5px solid var(--n-200);border-radius:var(--radius-md);padding:14px;margin-bottom:10px;background:var(--n-50)}
+.eval-req-hd{display:flex;align-items:flex-start;gap:10px}
+.eval-req-hd input[type=checkbox]{margin-top:3px;width:16px;height:16px;accent-color:var(--green);flex-shrink:0;cursor:pointer}
+.eval-req-label{cursor:pointer;flex:1}
+.eval-req-label strong{display:block;font-size:12.5px;font-weight:600;color:var(--n-900)}
+.eval-req-label span{font-size:11px;color:var(--n-400)}
+.eval-sub{margin-top:10px;padding-left:26px}
+.eval-result{background:var(--white);border:1.5px solid var(--n-200);border-radius:var(--radius-md);padding:16px}
+.eval-stars-preview{display:flex;align-items:center;gap:14px}
+.eval-boxes{display:flex;gap:5px}
+.eval-box{width:34px;height:34px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;transition:all .2s}
+.eval-box.met{background:var(--green);color:#fff}
+.eval-box.unmet{background:var(--n-100);color:var(--n-400)}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,10,.4);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-xl);padding:28px;max-width:480px;width:90%;box-shadow:var(--shadow-lg);animation:fadeUp .25s ease;border:1.5px solid var(--n-200)}
+.modal-title{font-family:var(--ff-serif);font-size:20px;color:var(--n-900);margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--n-400);margin-bottom:22px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+
+/* Success banner */
+.success-banner{background:var(--green-lt);border:1.5px solid rgba(0,157,76,.2);border-radius:var(--radius-md);padding:14px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.success-icon{width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.success-text strong{display:block;font-size:13px;font-weight:600;color:var(--green-dk)}
+.success-text span{font-size:12px;color:var(--green)}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:999;
+  background:var(--n-900);color:#fff;padding:12px 18px;border-radius:var(--radius-md);
+  font-size:12.5px;font-weight:600;box-shadow:var(--shadow-lg);
+  transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none;
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:none;opacity:1}
+.toast .toast-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* Order detail */
+.order-detail-wrap{display:grid;grid-template-columns:1fr 300px;gap:20px}
+.order-total-row{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;border-bottom:1px solid var(--n-100)}
+.order-total-row:last-child{border-bottom:none;font-size:15px;font-weight:700;border-top:1.5px solid var(--n-200);margin-top:6px;padding-top:12px}
+
+/* Misc */
+.mono{font-family:var(--ff-mono);font-size:11px}
+.text-green{color:var(--green)}
+.text-muted{color:var(--n-400)}
+.text-strong{color:var(--n-900);font-weight:600}
+.tag-sku{background:var(--n-100);padding:2px 8px;border-radius:5px;font-family:var(--ff-mono);font-size:10px;color:var(--n-500)}
+hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
+.empty-state{text-align:center;padding:60px 20px;color:var(--n-400)}
+.empty-state .es-icon{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:13px;margin-bottom:16px}
+
+@media(max-width:900px){
+  .sidebar{width:56px}
+  .sb-brand-logo,.sb-office-lbl,.sb-office-name,.sb-office-stars,.nav-item span,.sb-user-name,.sb-user-email,.btn-signout span{display:none}
+  .nav-item{justify-content:center;padding:12px}
+  .kpi-4{grid-template-columns:repeat(2,1fr)}
+  .grid-2,.grid-3,.order-detail-wrap{grid-template-columns:1fr}
+  .qa-grid{grid-template-columns:repeat(2,1fr)}
+  .body{padding:14px}
+  .ph{padding:14px 16px}
+}
+@media(max-width:700px){
+  #v-login{flex-direction:column!important}
+  .login-left{
+    width:100%!important;padding:24px 24px 20px!important;
+    flex-direction:column!important;gap:0;
+  }
+  .login-lp-hero{display:none}
+  .login-lp-top{margin-bottom:16px}
+  .login-lp-stats{grid-template-columns:repeat(2,1fr);padding-top:16px}
+  .stat-n{font-size:18px}
+  .login-isotipo-wrap{display:none}
+  .login-right{padding:24px 16px}
+  .login-card{max-width:100%}
+}
+@media(max-width:460px){
+  .kpi-4,.kpi-3{grid-template-columns:repeat(2,1fr)}
+  .modal{padding:20px 16px}
+  .body{padding:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ══════════════════════════════════════════════════════ -->
+<div id="v-login" class="view active">
+
+  <!-- LEFT: Brand panel -->
+  <div class="login-left">
+    <div class="login-lp-top">
+      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20width%3D%22655.04%22%20height%3D%22107.596%22%20viewBox%3D%220%200%20655.04%20107.596%22%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%2038.667969%2015.417969%20L%2047.203125%2015.417969%20L%2047.203125%2073.683594%20L%2038.667969%2073.683594%20Z%20M%2038.667969%2015.417969%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%2094.113281%2049.308594%20L%2094.113281%2073.683594%20L%2085.578125%2073.683594%20L%2085.578125%2053.085938%20C%2085.578125%2043.074219%2081.558594%2039.464844%2075.566406%2039.464844%20C%2067.445312%2039.464844%2063.339844%2045.863281%2062.929688%2052.019531%20L%2062.929688%2073.683594%20L%2054.394531%2073.683594%20L%2054.394531%2032.160156%20L%2062.4375%2032.160156%20L%2062.847656%2038.804688%20C%2066.789062%2034.621094%2072.121094%2031.339844%2078.851562%2031.339844%20C%2088.617188%2031.339844%2094.113281%2037.738281%2094.113281%2049.308594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20157.929688%2073.683594%20L%20149.394531%2073.683594%20L%20149.394531%2012.136719%20L%20157.929688%2012.136719%20Z%20M%20157.929688%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20189.40625%2023.625%20L%20182.675781%2023.625%20L%20189.324219%2011.070312%20L%20198.1875%2011.070312%20Z%20M%20173.8125%2049.558594%20L%20198.1875%2049.558594%20C%20197.859375%2043.976562%20193.261719%2038.972656%20186.039062%2038.972656%20C%20179.066406%2038.972656%20174.140625%2043.730469%20173.8125%2049.558594%20M%20206.800781%2055.546875%20L%20173.8125%2055.546875%20C%20174.058594%2061.949219%20178.820312%2066.871094%20186.777344%2066.871094%20C%20192.769531%2066.871094%20196.546875%2063.589844%20198.269531%2060.386719%20L%20205.734375%2061.210938%20C%20204.339844%2066.953125%20197.859375%2074.503906%20186.699219%2074.503906%20C%20174.058594%2074.503906%20165.277344%2065.066406%20165.277344%2052.675781%20C%20165.277344%2041.105469%20173.566406%2031.339844%20186.039062%2031.339844%20C%20198.84375%2031.339844%20206.800781%2041.597656%20206.800781%2053.414062%20Z%20M%20206.800781%2055.546875%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20218.546875%2061.621094%20C%20219.371094%2064.984375%20222.816406%2067.28125%20228.148438%2067.28125%20C%20232.335938%2067.28125%20235.699219%2065.640625%20235.699219%2062.6875%20C%20235.699219%2058.746094%20231.925781%2057.84375%20223.390625%2054.890625%20C%20216.824219%2052.757812%20211.328125%2049.554688%20211.328125%2042.828125%20C%20211.328125%2035.6875%20218.546875%2031.339844%20226.015625%2031.339844%20C%20235.617188%2031.339844%20241.523438%2036.753906%20241.933594%2043.566406%20L%20233.320312%2043.566406%20C%20232.992188%2040.117188%20229.542969%2038.476562%20226.34375%2038.476562%20C%20223.308594%2038.476562%20219.941406%2039.957031%20219.941406%2042.828125%20C%20219.941406%2046.109375%20223.472656%2046.847656%20232.007812%2050.046875%20C%20240.457031%2053.003906%20244.316406%2057.105469%20244.316406%2062.851562%20C%20244.316406%2070.234375%20237.175781%2074.503906%20227.984375%2074.503906%20C%20217.972656%2074.503906%20210.835938%2070.152344%20210.015625%2061.621094%20Z%20M%20218.546875%2061.621094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20134.144531%2075.613281%20C%20134.144531%2079.203125%20132.886719%2082.316406%20130.402344%2084.863281%20C%20127.921875%2087.402344%20124.941406%2088.6875%20121.542969%2088.6875%20C%20118.144531%2088.6875%20115.167969%2087.402344%20112.6875%2084.863281%20C%20110.203125%2082.316406%20108.945312%2079.207031%20108.945312%2075.613281%20L%20108.945312%2074.890625%20L%20101.507812%2074.890625%20L%20101.507812%2075.613281%20C%20101.507812%2081.238281%20103.5%2086.113281%20107.421875%2090.105469%20C%20111.355469%2094.097656%20116.105469%2096.125%20121.542969%2096.125%20C%20126.984375%2096.125%20131.734375%2094.097656%20135.664062%2090.105469%20C%20139.589844%2086.113281%20141.582031%2081.238281%20141.582031%2075.613281%20L%20141.582031%2074.890625%20L%20134.144531%2074.890625%20Z%20M%20134.144531%2075.613281%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20134.429688%2054.296875%20C%20134.429688%2058.09375%20133.195312%2061.371094%20130.765625%2064.042969%20C%20128.3125%2066.734375%20125.394531%2068.039062%20121.828125%2068.039062%20C%20118.203125%2068.039062%20115.246094%2066.734375%20112.800781%2064.042969%20C%20110.371094%2061.371094%20109.132812%2058.09375%20109.132812%2054.296875%20C%20109.132812%2050.328125%20110.375%2047.074219%20112.828125%2044.628906%20C%20115.308594%2042.140625%20118.253906%2040.933594%20121.828125%2040.933594%20C%20125.265625%2040.933594%20128.160156%2042.246094%20130.675781%2044.941406%20C%20133.167969%2047.613281%20134.429688%2050.761719%20134.429688%2054.296875%20M%20141.261719%2040.746094%20L%20144.910156%2040.746094%20L%20144.910156%2033.308594%20L%20121.542969%2033.308594%20C%20116.039062%2033.308594%20111.269531%2035.335938%20107.371094%2039.332031%20C%20103.480469%2043.320312%20101.507812%2048.355469%20101.507812%2054.296875%20C%20101.507812%2060.171875%20103.496094%2065.253906%20107.414062%2069.398438%20C%20111.339844%2073.558594%20116.195312%2075.664062%20121.828125%2075.664062%20C%20127.402344%2075.664062%20132.21875%2073.558594%20136.152344%2069.398438%20C%20140.070312%2065.253906%20142.058594%2060.171875%20142.058594%2054.296875%20C%20142.058594%2049.265625%20140.644531%2044.898438%20137.851562%2041.28125%20L%20134.320312%2037.007812%20L%20137.246094%2037.007812%20L%20139.351562%2039.796875%20C%20139.804688%2040.394531%20140.511719%2040.746094%20141.261719%2040.746094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20265.546875%2015.417969%20L%20274.082031%2015.417969%20L%20274.082031%2073.683594%20L%20265.546875%2073.683594%20Z%20M%20265.546875%2015.417969%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20320.992188%2049.3125%20L%20320.992188%2073.683594%20L%20312.457031%2073.683594%20L%20312.457031%2053.085938%20C%20312.457031%2043.074219%20308.4375%2039.464844%20302.445312%2039.464844%20C%20294.320312%2039.464844%20290.21875%2045.863281%20289.808594%2052.019531%20L%20289.808594%2073.683594%20L%20281.273438%2073.683594%20L%20281.273438%2032.160156%20L%20289.316406%2032.160156%20L%20289.726562%2038.808594%20C%20293.664062%2034.621094%20299%2031.339844%20305.726562%2031.339844%20C%20315.492188%2031.339844%20320.992188%2037.738281%20320.992188%2049.3125%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20347.746094%2066.378906%20C%20355.460938%2066.378906%20361.203125%2060.308594%20361.203125%2052.921875%20C%20361.203125%2045.535156%20355.460938%2039.464844%20347.746094%2039.464844%20C%20339.867188%2039.464844%20334.039062%2045.535156%20334.039062%2052.921875%20C%20334.039062%2060.308594%20339.867188%2066.378906%20347.746094%2066.378906%20M%20345.859375%2031.339844%20C%20353.324219%2031.339844%20359.726562%2035.441406%20362.105469%2041.1875%20L%20362.105469%2012.136719%20L%20370.722656%2012.136719%20L%20370.722656%2073.683594%20L%20362.597656%2073.683594%20L%20362.105469%2064.65625%20C%20359.726562%2070.398438%20353.324219%2074.503906%20345.859375%2074.503906%20C%20333.960938%2074.503906%20325.507812%2064.820312%20325.507812%2052.921875%20C%20325.507812%2041.023438%20333.960938%2031.339844%20345.859375%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20387.21875%2073.683594%20L%20378.601562%2073.683594%20L%20378.601562%2040.285156%20L%20375.238281%2039.792969%20L%20375.238281%2032.160156%20L%20387.21875%2032.160156%20Z%20M%20387.21875%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20436.785156%2032.160156%20L%20419.222656%2073.683594%20L%20409.292969%2073.683594%20L%20391.734375%2032.160156%20L%20401.335938%2032.160156%20L%20414.300781%2064.738281%20L%20427.265625%2032.160156%20Z%20M%20436.785156%2032.160156%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20453.28125%2073.683594%20L%20444.664062%2073.683594%20L%20444.664062%2040.285156%20L%20441.300781%2039.792969%20L%20441.300781%2032.160156%20L%20453.28125%2032.160156%20Z%20M%20453.28125%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20480.035156%2066.378906%20C%20487.75%2066.378906%20493.492188%2060.308594%20493.492188%2052.921875%20C%20493.492188%2045.535156%20487.75%2039.464844%20480.035156%2039.464844%20C%20472.15625%2039.464844%20466.332031%2045.535156%20466.332031%2052.921875%20C%20466.332031%2060.308594%20472.15625%2066.378906%20480.035156%2066.378906%20M%20478.148438%2031.339844%20C%20485.617188%2031.339844%20492.015625%2035.441406%20494.394531%2041.1875%20L%20494.394531%2012.136719%20L%20503.011719%2012.136719%20L%20503.011719%2073.683594%20L%20494.886719%2073.683594%20L%20494.394531%2064.65625%20C%20492.015625%2070.398438%20485.617188%2074.503906%20478.148438%2074.503906%20C%20466.25%2074.503906%20457.796875%2064.820312%20457.796875%2052.921875%20C%20457.796875%2041.023438%20466.25%2031.339844%20478.148438%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20549.957031%2032.160156%20L%20549.957031%2073.683594%20L%20541.914062%2073.683594%20L%20541.503906%2067.035156%20C%20537.566406%2071.222656%20532.230469%2074.503906%20525.503906%2074.503906%20C%20515.738281%2074.503906%20510.238281%2068.101562%20510.238281%2056.53125%20L%20510.238281%2032.160156%20L%20518.773438%2032.160156%20L%20518.773438%2052.757812%20C%20518.773438%2062.769531%20522.796875%2066.378906%20528.785156%2066.378906%20C%20537.320312%2066.378906%20541.421875%2059.320312%20541.421875%2052.839844%20L%20541.421875%2032.160156%20Z%20M%20549.957031%2032.160156%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20576.710938%2066.378906%20C%20584.425781%2066.378906%20590.167969%2060.308594%20590.167969%2052.921875%20C%20590.167969%2045.535156%20584.425781%2039.464844%20576.710938%2039.464844%20C%20568.832031%2039.464844%20563.007812%2045.535156%20563.007812%2052.921875%20C%20563.007812%2060.308594%20568.832031%2066.378906%20576.710938%2066.378906%20M%20574.824219%2031.339844%20C%20582.78125%2031.339844%20588.691406%2035.851562%20591.070312%2041.679688%20L%20591.5625%2032.160156%20L%20599.6875%2032.160156%20L%20599.6875%2073.683594%20L%20591.5625%2073.683594%20L%20591.070312%2064.164062%20C%20588.691406%2069.988281%20582.78125%2074.503906%20574.824219%2074.503906%20C%20562.925781%2074.503906%20554.472656%2064.820312%20554.472656%2052.921875%20C%20554.472656%2041.023438%20562.925781%2031.339844%20574.824219%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20615.414062%2073.683594%20L%20606.878906%2073.683594%20L%20606.878906%2012.136719%20L%20615.414062%2012.136719%20Z%20M%20615.414062%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20453.796875%2022.511719%20C%20453.796875%2019.679688%20451.5%2017.378906%20448.664062%2017.378906%20C%20445.832031%2017.378906%20443.53125%2019.679688%20443.53125%2022.511719%20C%20443.53125%2025.347656%20445.832031%2027.644531%20448.664062%2027.644531%20C%20451.5%2027.644531%20453.796875%2025.347656%20453.796875%2022.511719%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20388.59375%2022.511719%20C%20388.59375%2019.679688%20386.292969%2017.378906%20383.460938%2017.378906%20C%20380.625%2017.378906%20378.328125%2019.679688%20378.328125%2022.511719%20C%20378.328125%2025.347656%20380.625%2027.644531%20383.460938%2027.644531%20C%20386.292969%2027.644531%20388.59375%2025.347656%20388.59375%2022.511719%20%22/%3E%0A%3C/svg%3E" class="login-lp-logo" alt="Inglés Individual">
+    </div>
+
+    <div class="login-lp-hero">
+      <div class="login-lp-rule"></div>
+      <h1 class="login-lp-h1">Portal<br>Franquicias<br><em>Zona UNO</em></h1>
+      <p class="login-lp-desc" id="lp-desc">Dos países. Un sistema.</p>
+    </div>
+
+    <div class="login-lp-stats">
+      <div class="stat-item">
+        <div class="stat-n" id="lp-stat-offices">—</div>
+        <div class="stat-l">Oficinas activas</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-n" style="color:#009D4C">2</div>
+        <div class="stat-l">Países · una zona</div>
+      </div>
+
+    </div>
+
+    <!-- Watermark isotipo -->
+    <div class="login-isotipo-wrap">
+      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20width%3D%22327.328%22%20height%3D%22251.484%22%20viewBox%3D%220%200%20327.328%20251.484%22%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%237E94DD%22%20fill-opacity%3D%221%22%20d%3D%22M%20157.101562%20224.277344%20L%2042.929688%20224.277344%20C%2042.929688%20192.742188%2068.488281%20167.179688%20100.023438%20167.179688%20C%20131.539062%20167.179688%20157.101562%20192.742188%20157.101562%20224.277344%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%237E94DD%22%20fill-opacity%3D%221%22%20d%3D%22M%20116.855469%20123.945312%20C%20112.308594%20123.945312%20108.636719%20120.324219%20108.636719%20115.851562%20C%20108.636719%20111.378906%20112.308594%20107.761719%20116.855469%20107.761719%20C%20121.378906%20107.761719%20125.054688%20111.378906%20125.054688%20115.851562%20C%20125.054688%20120.324219%20121.378906%20123.945312%20116.855469%20123.945312%20M%20129.617188%2097.132812%20C%20123.355469%2087.414062%20112.457031%2080.96875%20100.019531%2080.96875%20C%2080.59375%2080.96875%2064.863281%2096.644531%2064.863281%20115.976562%20C%2064.863281%20135.332031%2080.59375%20151.007812%20100.019531%20151.007812%20C%20117.742188%20151.007812%20132.367188%20137.917969%20134.777344%20120.902344%20L%20145.277344%20120.902344%20Z%20M%20129.617188%2097.132812%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%237E94DD%22%20fill-opacity%3D%221%22%20d%3D%22M%20160.484375%20103.121094%20L%20160.484375%2092.632812%20C%20143.476562%2090.222656%20130.386719%2075.597656%20130.386719%2057.863281%20C%20130.386719%2038.449219%20146.066406%2022.707031%20165.40625%2022.707031%20C%20184.753906%2022.707031%20200.433594%2038.449219%20200.433594%2057.863281%20C%20200.433594%2070.308594%20193.972656%2081.214844%20184.257812%2087.460938%20Z%20M%20160.484375%20103.121094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%23009D4C%22%20fill-opacity%3D%221%22%20d%3D%22M%20287.710938%20224.277344%20L%20173.519531%20224.277344%20C%20173.519531%20192.742188%20199.082031%20167.179688%20230.617188%20167.179688%20C%20262.152344%20167.179688%20287.710938%20192.742188%20287.710938%20224.277344%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%23009D4C%22%20fill-opacity%3D%221%22%20d%3D%22M%20213.777344%20123.945312%20C%20209.230469%20123.945312%20205.554688%20120.324219%20205.554688%20115.851562%20C%20205.554688%20111.378906%20209.230469%20107.761719%20213.777344%20107.761719%20C%20218.300781%20107.761719%20221.976562%20111.378906%20221.976562%20115.851562%20C%20221.976562%20120.324219%20218.300781%20123.945312%20213.777344%20123.945312%20M%20230.613281%2080.96875%20C%20218.175781%2080.96875%20207.257812%2087.414062%20201.015625%2097.132812%20L%20185.355469%20120.902344%20L%20195.835938%20120.902344%20C%20198.246094%20137.917969%20212.871094%20151.007812%20230.613281%20151.007812%20C%20250.015625%20151.007812%20265.765625%20135.332031%20265.765625%20115.976562%20C%20265.765625%2096.644531%20250.015625%2080.96875%20230.613281%2080.96875%20%22/%3E%0A%3C/svg%3E" alt="">
+    </div>
+  </div>
+
+  <!-- RIGHT: Login form -->
+  <div class="login-right">
+    <div class="login-card">
+
+      <!-- Logo small (hidden, left panel has it) -->
+      <div class="login-logo-wrap" style="display:none">
+        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20width%3D%22655.04%22%20height%3D%22107.596%22%20viewBox%3D%220%200%20655.04%20107.596%22%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%2038.667969%2015.417969%20L%2047.203125%2015.417969%20L%2047.203125%2073.683594%20L%2038.667969%2073.683594%20Z%20M%2038.667969%2015.417969%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%2094.113281%2049.308594%20L%2094.113281%2073.683594%20L%2085.578125%2073.683594%20L%2085.578125%2053.085938%20C%2085.578125%2043.074219%2081.558594%2039.464844%2075.566406%2039.464844%20C%2067.445312%2039.464844%2063.339844%2045.863281%2062.929688%2052.019531%20L%2062.929688%2073.683594%20L%2054.394531%2073.683594%20L%2054.394531%2032.160156%20L%2062.4375%2032.160156%20L%2062.847656%2038.804688%20C%2066.789062%2034.621094%2072.121094%2031.339844%2078.851562%2031.339844%20C%2088.617188%2031.339844%2094.113281%2037.738281%2094.113281%2049.308594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20157.929688%2073.683594%20L%20149.394531%2073.683594%20L%20149.394531%2012.136719%20L%20157.929688%2012.136719%20Z%20M%20157.929688%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20189.40625%2023.625%20L%20182.675781%2023.625%20L%20189.324219%2011.070312%20L%20198.1875%2011.070312%20Z%20M%20173.8125%2049.558594%20L%20198.1875%2049.558594%20C%20197.859375%2043.976562%20193.261719%2038.972656%20186.039062%2038.972656%20C%20179.066406%2038.972656%20174.140625%2043.730469%20173.8125%2049.558594%20M%20206.800781%2055.546875%20L%20173.8125%2055.546875%20C%20174.058594%2061.949219%20178.820312%2066.871094%20186.777344%2066.871094%20C%20192.769531%2066.871094%20196.546875%2063.589844%20198.269531%2060.386719%20L%20205.734375%2061.210938%20C%20204.339844%2066.953125%20197.859375%2074.503906%20186.699219%2074.503906%20C%20174.058594%2074.503906%20165.277344%2065.066406%20165.277344%2052.675781%20C%20165.277344%2041.105469%20173.566406%2031.339844%20186.039062%2031.339844%20C%20198.84375%2031.339844%20206.800781%2041.597656%20206.800781%2053.414062%20Z%20M%20206.800781%2055.546875%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20218.546875%2061.621094%20C%20219.371094%2064.984375%20222.816406%2067.28125%20228.148438%2067.28125%20C%20232.335938%2067.28125%20235.699219%2065.640625%20235.699219%2062.6875%20C%20235.699219%2058.746094%20231.925781%2057.84375%20223.390625%2054.890625%20C%20216.824219%2052.757812%20211.328125%2049.554688%20211.328125%2042.828125%20C%20211.328125%2035.6875%20218.546875%2031.339844%20226.015625%2031.339844%20C%20235.617188%2031.339844%20241.523438%2036.753906%20241.933594%2043.566406%20L%20233.320312%2043.566406%20C%20232.992188%2040.117188%20229.542969%2038.476562%20226.34375%2038.476562%20C%20223.308594%2038.476562%20219.941406%2039.957031%20219.941406%2042.828125%20C%20219.941406%2046.109375%20223.472656%2046.847656%20232.007812%2050.046875%20C%20240.457031%2053.003906%20244.316406%2057.105469%20244.316406%2062.851562%20C%20244.316406%2070.234375%20237.175781%2074.503906%20227.984375%2074.503906%20C%20217.972656%2074.503906%20210.835938%2070.152344%20210.015625%2061.621094%20Z%20M%20218.546875%2061.621094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20134.144531%2075.613281%20C%20134.144531%2079.203125%20132.886719%2082.316406%20130.402344%2084.863281%20C%20127.921875%2087.402344%20124.941406%2088.6875%20121.542969%2088.6875%20C%20118.144531%2088.6875%20115.167969%2087.402344%20112.6875%2084.863281%20C%20110.203125%2082.316406%20108.945312%2079.207031%20108.945312%2075.613281%20L%20108.945312%2074.890625%20L%20101.507812%2074.890625%20L%20101.507812%2075.613281%20C%20101.507812%2081.238281%20103.5%2086.113281%20107.421875%2090.105469%20C%20111.355469%2094.097656%20116.105469%2096.125%20121.542969%2096.125%20C%20126.984375%2096.125%20131.734375%2094.097656%20135.664062%2090.105469%20C%20139.589844%2086.113281%20141.582031%2081.238281%20141.582031%2075.613281%20L%20141.582031%2074.890625%20L%20134.144531%2074.890625%20Z%20M%20134.144531%2075.613281%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20134.429688%2054.296875%20C%20134.429688%2058.09375%20133.195312%2061.371094%20130.765625%2064.042969%20C%20128.3125%2066.734375%20125.394531%2068.039062%20121.828125%2068.039062%20C%20118.203125%2068.039062%20115.246094%2066.734375%20112.800781%2064.042969%20C%20110.371094%2061.371094%20109.132812%2058.09375%20109.132812%2054.296875%20C%20109.132812%2050.328125%20110.375%2047.074219%20112.828125%2044.628906%20C%20115.308594%2042.140625%20118.253906%2040.933594%20121.828125%2040.933594%20C%20125.265625%2040.933594%20128.160156%2042.246094%20130.675781%2044.941406%20C%20133.167969%2047.613281%20134.429688%2050.761719%20134.429688%2054.296875%20M%20141.261719%2040.746094%20L%20144.910156%2040.746094%20L%20144.910156%2033.308594%20L%20121.542969%2033.308594%20C%20116.039062%2033.308594%20111.269531%2035.335938%20107.371094%2039.332031%20C%20103.480469%2043.320312%20101.507812%2048.355469%20101.507812%2054.296875%20C%20101.507812%2060.171875%20103.496094%2065.253906%20107.414062%2069.398438%20C%20111.339844%2073.558594%20116.195312%2075.664062%20121.828125%2075.664062%20C%20127.402344%2075.664062%20132.21875%2073.558594%20136.152344%2069.398438%20C%20140.070312%2065.253906%20142.058594%2060.171875%20142.058594%2054.296875%20C%20142.058594%2049.265625%20140.644531%2044.898438%20137.851562%2041.28125%20L%20134.320312%2037.007812%20L%20137.246094%2037.007812%20L%20139.351562%2039.796875%20C%20139.804688%2040.394531%20140.511719%2040.746094%20141.261719%2040.746094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20265.546875%2015.417969%20L%20274.082031%2015.417969%20L%20274.082031%2073.683594%20L%20265.546875%2073.683594%20Z%20M%20265.546875%2015.417969%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20320.992188%2049.3125%20L%20320.992188%2073.683594%20L%20312.457031%2073.683594%20L%20312.457031%2053.085938%20C%20312.457031%2043.074219%20308.4375%2039.464844%20302.445312%2039.464844%20C%20294.320312%2039.464844%20290.21875%2045.863281%20289.808594%2052.019531%20L%20289.808594%2073.683594%20L%20281.273438%2073.683594%20L%20281.273438%2032.160156%20L%20289.316406%2032.160156%20L%20289.726562%2038.808594%20C%20293.664062%2034.621094%20299%2031.339844%20305.726562%2031.339844%20C%20315.492188%2031.339844%20320.992188%2037.738281%20320.992188%2049.3125%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20347.746094%2066.378906%20C%20355.460938%2066.378906%20361.203125%2060.308594%20361.203125%2052.921875%20C%20361.203125%2045.535156%20355.460938%2039.464844%20347.746094%2039.464844%20C%20339.867188%2039.464844%20334.039062%2045.535156%20334.039062%2052.921875%20C%20334.039062%2060.308594%20339.867188%2066.378906%20347.746094%2066.378906%20M%20345.859375%2031.339844%20C%20353.324219%2031.339844%20359.726562%2035.441406%20362.105469%2041.1875%20L%20362.105469%2012.136719%20L%20370.722656%2012.136719%20L%20370.722656%2073.683594%20L%20362.597656%2073.683594%20L%20362.105469%2064.65625%20C%20359.726562%2070.398438%20353.324219%2074.503906%20345.859375%2074.503906%20C%20333.960938%2074.503906%20325.507812%2064.820312%20325.507812%2052.921875%20C%20325.507812%2041.023438%20333.960938%2031.339844%20345.859375%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20387.21875%2073.683594%20L%20378.601562%2073.683594%20L%20378.601562%2040.285156%20L%20375.238281%2039.792969%20L%20375.238281%2032.160156%20L%20387.21875%2032.160156%20Z%20M%20387.21875%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20436.785156%2032.160156%20L%20419.222656%2073.683594%20L%20409.292969%2073.683594%20L%20391.734375%2032.160156%20L%20401.335938%2032.160156%20L%20414.300781%2064.738281%20L%20427.265625%2032.160156%20Z%20M%20436.785156%2032.160156%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20453.28125%2073.683594%20L%20444.664062%2073.683594%20L%20444.664062%2040.285156%20L%20441.300781%2039.792969%20L%20441.300781%2032.160156%20L%20453.28125%2032.160156%20Z%20M%20453.28125%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20480.035156%2066.378906%20C%20487.75%2066.378906%20493.492188%2060.308594%20493.492188%2052.921875%20C%20493.492188%2045.535156%20487.75%2039.464844%20480.035156%2039.464844%20C%20472.15625%2039.464844%20466.332031%2045.535156%20466.332031%2052.921875%20C%20466.332031%2060.308594%20472.15625%2066.378906%20480.035156%2066.378906%20M%20478.148438%2031.339844%20C%20485.617188%2031.339844%20492.015625%2035.441406%20494.394531%2041.1875%20L%20494.394531%2012.136719%20L%20503.011719%2012.136719%20L%20503.011719%2073.683594%20L%20494.886719%2073.683594%20L%20494.394531%2064.65625%20C%20492.015625%2070.398438%20485.617188%2074.503906%20478.148438%2074.503906%20C%20466.25%2074.503906%20457.796875%2064.820312%20457.796875%2052.921875%20C%20457.796875%2041.023438%20466.25%2031.339844%20478.148438%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20549.957031%2032.160156%20L%20549.957031%2073.683594%20L%20541.914062%2073.683594%20L%20541.503906%2067.035156%20C%20537.566406%2071.222656%20532.230469%2074.503906%20525.503906%2074.503906%20C%20515.738281%2074.503906%20510.238281%2068.101562%20510.238281%2056.53125%20L%20510.238281%2032.160156%20L%20518.773438%2032.160156%20L%20518.773438%2052.757812%20C%20518.773438%2062.769531%20522.796875%2066.378906%20528.785156%2066.378906%20C%20537.320312%2066.378906%20541.421875%2059.320312%20541.421875%2052.839844%20L%20541.421875%2032.160156%20Z%20M%20549.957031%2032.160156%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20576.710938%2066.378906%20C%20584.425781%2066.378906%20590.167969%2060.308594%20590.167969%2052.921875%20C%20590.167969%2045.535156%20584.425781%2039.464844%20576.710938%2039.464844%20C%20568.832031%2039.464844%20563.007812%2045.535156%20563.007812%2052.921875%20C%20563.007812%2060.308594%20568.832031%2066.378906%20576.710938%2066.378906%20M%20574.824219%2031.339844%20C%20582.78125%2031.339844%20588.691406%2035.851562%20591.070312%2041.679688%20L%20591.5625%2032.160156%20L%20599.6875%2032.160156%20L%20599.6875%2073.683594%20L%20591.5625%2073.683594%20L%20591.070312%2064.164062%20C%20588.691406%2069.988281%20582.78125%2074.503906%20574.824219%2074.503906%20C%20562.925781%2074.503906%20554.472656%2064.820312%20554.472656%2052.921875%20C%20554.472656%2041.023438%20562.925781%2031.339844%20574.824219%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20615.414062%2073.683594%20L%20606.878906%2073.683594%20L%20606.878906%2012.136719%20L%20615.414062%2012.136719%20Z%20M%20615.414062%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20453.796875%2022.511719%20C%20453.796875%2019.679688%20451.5%2017.378906%20448.664062%2017.378906%20C%20445.832031%2017.378906%20443.53125%2019.679688%20443.53125%2022.511719%20C%20443.53125%2025.347656%20445.832031%2027.644531%20448.664062%2027.644531%20C%20451.5%2027.644531%20453.796875%2025.347656%20453.796875%2022.511719%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20388.59375%2022.511719%20C%20388.59375%2019.679688%20386.292969%2017.378906%20383.460938%2017.378906%20C%20380.625%2017.378906%20378.328125%2019.679688%20378.328125%2022.511719%20C%20378.328125%2025.347656%20380.625%2027.644531%20383.460938%2027.644531%20C%20386.292969%2027.644531%20388.59375%2025.347656%20388.59375%2022.511719%20%22/%3E%0A%3C/svg%3E" alt="Inglés Individual" style="height:22px;display:block;filter:brightness(0) saturate(100%)">
+      </div>
+
+      <h2 class="login-heading">Bienvenido</h2>
+      <p class="login-sub" id="login-sub">—</p>
+
+      <div class="field-group">
+        <label class="field-label" for="login-email">Correo electrónico</label>
+        <input id="login-email" class="field-input" type="email"
+          placeholder="tucorreo@inglesindividual.com"
+          autocomplete="email"
+          onkeydown="if(event.key==='Enter')$('login-password').focus()">
+      </div>
+
+      <div class="field-group" style="position:relative">
+        <label class="field-label" for="login-password">Contraseña</label>
+        <input id="login-password" class="field-input" type="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          aria-describedby="login-error"
+          onkeydown="if(event.key==='Enter')doLogin()">
+        <button onclick="togglePassword(this)" type="button"
+          aria-label="Ver contraseña" aria-pressed="false"
+          style="position:absolute;right:10px;bottom:8px;display:flex;align-items:center;justify-content:center;width:28px;height:28px;background:none;border:none;cursor:pointer;color:#9CA3AF;padding:0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+
+      <div id="login-error" class="login-err" role="alert" aria-live="polite"></div>
+
+      <button class="btn-login" onclick="doLogin()">Ingresar al Portal</button>
+
+      <div class="login-sep"></div>
+      <div class="login-tagline" id="login-tagline">—</div>
+
+      <!-- Network strip -->
+      <div class="login-network">
+        <span class="dot"></span>
+        <span id="login-network-txt">—</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ APP ══════════════════════════════════════════════════════════ -->
+<div id="v-app" class="view">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20width%3D%22327.328%22%20height%3D%22251.484%22%20viewBox%3D%220%200%20327.328%20251.484%22%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%237E94DD%22%20fill-opacity%3D%221%22%20d%3D%22M%20157.101562%20224.277344%20L%2042.929688%20224.277344%20C%2042.929688%20192.742188%2068.488281%20167.179688%20100.023438%20167.179688%20C%20131.539062%20167.179688%20157.101562%20192.742188%20157.101562%20224.277344%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%237E94DD%22%20fill-opacity%3D%221%22%20d%3D%22M%20116.855469%20123.945312%20C%20112.308594%20123.945312%20108.636719%20120.324219%20108.636719%20115.851562%20C%20108.636719%20111.378906%20112.308594%20107.761719%20116.855469%20107.761719%20C%20121.378906%20107.761719%20125.054688%20111.378906%20125.054688%20115.851562%20C%20125.054688%20120.324219%20121.378906%20123.945312%20116.855469%20123.945312%20M%20129.617188%2097.132812%20C%20123.355469%2087.414062%20112.457031%2080.96875%20100.019531%2080.96875%20C%2080.59375%2080.96875%2064.863281%2096.644531%2064.863281%20115.976562%20C%2064.863281%20135.332031%2080.59375%20151.007812%20100.019531%20151.007812%20C%20117.742188%20151.007812%20132.367188%20137.917969%20134.777344%20120.902344%20L%20145.277344%20120.902344%20Z%20M%20129.617188%2097.132812%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%237E94DD%22%20fill-opacity%3D%221%22%20d%3D%22M%20160.484375%20103.121094%20L%20160.484375%2092.632812%20C%20143.476562%2090.222656%20130.386719%2075.597656%20130.386719%2057.863281%20C%20130.386719%2038.449219%20146.066406%2022.707031%20165.40625%2022.707031%20C%20184.753906%2022.707031%20200.433594%2038.449219%20200.433594%2057.863281%20C%20200.433594%2070.308594%20193.972656%2081.214844%20184.257812%2087.460938%20Z%20M%20160.484375%20103.121094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%23009D4C%22%20fill-opacity%3D%221%22%20d%3D%22M%20287.710938%20224.277344%20L%20173.519531%20224.277344%20C%20173.519531%20192.742188%20199.082031%20167.179688%20230.617188%20167.179688%20C%20262.152344%20167.179688%20287.710938%20192.742188%20287.710938%20224.277344%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22%23009D4C%22%20fill-opacity%3D%221%22%20d%3D%22M%20213.777344%20123.945312%20C%20209.230469%20123.945312%20205.554688%20120.324219%20205.554688%20115.851562%20C%20205.554688%20111.378906%20209.230469%20107.761719%20213.777344%20107.761719%20C%20218.300781%20107.761719%20221.976562%20111.378906%20221.976562%20115.851562%20C%20221.976562%20120.324219%20218.300781%20123.945312%20213.777344%20123.945312%20M%20230.613281%2080.96875%20C%20218.175781%2080.96875%20207.257812%2087.414062%20201.015625%2097.132812%20L%20185.355469%20120.902344%20L%20195.835938%20120.902344%20C%20198.246094%20137.917969%20212.871094%20151.007812%20230.613281%20151.007812%20C%20250.015625%20151.007812%20265.765625%20135.332031%20265.765625%20115.976562%20C%20265.765625%2096.644531%20250.015625%2080.96875%20230.613281%2080.96875%20%22/%3E%0A%3C/svg%3E" class="sb-brand-isotipo" alt="II" style="width:32px;height:32px;object-fit:contain;display:block;flex-shrink:0">
+      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20width%3D%22655.04%22%20height%3D%22107.596%22%20viewBox%3D%220%200%20655.04%20107.596%22%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%2038.667969%2015.417969%20L%2047.203125%2015.417969%20L%2047.203125%2073.683594%20L%2038.667969%2073.683594%20Z%20M%2038.667969%2015.417969%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%2094.113281%2049.308594%20L%2094.113281%2073.683594%20L%2085.578125%2073.683594%20L%2085.578125%2053.085938%20C%2085.578125%2043.074219%2081.558594%2039.464844%2075.566406%2039.464844%20C%2067.445312%2039.464844%2063.339844%2045.863281%2062.929688%2052.019531%20L%2062.929688%2073.683594%20L%2054.394531%2073.683594%20L%2054.394531%2032.160156%20L%2062.4375%2032.160156%20L%2062.847656%2038.804688%20C%2066.789062%2034.621094%2072.121094%2031.339844%2078.851562%2031.339844%20C%2088.617188%2031.339844%2094.113281%2037.738281%2094.113281%2049.308594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20157.929688%2073.683594%20L%20149.394531%2073.683594%20L%20149.394531%2012.136719%20L%20157.929688%2012.136719%20Z%20M%20157.929688%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20189.40625%2023.625%20L%20182.675781%2023.625%20L%20189.324219%2011.070312%20L%20198.1875%2011.070312%20Z%20M%20173.8125%2049.558594%20L%20198.1875%2049.558594%20C%20197.859375%2043.976562%20193.261719%2038.972656%20186.039062%2038.972656%20C%20179.066406%2038.972656%20174.140625%2043.730469%20173.8125%2049.558594%20M%20206.800781%2055.546875%20L%20173.8125%2055.546875%20C%20174.058594%2061.949219%20178.820312%2066.871094%20186.777344%2066.871094%20C%20192.769531%2066.871094%20196.546875%2063.589844%20198.269531%2060.386719%20L%20205.734375%2061.210938%20C%20204.339844%2066.953125%20197.859375%2074.503906%20186.699219%2074.503906%20C%20174.058594%2074.503906%20165.277344%2065.066406%20165.277344%2052.675781%20C%20165.277344%2041.105469%20173.566406%2031.339844%20186.039062%2031.339844%20C%20198.84375%2031.339844%20206.800781%2041.597656%20206.800781%2053.414062%20Z%20M%20206.800781%2055.546875%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20218.546875%2061.621094%20C%20219.371094%2064.984375%20222.816406%2067.28125%20228.148438%2067.28125%20C%20232.335938%2067.28125%20235.699219%2065.640625%20235.699219%2062.6875%20C%20235.699219%2058.746094%20231.925781%2057.84375%20223.390625%2054.890625%20C%20216.824219%2052.757812%20211.328125%2049.554688%20211.328125%2042.828125%20C%20211.328125%2035.6875%20218.546875%2031.339844%20226.015625%2031.339844%20C%20235.617188%2031.339844%20241.523438%2036.753906%20241.933594%2043.566406%20L%20233.320312%2043.566406%20C%20232.992188%2040.117188%20229.542969%2038.476562%20226.34375%2038.476562%20C%20223.308594%2038.476562%20219.941406%2039.957031%20219.941406%2042.828125%20C%20219.941406%2046.109375%20223.472656%2046.847656%20232.007812%2050.046875%20C%20240.457031%2053.003906%20244.316406%2057.105469%20244.316406%2062.851562%20C%20244.316406%2070.234375%20237.175781%2074.503906%20227.984375%2074.503906%20C%20217.972656%2074.503906%20210.835938%2070.152344%20210.015625%2061.621094%20Z%20M%20218.546875%2061.621094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20134.144531%2075.613281%20C%20134.144531%2079.203125%20132.886719%2082.316406%20130.402344%2084.863281%20C%20127.921875%2087.402344%20124.941406%2088.6875%20121.542969%2088.6875%20C%20118.144531%2088.6875%20115.167969%2087.402344%20112.6875%2084.863281%20C%20110.203125%2082.316406%20108.945312%2079.207031%20108.945312%2075.613281%20L%20108.945312%2074.890625%20L%20101.507812%2074.890625%20L%20101.507812%2075.613281%20C%20101.507812%2081.238281%20103.5%2086.113281%20107.421875%2090.105469%20C%20111.355469%2094.097656%20116.105469%2096.125%20121.542969%2096.125%20C%20126.984375%2096.125%20131.734375%2094.097656%20135.664062%2090.105469%20C%20139.589844%2086.113281%20141.582031%2081.238281%20141.582031%2075.613281%20L%20141.582031%2074.890625%20L%20134.144531%2074.890625%20Z%20M%20134.144531%2075.613281%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20134.429688%2054.296875%20C%20134.429688%2058.09375%20133.195312%2061.371094%20130.765625%2064.042969%20C%20128.3125%2066.734375%20125.394531%2068.039062%20121.828125%2068.039062%20C%20118.203125%2068.039062%20115.246094%2066.734375%20112.800781%2064.042969%20C%20110.371094%2061.371094%20109.132812%2058.09375%20109.132812%2054.296875%20C%20109.132812%2050.328125%20110.375%2047.074219%20112.828125%2044.628906%20C%20115.308594%2042.140625%20118.253906%2040.933594%20121.828125%2040.933594%20C%20125.265625%2040.933594%20128.160156%2042.246094%20130.675781%2044.941406%20C%20133.167969%2047.613281%20134.429688%2050.761719%20134.429688%2054.296875%20M%20141.261719%2040.746094%20L%20144.910156%2040.746094%20L%20144.910156%2033.308594%20L%20121.542969%2033.308594%20C%20116.039062%2033.308594%20111.269531%2035.335938%20107.371094%2039.332031%20C%20103.480469%2043.320312%20101.507812%2048.355469%20101.507812%2054.296875%20C%20101.507812%2060.171875%20103.496094%2065.253906%20107.414062%2069.398438%20C%20111.339844%2073.558594%20116.195312%2075.664062%20121.828125%2075.664062%20C%20127.402344%2075.664062%20132.21875%2073.558594%20136.152344%2069.398438%20C%20140.070312%2065.253906%20142.058594%2060.171875%20142.058594%2054.296875%20C%20142.058594%2049.265625%20140.644531%2044.898438%20137.851562%2041.28125%20L%20134.320312%2037.007812%20L%20137.246094%2037.007812%20L%20139.351562%2039.796875%20C%20139.804688%2040.394531%20140.511719%2040.746094%20141.261719%2040.746094%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20265.546875%2015.417969%20L%20274.082031%2015.417969%20L%20274.082031%2073.683594%20L%20265.546875%2073.683594%20Z%20M%20265.546875%2015.417969%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20320.992188%2049.3125%20L%20320.992188%2073.683594%20L%20312.457031%2073.683594%20L%20312.457031%2053.085938%20C%20312.457031%2043.074219%20308.4375%2039.464844%20302.445312%2039.464844%20C%20294.320312%2039.464844%20290.21875%2045.863281%20289.808594%2052.019531%20L%20289.808594%2073.683594%20L%20281.273438%2073.683594%20L%20281.273438%2032.160156%20L%20289.316406%2032.160156%20L%20289.726562%2038.808594%20C%20293.664062%2034.621094%20299%2031.339844%20305.726562%2031.339844%20C%20315.492188%2031.339844%20320.992188%2037.738281%20320.992188%2049.3125%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20347.746094%2066.378906%20C%20355.460938%2066.378906%20361.203125%2060.308594%20361.203125%2052.921875%20C%20361.203125%2045.535156%20355.460938%2039.464844%20347.746094%2039.464844%20C%20339.867188%2039.464844%20334.039062%2045.535156%20334.039062%2052.921875%20C%20334.039062%2060.308594%20339.867188%2066.378906%20347.746094%2066.378906%20M%20345.859375%2031.339844%20C%20353.324219%2031.339844%20359.726562%2035.441406%20362.105469%2041.1875%20L%20362.105469%2012.136719%20L%20370.722656%2012.136719%20L%20370.722656%2073.683594%20L%20362.597656%2073.683594%20L%20362.105469%2064.65625%20C%20359.726562%2070.398438%20353.324219%2074.503906%20345.859375%2074.503906%20C%20333.960938%2074.503906%20325.507812%2064.820312%20325.507812%2052.921875%20C%20325.507812%2041.023438%20333.960938%2031.339844%20345.859375%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20387.21875%2073.683594%20L%20378.601562%2073.683594%20L%20378.601562%2040.285156%20L%20375.238281%2039.792969%20L%20375.238281%2032.160156%20L%20387.21875%2032.160156%20Z%20M%20387.21875%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20436.785156%2032.160156%20L%20419.222656%2073.683594%20L%20409.292969%2073.683594%20L%20391.734375%2032.160156%20L%20401.335938%2032.160156%20L%20414.300781%2064.738281%20L%20427.265625%2032.160156%20Z%20M%20436.785156%2032.160156%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20453.28125%2073.683594%20L%20444.664062%2073.683594%20L%20444.664062%2040.285156%20L%20441.300781%2039.792969%20L%20441.300781%2032.160156%20L%20453.28125%2032.160156%20Z%20M%20453.28125%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20480.035156%2066.378906%20C%20487.75%2066.378906%20493.492188%2060.308594%20493.492188%2052.921875%20C%20493.492188%2045.535156%20487.75%2039.464844%20480.035156%2039.464844%20C%20472.15625%2039.464844%20466.332031%2045.535156%20466.332031%2052.921875%20C%20466.332031%2060.308594%20472.15625%2066.378906%20480.035156%2066.378906%20M%20478.148438%2031.339844%20C%20485.617188%2031.339844%20492.015625%2035.441406%20494.394531%2041.1875%20L%20494.394531%2012.136719%20L%20503.011719%2012.136719%20L%20503.011719%2073.683594%20L%20494.886719%2073.683594%20L%20494.394531%2064.65625%20C%20492.015625%2070.398438%20485.617188%2074.503906%20478.148438%2074.503906%20C%20466.25%2074.503906%20457.796875%2064.820312%20457.796875%2052.921875%20C%20457.796875%2041.023438%20466.25%2031.339844%20478.148438%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20549.957031%2032.160156%20L%20549.957031%2073.683594%20L%20541.914062%2073.683594%20L%20541.503906%2067.035156%20C%20537.566406%2071.222656%20532.230469%2074.503906%20525.503906%2074.503906%20C%20515.738281%2074.503906%20510.238281%2068.101562%20510.238281%2056.53125%20L%20510.238281%2032.160156%20L%20518.773438%2032.160156%20L%20518.773438%2052.757812%20C%20518.773438%2062.769531%20522.796875%2066.378906%20528.785156%2066.378906%20C%20537.320312%2066.378906%20541.421875%2059.320312%20541.421875%2052.839844%20L%20541.421875%2032.160156%20Z%20M%20549.957031%2032.160156%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20576.710938%2066.378906%20C%20584.425781%2066.378906%20590.167969%2060.308594%20590.167969%2052.921875%20C%20590.167969%2045.535156%20584.425781%2039.464844%20576.710938%2039.464844%20C%20568.832031%2039.464844%20563.007812%2045.535156%20563.007812%2052.921875%20C%20563.007812%2060.308594%20568.832031%2066.378906%20576.710938%2066.378906%20M%20574.824219%2031.339844%20C%20582.78125%2031.339844%20588.691406%2035.851562%20591.070312%2041.679688%20L%20591.5625%2032.160156%20L%20599.6875%2032.160156%20L%20599.6875%2073.683594%20L%20591.5625%2073.683594%20L%20591.070312%2064.164062%20C%20588.691406%2069.988281%20582.78125%2074.503906%20574.824219%2074.503906%20C%20562.925781%2074.503906%20554.472656%2064.820312%20554.472656%2052.921875%20C%20554.472656%2041.023438%20562.925781%2031.339844%20574.824219%2031.339844%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20615.414062%2073.683594%20L%20606.878906%2073.683594%20L%20606.878906%2012.136719%20L%20615.414062%2012.136719%20Z%20M%20615.414062%2073.683594%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20453.796875%2022.511719%20C%20453.796875%2019.679688%20451.5%2017.378906%20448.664062%2017.378906%20C%20445.832031%2017.378906%20443.53125%2019.679688%20443.53125%2022.511719%20C%20443.53125%2025.347656%20445.832031%2027.644531%20448.664062%2027.644531%20C%20451.5%2027.644531%20453.796875%2025.347656%20453.796875%2022.511719%20%22/%3E%0A%3Cpath%20fill-rule%3D%22nonzero%22%20fill%3D%22rgb%2813.725281%25%2C%2012.156677%25%2C%2012.548828%25%29%22%20fill-opacity%3D%221%22%20d%3D%22M%20388.59375%2022.511719%20C%20388.59375%2019.679688%20386.292969%2017.378906%20383.460938%2017.378906%20C%20380.625%2017.378906%20378.328125%2019.679688%20378.328125%2022.511719%20C%20378.328125%2025.347656%20380.625%2027.644531%20383.460938%2027.644531%20C%20386.292969%2027.644531%20388.59375%2025.347656%20388.59375%2022.511719%20%22/%3E%0A%3C/svg%3E" class="sb-brand-logo" alt="Inglés Individual" style="height:20px;filter:none">
+    </div>
+    <div class="sb-office" id="sb-office-section">
+      <div class="sb-office-lbl">Mi Oficina</div>
+      <div class="sb-office-name" id="sb-office-name">—</div>
+      <div class="sb-office-stars" id="sb-office-stars"></div>
+    </div>
+    <nav class="sb-nav" id="sb-nav"></nav>
+    <div class="sb-footer">
+      <div class="sb-user-pill" onclick="logout()" title="Cerrar sesión" role="button" tabindex="0"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();logout()}">
+        <div class="sb-user-avatar" id="sb-avatar">II</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name" id="sb-uname">—</div>
+          <div class="sb-user-email" id="sb-uemail">—</div>
+        </div>
+        <svg width="14" height="14" fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="main-area" id="main-area">
+
+    <!-- ADMIN: DASHBOARD -->
+    <div id="p-admin-dashboard" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Dashboard <span style="color:var(--green)">Inglés Individual</span></div><div class="ph-sub" id="admin-greeting"></div></div></div>
+      <div class="body">
+        <div class="kpi-grid kpi-4 mb-6">
+          <div class="kpi"><div class="kpi-lbl">Ingresos Totales</div><div class="kpi-val sm" id="kpi-revenue">$0</div><div class="kpi-note pos">↑ Acumulado · MXN</div></div>
+          <div class="kpi"><div class="kpi-lbl">Oficinas Activas</div><div class="kpi-val" id="kpi-offices">0</div><div class="kpi-note">En la red</div></div>
+          <div class="kpi"><div class="kpi-lbl">Total Pedidos</div><div class="kpi-val" id="kpi-orders">0</div><div class="kpi-note neg" id="kpi-pending-note"></div></div>
+          <div class="kpi"><div class="kpi-lbl">Descuentos Otorgados</div><div class="kpi-val sm" id="kpi-discounts">$0</div><div class="kpi-note">Beneficio franquicias</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Distribución por Estrellas</div></div><div class="card-bd" id="stars-dist"></div></div>
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Pedidos Recientes</div><a class="text-muted" style="font-size:11px;cursor:pointer" onclick="nav('admin-orders')">Ver todos →</a></div><div class="tbl-wrap"><table class="tbl" id="recent-orders-tbl"></table></div></div>
+        </div>
+        <div class="card"><div class="card-hd"><div class="card-hd-title">Acciones Rápidas</div></div><div class="card-bd"><div class="qa-grid">
+          <div class="qa-item" onclick="nav('admin-evaluations');openNewEval()"><div class="qa-icon">📋</div><div class="qa-label">Nueva Evaluación</div></div>
+          <div class="qa-item" onclick="nav('admin-orders')"><div class="qa-icon">⏳</div><div class="qa-label">Pedidos Pendientes</div></div>
+          <div class="qa-item" onclick="nav('admin-products')"><div class="qa-icon">📦</div><div class="qa-label">Gestionar Productos</div></div>
+          <div class="qa-item" onclick="nav('admin-reports')"><div class="qa-icon">📊</div><div class="qa-label">Ver Reportes</div></div>
+        </div></div></div>
+      </div>
+    </div>
+
+    <!-- ADMIN: OFFICES -->
+    <div id="p-admin-offices" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Oficinas Franquiciatarias</div><div class="ph-sub" id="offices-count-label"></div></div><div class="ph-actions"><button class="btn btn-green" onclick="openOfficeModal()">+ Nueva Oficina</button></div></div>
+      <div class="body" style="padding-top:0">
+        <div class="card" style="margin-top:20px">
+          <div class="search-bar">
+            <input class="search-inp" id="office-search" placeholder="Buscar oficina o ciudad..." oninput="renderOfficesTable()" style="flex:1">
+            <select class="search-inp" id="office-star-filter" onchange="renderOfficesTable()" style="max-width:180px">
+              <option value="">Todas las estrellas</option>
+              <option value="5">⭐⭐⭐⭐⭐ 5 Estrellas</option>
+              <option value="4">⭐⭐⭐⭐ 4 Estrellas</option>
+              <option value="3">⭐⭐⭐ 3 Estrellas</option>
+            </select>
+          </div>
+          <div class="tbl-wrap"><table class="tbl" id="offices-tbl"></table></div>
+          <div style="padding:10px 16px;border-top:1px solid var(--n-100);font-size:11px;color:var(--n-400)" id="offices-count-footer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN: EVALUATIONS -->
+    <div id="p-admin-evaluations" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Evaluaciones de Franquicias</div><div class="ph-sub">Gestiona la clasificación de estrellas por oficina</div></div><div class="ph-actions"><button class="btn btn-green" onclick="openNewEval()">+ Nueva Evaluación</button></div></div>
+      <div class="body" style="padding-top:0"><div class="card" style="margin-top:20px;overflow:hidden"><div class="tbl-wrap"><table class="tbl" id="eval-tbl"></table></div></div></div>
+    </div>
+
+    <!-- ADMIN: PRODUCTS -->
+    <div id="p-admin-products" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Catálogo de Productos</div><div class="ph-sub">Productos disponibles para pedido</div></div><div class="ph-actions"><button class="btn btn-green" onclick="openProductModal()">+ Nuevo Producto</button></div></div>
+      <div class="body" style="padding-top:0"><div class="card" style="margin-top:20px;overflow:hidden"><div class="tbl-wrap"><table class="tbl" id="products-tbl"></table></div></div></div>
+    </div>
+
+    <!-- ADMIN: ORDERS -->
+    <div id="p-admin-orders" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Gestión de Pedidos</div><div class="ph-sub" id="admin-orders-sub"></div></div></div>
+      <div class="body" style="padding-top:0">
+        <div style="display:flex;gap:10px;margin-top:20px;margin-bottom:14px">
+          <select class="search-inp" id="order-status-filter" onchange="renderAdminOrders()" style="max-width:200px"><option value="">Todos los estados</option><option>Pendiente</option><option>Confirmado</option><option>En proceso</option><option>Enviado</option><option>Entregado</option><option>Cancelado</option></select>
+          <select class="search-inp" id="order-office-filter" onchange="renderAdminOrders()" style="max-width:220px"></select>
+        </div>
+        <div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl" id="admin-orders-tbl"></table></div></div>
+      </div>
+    </div>
+
+    <!-- ADMIN: ORDER DETAIL -->
+    <div id="p-admin-order-detail" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title mono" id="aod-number"></div><div class="ph-sub" id="aod-sub"></div></div><div class="ph-actions" id="aod-badge"></div></div>
+      <div class="body">
+        <div class="order-detail-wrap">
+          <div>
+            <div class="card mb-4"><div class="card-hd"><div class="card-hd-title">Detalle del Pedido</div></div><div class="tbl-wrap"><table class="tbl" id="aod-items-tbl"></table></div><div style="padding:16px 20px;background:var(--n-50);border-top:1px solid var(--n-100)" id="aod-totals"></div></div>
+            <div class="card" id="aod-audit-card" style="display:none"><div class="card-hd"><div class="card-hd-title">Historial de Cambios</div></div><div class="card-bd"><div class="timeline" id="aod-audit"></div></div></div>
+          </div>
+          <div>
+            <div class="card mb-4"><div class="card-hd"><div class="card-hd-title">Oficina</div></div><div class="card-bd" id="aod-office-info"></div></div>
+            <div class="status-manager">
+              <div class="sm-title">Actualizar Estado</div>
+              <div class="field"><label class="lbl">Estado</label><select class="inp" id="aod-status-select"></select></div>
+              <div style="margin-bottom:12px" id="aod-status-badge-preview"></div>
+              <div class="field"><label class="lbl">Notas admin</label><textarea class="inp" id="aod-admin-notes" rows="3" placeholder="Notas internas..."></textarea></div>
+              <button class="btn btn-green btn-full" onclick="saveOrderStatus()">Actualizar Estado</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN: USUARIOS ADMIN ───────────────────────────────── -->
+    <div id="p-admin-users" class="page">
+      <div class="ph">
+        <div class="ph-left">
+          <div class="ph-title">Usuarios Administradores</div>
+          <div class="ph-sub">Gestiona quién tiene acceso al panel de administración</div>
+        </div>
+        <div class="ph-actions">
+          <button class="btn btn-green" onclick="openNewAdminModal()">+ Nuevo Admin</button>
+        </div>
+      </div>
+      <div class="body" style="padding-top:0">
+        <div class="card" style="margin-top:20px;overflow:hidden">
+          <div class="tbl-wrap"><table class="tbl" id="admin-users-tbl"></table></div>
+        </div>
+        <div class="card" style="margin-top:16px;padding:20px;background:var(--green-lt);border-color:rgba(0,157,76,.2)">
+          <div style="font-size:13px;font-weight:600;color:var(--green-dk);margin-bottom:6px">ℹ️ Cómo funciona en producción</div>
+          <div style="font-size:12px;color:var(--green-dk);line-height:1.7">
+            En producción, los admins se crean en <strong>Supabase Dashboard → Authentication → Users</strong>.<br>
+            El sistema asigna el rol <code style="background:rgba(0,157,76,.15);padding:1px 6px;border-radius:4px">admin</code> automáticamente si el email no corresponde a ninguna oficina registrada.<br>
+            También puedes crear admins corriendo: <code style="background:rgba(0,157,76,.15);padding:1px 6px;border-radius:4px">UPDATE usuarios SET rol = 'admin' WHERE id = 'UUID';</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN: REPORTS -->
+    <div id="p-admin-reports" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Reportes y Análisis</div><div class="ph-sub">Visión financiera consolidada de la red</div></div><div class="ph-actions"><button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Exportar CSV</button></div></div>
+      <div class="body">
+        <div class="kpi-grid kpi-4 mb-6">
+          <div class="kpi"><div class="kpi-lbl">Ingresos Netos</div><div class="kpi-val sm" id="rep-net">$0</div><div class="kpi-note">Después de descuentos</div></div>
+          <div class="kpi"><div class="kpi-lbl">Ingresos Brutos</div><div class="kpi-val sm" id="rep-gross">$0</div></div>
+          <div class="kpi"><div class="kpi-lbl">Total Descuentos</div><div class="kpi-val sm text-green" id="rep-disc">$0</div><div class="kpi-note pos" id="rep-disc-rate"></div></div>
+          <div class="kpi"><div class="kpi-lbl">Total Pedidos</div><div class="kpi-val" id="rep-orders">0</div><div class="kpi-note" id="rep-offices-note"></div></div>
+        </div>
+        <div class="grid-3 mb-6">
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Estrellas</div></div><div class="card-bd" id="rep-stars-dist"></div></div>
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Por Estado</div></div><div class="card-bd" id="rep-by-status"></div></div>
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Top 3 Oficinas</div></div><div class="card-bd" id="rep-top3"></div></div>
+        </div>
+        <div class="card"><div class="card-hd"><div class="card-hd-title">Ingresos por Oficina</div></div><div class="card-bd" id="rep-chart"></div><div class="tbl-wrap"><table class="tbl" id="rep-tbl"></table></div></div>
+      </div>
+    </div>
+
+    <!-- FRANCHISE: DASHBOARD -->
+    <div id="p-franchise-dashboard" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title" id="fd-title"></div><div class="ph-sub" id="fd-sub"></div></div></div>
+      <div class="body">
+        <div class="kpi-grid kpi-4 mb-6">
+          <div class="kpi"><div class="kpi-lbl">Clasificación</div><div class="kpi-val" id="fd-stars" style="font-size:20px"></div><div class="kpi-note" id="fd-stars-note"></div></div>
+          <div class="kpi"><div class="kpi-lbl">Kits Comprados</div><div class="kpi-val" id="fd-kits">0</div><div class="kpi-note">Pedidos confirmados</div></div>
+          <div class="kpi"><div class="kpi-lbl">Total Comprado</div><div class="kpi-val sm" id="fd-spent">$0</div></div>
+          <div class="kpi"><div class="kpi-lbl">Pedidos Activos</div><div class="kpi-val" id="fd-active">0</div><div class="kpi-note pos" id="fd-active-note"></div></div>
+        </div>
+        <div class="grid-3">
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Mi Clasificación</div></div><div class="card-bd" id="fd-reqs"></div></div>
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Mi Tabulador de Descuentos</div></div><div class="card-bd" id="fd-disc-table" style="padding:10px 14px"></div></div>
+          <div class="card"><div class="card-hd"><div class="card-hd-title">Pedidos Recientes</div><a class="text-muted" style="font-size:11px;cursor:pointer" onclick="nav('franchise-orders')">Ver todos →</a></div><div class="card-bd" id="fd-recent-orders"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRANCHISE: CATALOG -->
+    <div id="p-franchise-catalog" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Catálogo de Materiales</div><div class="ph-sub" id="cat-sub"></div></div></div>
+      <div class="body">
+        <div style="display:grid;grid-template-columns:1fr 268px;gap:20px;align-items:start">
+          <div id="cat-products"></div>
+          <div class="summary-sticky">
+            <div class="summary-card">
+              <div class="summary-title">Resumen del Pedido</div>
+              <div id="cat-summary-body"></div>
+              <div id="cat-hint" style="display:none" class="sum-hint"></div>
+              <button class="btn btn-green btn-full" style="margin-top:14px;padding:12px;font-size:13.5px" id="cat-confirm-btn" onclick="confirmOrder()">Confirmar Pedido</button>
+            </div>
+            <div class="card" style="margin-top:12px;padding:16px">
+              <div style="font-family:var(--ff-serif);font-size:14px;color:var(--n-900);margin-bottom:10px">Mi Tabulador</div>
+              <div id="cat-disc-table-sidebar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRANCHISE: ORDERS -->
+    <div id="p-franchise-orders" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title">Mis Pedidos</div><div class="ph-sub">Historial completo</div></div></div>
+      <div class="body">
+        <div class="kpi-grid kpi-3 mb-6">
+          <div class="kpi"><div class="kpi-lbl">Total Pedidos</div><div class="kpi-val" id="fo-count">0</div></div>
+          <div class="kpi"><div class="kpi-lbl">Total Invertido</div><div class="kpi-val sm" id="fo-spent">$0</div></div>
+          <div class="kpi"><div class="kpi-lbl">Ahorro Descuentos</div><div class="kpi-val sm text-green" id="fo-saved">$0</div></div>
+        </div>
+        <div class="card" style="overflow:hidden"><div class="tbl-wrap"><table class="tbl" id="fo-tbl"></table></div></div>
+      </div>
+    </div>
+
+    <!-- FRANCHISE: ORDER DETAIL -->
+    <div id="p-franchise-order-detail" class="page">
+      <div class="ph"><div class="ph-left"><div class="ph-title mono" id="fod-number"></div><div class="ph-sub" id="fod-sub"></div></div><div class="ph-actions" id="fod-badge"></div></div>
+      <div class="body">
+        <div id="fod-success" style="display:none" class="success-banner"><div class="success-icon">✓</div><div class="success-text"><strong>¡Pedido realizado exitosamente!</strong><span>Nuestro equipo confirmará tu pedido pronto.</span></div></div>
+        <div style="display:grid;grid-template-columns:1fr 260px;gap:20px">
+          <div>
+            <div class="card mb-4"><div class="card-hd"><div class="card-hd-title">Detalle del Pedido</div></div><div class="tbl-wrap"><table class="tbl" id="fod-items-tbl"></table></div><div style="padding:16px 20px;background:var(--n-50);border-top:1px solid var(--n-100)" id="fod-totals"></div></div>
+            <div class="card" id="fod-note-card" style="display:none"><div class="card-hd"><div class="card-hd-title">Nota del equipo Inglés Individual</div></div><div class="card-bd"><p style="font-size:13px;color:var(--n-500)" id="fod-admin-note"></p></div></div>
+          </div>
+          <div>
+            <div class="card mb-4"><div class="card-hd"><div class="card-hd-title">Estado del Pedido</div></div><div class="card-bd" id="fod-status-info"></div></div>
+            <div style="display:flex;gap:8px;flex-direction:column">
+              <button class="btn btn-outline btn-full" onclick="nav('franchise-orders')">← Mis pedidos</button>
+              <button class="btn btn-green btn-full" onclick="nav('franchise-catalog')">Hacer nuevo pedido</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-office">
+  <div class="modal">
+    <div class="modal-title">Nueva Oficina</div><div class="modal-sub">Registrar una nueva franquicia en el sistema</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field" style="grid-column:span 2"><label class="lbl">Nombre *</label><input class="inp" id="mo-name" placeholder="Ej: Monterrey Centro"></div>
+      <div class="field"><label class="lbl">Ciudad *</label><input class="inp" id="mo-city" placeholder="Ciudad"></div>
+      <div class="field"><label class="lbl">Estado *</label><input class="inp" id="mo-state" placeholder="Estado"></div>
+      <div class="field" style="grid-column:span 2"><label class="lbl">Email</label><input class="inp" id="mo-email" type="email" placeholder="oficina@inglesindividual.com"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-office')">Cancelar</button><button class="btn btn-green" onclick="saveOffice()">Crear Oficina</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-product">
+  <div class="modal">
+    <div class="modal-title" id="mp-title">Nuevo Producto</div><div class="modal-sub">Agrega un producto al catálogo</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field" style="grid-column:span 2"><label class="lbl">Nombre *</label><input class="inp" id="mp-name"></div>
+      <div class="field"><label class="lbl">SKU *</label><input class="inp" id="mp-sku" style="font-family:var(--ff-mono)"></div>
+      <div class="field"><label class="lbl">Precio (MXN) *</label><input class="inp" id="mp-price" type="number" min="0" step="0.01"></div>
+      <div class="field" style="grid-column:span 2"><label class="lbl">Descripción</label><textarea class="inp" id="mp-desc" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-product')">Cancelar</button><button class="btn btn-green" onclick="saveProduct()">Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-eval">
+  <div class="modal" style="max-width:560px;max-height:90vh;overflow-y:auto">
+    <div class="modal-title">Nueva Evaluación</div><div class="modal-sub">El sistema calculará la clasificación automáticamente</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px">
+      <div class="field"><label class="lbl">Oficina *</label><select class="inp" id="ev-office"></select></div>
+      <div class="field"><label class="lbl">Mes *</label><select class="inp" id="ev-month"></select></div>
+      <div class="field"><label class="lbl">Año *</label><input class="inp" id="ev-year" type="number" min="2020" max="2100"></div>
+    </div>
+    <div id="ev-reqs"></div>
+    <div class="eval-result" id="ev-preview" style="margin-top:14px">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n-400);margin-bottom:10px">Resultado calculado</div>
+      <div class="eval-stars-preview"><div class="eval-boxes" id="ev-boxes"></div><div><div style="font-family:var(--ff-serif);font-size:18px;color:var(--n-900)" id="ev-result-label"></div><div style="font-size:11px;color:var(--n-400)" id="ev-result-sub"></div></div></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="closeModal('modal-eval')">Cancelar</button><button class="btn btn-green" onclick="saveEvaluation()">Guardar y Actualizar Estrellas</button></div>
+  </div>
+</div>
+
+<!-- ═══ CHECKOUT MODAL ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-checkout">
+  <div class="modal" style="max-width:520px;padding:0;overflow:hidden;border-radius:var(--radius-xl)">
+
+    <!-- Stripe-style header -->
+    <div style="background:var(--n-900);padding:22px 28px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:12px">
+        <svg width="32" height="20" viewBox="0 0 60 26" fill="none"><rect width="60" height="26" rx="4" fill="#635BFF"/><text x="6" y="18" font-family="sans-serif" font-weight="700" font-size="13" fill="#fff">stripe</text></svg>
+        <div>
+          <div style="color:#fff;font-size:13px;font-weight:600">Pago seguro</div>
+          <div style="color:#888;font-size:10px;letter-spacing:.04em">SSL · 256-bit encryption</div>
+        </div>
+      </div>
+      <button onclick="closeModal('modal-checkout')" style="background:none;border:none;color:#666;cursor:pointer;font-size:20px;line-height:1;padding:4px">✕</button>
+    </div>
+
+    <!-- Order summary bar -->
+    <div style="background:#18181B;padding:16px 28px;border-bottom:1px solid #2a2a2a">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div>
+          <div style="color:#fff;font-size:13px;font-weight:600" id="ck-office">—</div>
+          <div style="color:#888;font-size:11px;margin-top:2px" id="ck-kits">—</div>
+        </div>
+        <div id="ck-stars"></div>
+      </div>
+      <div style="height:1px;background:#2a2a2a;margin:10px 0"></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:4px">
+        <span>Subtotal</span><span id="ck-subtotal">—</span>
+      </div>
+      <div id="ck-discount-row" style="display:flex;justify-content:space-between;font-size:12px;color:#34D399;margin-bottom:4px">
+        <span id="ck-discount-pct"></span><span id="ck-discount-amt"></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;color:#fff;margin-top:6px">
+        <span>Total a pagar</span><span id="ck-total">—</span>
+      </div>
+    </div>
+
+    <!-- Payment form -->
+    <div style="padding:24px 28px;background:#fff">
+
+      <div style="margin-bottom:18px">
+        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n-500);margin-bottom:6px" for="ck-card-number">Número de tarjeta</label>
+        <div style="position:relative">
+          <input id="ck-card-number" oninput="formatCardNumber(event)" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="1234 5678 9012 3456"
+            style="width:100%;padding:11px 48px 11px 14px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:14px;font-family:var(--ff-mono);outline:none;letter-spacing:.08em;transition:border .15s"
+            onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--n-200)'">
+          <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none">💳</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px">
+        <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n-500);margin-bottom:6px" for="ck-card-name">Nombre en la tarjeta</label>
+        <input id="ck-card-name" autocomplete="cc-name" placeholder="NOMBRE APELLIDO" style="width:100%;padding:11px 14px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:14px;font-family:var(--ff-sans);outline:none;text-transform:uppercase;transition:border .15s" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--n-200)'">
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+        <div>
+          <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n-500);margin-bottom:6px" for="ck-expiry">Vencimiento</label>
+          <input id="ck-expiry" oninput="formatExpiry(event)" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/AA"
+            style="width:100%;padding:11px 14px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:14px;font-family:var(--ff-mono);outline:none;transition:border .15s"
+            onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--n-200)'">
+        </div>
+        <div>
+          <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n-500);margin-bottom:6px" for="ck-cvc">CVC</label>
+          <input id="ck-cvc" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="···"
+            style="width:100%;padding:11px 14px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:14px;font-family:var(--ff-mono);outline:none;transition:border .15s;letter-spacing:.2em"
+            onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--n-200)'">
+        </div>
+      </div>
+
+      <div id="ck-error" role="alert" aria-live="assertive" style="display:none;background:#FEF2F2;border:1.5px solid rgba(240,37,4,.2);border-radius:var(--radius-md);padding:10px 14px;font-size:12px;color:var(--rojo);margin-bottom:14px"></div>
+
+      <button id="ck-pay-btn" onclick="processPayment()"
+        style="width:100%;padding:14px;border:none;border-radius:var(--radius-md);background:var(--green);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--ff-sans)">
+        <span class="ck-lock">🔒</span> <span id="ck-btn-amount">Pagar</span>
+      </button>
+
+      <div style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--n-400);font-size:10px;letter-spacing:.03em">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path d="M10 6H2V4a4 4 0 018 0v2z" stroke="#A09C99" stroke-width="1.5"/><rect x="1" y="6" width="10" height="8" rx="1.5" fill="#A09C99"/></svg>
+        Pago seguro con encriptación SSL · Powered by Stripe
+      </div>
+
+      <!-- Test card hint -->
+      <div style="margin-top:12px;background:var(--n-50);border-radius:var(--radius-md);padding:10px 14px;font-size:11px;color:var(--n-400);border:1px solid var(--n-100)">
+        <strong style="color:var(--n-700)">Tarjeta de prueba:</strong> 4242 4242 4242 4242 · cualquier fecha futura · cualquier CVC
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+#ck-pay-btn:hover:not(:disabled){background:var(--green-dk);box-shadow:0 6px 20px rgba(0,157,76,.3)}
+#ck-pay-btn:disabled{opacity:.7;cursor:not-allowed}
+</style>
+
+<div class="modal-overlay" id="modal-new-admin">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-title">Nuevo Administrador</div>
+    <div class="modal-sub">El admin podrá acceder con email y contraseña propios</div>
+    <div class="field"><label class="lbl">Nombre completo *</label><input class="inp" id="new-admin-name" placeholder="Ej: María García"></div>
+    <div class="field"><label class="lbl">Correo electrónico *</label><input class="inp" id="new-admin-email" type="email" placeholder="maria@inglesindividual.com"></div>
+    <div class="field"><label class="lbl">Contraseña temporal *</label>
+      <input class="inp" id="new-admin-pass" type="password" placeholder="Mínimo 8 caracteres">
+      <div style="font-size:11px;color:var(--n-400);margin-top:4px">El admin deberá cambiarla en su primer acceso</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-new-admin')">Cancelar</button>
+      <button class="btn btn-green" onclick="saveNewAdmin()">Crear Administrador</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-dot"></span><span id="toast-msg"></span></div>
+
+<script>
+// ═══ DATA ══════════════════════════════════════════════════════════
+// NOTA: datos de demo en memoria. En producción provienen de Supabase.
+const OFFICES=[
+  {id:'o1',name:'Medellín',city:'Medellín',state:'Antioquia',email:'medellin@inglesindividual.com',stars:5,orders:8,active:true},
+  {id:'o2',name:'Juárez Plutarco',city:'Ciudad Juárez',state:'Chihuahua',email:'juarez.plutarco@inglesindividual.com',stars:4,orders:6,active:true},
+  {id:'o3',name:'Juárez Nuevo',city:'Ciudad Juárez',state:'Chihuahua',email:'juarez.nuevo@inglesindividual.com',stars:3,orders:4,active:true},
+  {id:'o4',name:'Juárez Campos Elíseos',city:'Ciudad Juárez',state:'Chihuahua',email:'juarez.campos@inglesindividual.com',stars:5,orders:9,active:true},
+  {id:'o5',name:'Chihuahua Highsq',city:'Chihuahua',state:'Chihuahua',email:'chihuahua.highsq@inglesindividual.com',stars:4,orders:7,active:true},
+  {id:'o6',name:'Chihuahua Cafetales',city:'Chihuahua',state:'Chihuahua',email:'chihuahua.cafetales@inglesindividual.com',stars:3,orders:3,active:true},
+  {id:'o7',name:'Chihuahua Reliz',city:'Chihuahua',state:'Chihuahua',email:'chihuahua.reliz@inglesindividual.com',stars:5,orders:11,active:true},
+  {id:'o8',name:'Hermosillo',city:'Hermosillo',state:'Sonora',email:'hermosillo@inglesindividual.com',stars:4,orders:8,active:true},
+  {id:'o9',name:'Mazatlán',city:'Mazatlán',state:'Sinaloa',email:'mazatlan@inglesindividual.com',stars:3,orders:5,active:true},
+  {id:'o10',name:'Nogales',city:'Nogales',state:'Sonora',email:'nogales@inglesindividual.com',stars:5,orders:6,active:true},
+  {id:'o11',name:'Guadalajara',city:'Guadalajara',state:'Jalisco',email:'guadalajara@inglesindividual.com',stars:3,orders:9,active:true},
+  {id:'o12',name:'Obregón',city:'Ciudad Obregón',state:'Sonora',email:'obregon@inglesindividual.com',stars:4,orders:4,active:true},
+  {id:'o13',name:'Navojoa',city:'Navojoa',state:'Sonora',email:'navojoa@inglesindividual.com',stars:3,orders:3,active:true},
+  {id:'o14',name:'Tijuana',city:'Tijuana',state:'Baja California',email:'tijuana@inglesindividual.com',stars:5,orders:14,active:true},
+  {id:'o15',name:'Los Cabos',city:'Los Cabos',state:'Baja California Sur',email:'loscabos@inglesindividual.com',stars:4,orders:5,active:true},
+  {id:'o16',name:'Los Mochis',city:'Los Mochis',state:'Sinaloa',email:'losmochis@inglesindividual.com',stars:3,orders:6,active:true},
+]
+// ── USUARIOS — múltiples admins + franquicias ─────────────────
+// ⚠ SOLO DEMO: nunca dejes contraseñas en el cliente. En producción la
+// autenticación la resuelve Supabase Auth y este objeto desaparece.
+const USERS={
+  // ADMINISTRADORES — cada uno con su email y contraseña propia
+  'admin@inglesindividual.com':         {pass:'Admin2024!',  role:'admin', name:'Isaac González',    officeId:null},
+  'operaciones@inglesindividual.com':   {pass:'Ops2024!',    role:'admin', name:'Operaciones II',    officeId:null},
+  'finanzas@inglesindividual.com':      {pass:'Fin2024!',    role:'admin', name:'Finanzas II',       officeId:null},
+  // FRANQUICIAS — acceso por correo oficial
+  'medellin@inglesindividual.com':      {pass:'Franquicia2024!',role:'franchise',name:'Franquicia Medellín',      officeId:'o1'},
+  'juarez.plutarco@inglesindividual.com':{pass:'Franquicia2024!',role:'franchise',name:'Franquicia Juárez Plutarco',officeId:'o2'},
+  'hermosillo@inglesindividual.com':    {pass:'Franquicia2024!',role:'franchise',name:'Franquicia Hermosillo',    officeId:'o8'},
+  'tijuana@inglesindividual.com':       {pass:'Franquicia2024!',role:'franchise',name:'Franquicia Tijuana',       officeId:'o14'},
+  'guadalajara@inglesindividual.com':   {pass:'Franquicia2024!',role:'franchise',name:'Franquicia Guadalajara',   officeId:'o11'},
+}
+
+const PRODUCTS=[
+  {id:'p1',name:'Kit Completo Inglés Individual',desc:'Material oficial certificado · 3 libros por nivel (Básico, Intermedio, Avanzado) + 3 auxiliares de práctica.',sku:'KIT-IND-001',price:3184,isKit:true,books:3,levels:3,aux:3,stock:9999,active:true,orders:48},
+]
+let ORDERS=[
+  {id:'ord1',num:'II-2026-1001',officeId:'o1',items:[{productId:'p1',qty:20,unit:3184}],discPct:8,status:'Entregado',date:'2026-04-08',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Medellín',date:'2026-04-08'},{action:'Estado → Entregado',by:'Admin II',date:'2026-04-09'}]},
+  {id:'ord2',num:'II-2026-1002',officeId:'o8',items:[{productId:'p1',qty:36,unit:3184}],discPct:9,status:'Confirmado',date:'2026-04-07',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Hermosillo',date:'2026-04-07'}]},
+  {id:'ord3',num:'II-2026-1003',officeId:'o14',items:[{productId:'p1',qty:12,unit:3184}],discPct:5,status:'Pendiente',date:'2026-04-06',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Tijuana',date:'2026-04-06'}]},
+  {id:'ord4',num:'II-2026-1004',officeId:'o11',items:[{productId:'p1',qty:52,unit:3184}],discPct:9,status:'En proceso',date:'2026-04-05',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Guadalajara',date:'2026-04-05'},{action:'Estado → En proceso',by:'Admin II',date:'2026-04-06'}]},
+  {id:'ord5',num:'II-2026-1005',officeId:'o1',items:[{productId:'p1',qty:12,unit:3184}],discPct:6,status:'Confirmado',date:'2026-04-01',adminNotes:'Pedido urgente',audit:[{action:'Pedido creado',by:'Franquicia Medellín',date:'2026-04-01'}]},
+  {id:'ord6',num:'II-2026-1006',officeId:'o4',items:[{productId:'p1',qty:28,unit:3184}],discPct:9,status:'Enviado',date:'2026-03-28',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Juárez Campos',date:'2026-03-28'}]},
+  {id:'ord7',num:'II-2026-1007',officeId:'o7',items:[{productId:'p1',qty:100,unit:3184}],discPct:20,status:'Entregado',date:'2026-03-15',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Chihuahua Reliz',date:'2026-03-15'}]},
+  {id:'ord8',num:'II-2026-1008',officeId:'o1',items:[{productId:'p1',qty:36,unit:3184}],discPct:10,status:'Entregado',date:'2026-02-28',adminNotes:'',audit:[{action:'Pedido creado',by:'Franquicia Medellín',date:'2026-02-28'}]},
+]
+const EVALUATIONS=[
+  {id:'e1',officeId:'o1',year:2024,month:3,req1:true,req2:true,req3:true,req4:true,stars:5,gradCount:75,boardCount:12,rank:8},
+  {id:'e2',officeId:'o2',year:2024,month:3,req1:true,req2:true,req3:true,req4:false,stars:4,gradCount:55,boardCount:10,rank:24},
+  {id:'e3',officeId:'o3',year:2024,month:3,req1:true,req2:false,req3:false,req4:false,stars:3,gradCount:30,boardCount:5,rank:52},
+  {id:'e4',officeId:'o4',year:2024,month:3,req1:true,req2:true,req3:true,req4:true,stars:5,gradCount:80,boardCount:15,rank:3},
+  {id:'e5',officeId:'o7',year:2024,month:3,req1:true,req2:true,req3:true,req4:true,stars:5,gradCount:70,boardCount:11,rank:11},
+  {id:'e6',officeId:'o8',year:2024,month:3,req1:true,req2:true,req3:true,req4:false,stars:4,gradCount:58,boardCount:9,rank:26},
+  {id:'e7',officeId:'o11',year:2024,month:3,req1:true,req2:false,req3:false,req4:false,stars:3,gradCount:28,boardCount:4,rank:60},
+  {id:'e8',officeId:'o14',year:2024,month:3,req1:true,req2:true,req3:true,req4:true,stars:5,gradCount:90,boardCount:18,rank:5},
+]
+
+// Pedidos que cuentan como venta cerrada (ingresos, kits comprados, ahorro)
+const SETTLED=['Entregado','Enviado','Confirmado']
+const isSettled=o=>SETTLED.includes(o.status)
+
+// ═══ DISCOUNT ENGINE ═══════════════════════════════════════════════
+// [minKits, %descuento] por clasificación de estrellas
+const DISC={5:[[8,5],[12,6],[16,7],[20,8],[28,9],[36,10],[52,15],[100,20]],4:[[12,5],[16,6],[20,7],[28,8],[36,9],[52,10],[100,15]],3:[[16,5],[20,6],[28,7],[36,8],[52,9],[100,15]]}
+const tabulador=stars=>DISC[stars]||DISC[3]
+function calcDiscount(qty,stars){let pct=0,thr=null;for(const[m,p]of tabulador(stars)){if(qty>=m){pct=p;thr=m}}return{pct,thr}}
+function nextThreshold(qty,stars){for(const[m,p]of tabulador(stars)){if(qty<m)return{min:m,p,need:m-qty}}return null}
+function orderTotals(o){const sub=o.items.reduce((s,i)=>s+i.qty*i.unit,0);const disc=Math.round(sub*(o.discPct||0)/100);return{sub,disc,total:sub-disc}}
+
+// ═══ UTILS ═════════════════════════════════════════════════════════
+const $=id=>document.getElementById(id)
+// Escapa texto antes de inyectarlo con innerHTML (evita XSS desde formularios)
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+// Normaliza para búsquedas sin acentos ni mayúsculas: "medellin" → "Medellín"
+const norm=v=>String(v??'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+const CURRENCY='MXN'
+function fmt(n){return'$'+Math.round(Number(n)||0).toLocaleString('es-MX')}
+function fmtCur(n){return fmt(n)+' '+CURRENCY}
+function fmtDate(d){const t=new Date(d);return isNaN(t)?'—':t.toLocaleDateString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric'})}
+const today=()=>new Date().toISOString().slice(0,10)
+function starsDisplay(n){const s=Math.min(5,Math.max(0,n|0));return'★'.repeat(s)+'☆'.repeat(5-s)}
+function starsBadge(n){const m={5:'b-green',4:'b-blue',3:'b-stone'};return`<span class="badge ${m[n]||'b-stone'}">${'★'.repeat(Math.min(5,Math.max(0,n|0)))} ${n} Est.</span>`}
+function statusBadge(s){const m={Pendiente:'b-yellow',Confirmado:'b-blue','En proceso':'b-purple',Enviado:'b-indigo',Entregado:'b-green',Cancelado:'b-red'};return`<span class="badge ${m[s]||'b-stone'}">${esc(s)}</span>`}
+function getOffice(id){return OFFICES.find(o=>o.id===id)}
+function getProduct(id){return PRODUCTS.find(p=>p.id===id)}
+// Folio secuencial: evita las colisiones del generador aleatorio anterior
+function genOrderNum(){
+  const year=new Date().getFullYear()
+  const prefix=`II-${year}-`
+  const last=ORDERS.filter(o=>o.num?.startsWith(prefix)).map(o=>parseInt(o.num.slice(prefix.length),10)||0)
+  return prefix+(Math.max(1000,...last)+1)
+}
+
+// ═══ AUTH ══════════════════════════════════════════════════════════
+let SESSION={role:null,email:null,name:null,officeId:null}
+const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Alta de admin en memoria (demo). En producción: Supabase Auth.
+function addAdminUser(email,pass,name){
+  USERS[String(email).toLowerCase()]={pass,role:'admin',name,officeId:null}
+}
+
+// Login unificado — funciona para franquicias y admins
+function doLogin(){
+  const email=$('login-email').value.trim().toLowerCase()
+  const pass=$('login-password').value
+  const err=$('login-error')
+  const fail=msg=>{
+    err.textContent=msg
+    err.style.display='block'
+    const card=document.querySelector('.login-card')
+    card.style.animation='shake .4s ease'
+    setTimeout(()=>card.style.animation='',400)
+  }
+
+  if(!email||!pass)return fail('Por favor ingresa tu correo y contraseña.')
+  if(!EMAIL_RE.test(email))return fail('El correo no tiene un formato válido.')
+
+  const user=USERS[email]
+  // Mensaje genérico a propósito: no revelamos si el correo existe
+  if(!user||user.pass!==pass)return fail('Correo o contraseña incorrectos.')
+
+  err.style.display='none'
+  SESSION={role:user.role,email,name:user.name,officeId:user.role==='admin'?null:user.officeId}
+  startApp()
+}
+
+function togglePassword(btn){
+  const inp=$('login-password')
+  const shown=inp.type==='password'
+  inp.type=shown?'text':'password'
+  if(btn){
+    btn.setAttribute('aria-label',shown?'Ocultar contraseña':'Ver contraseña')
+    btn.setAttribute('aria-pressed',String(shown))
+  }
+}
+
+function logout(){
+  SESSION={role:null,email:null,name:null,officeId:null}
+  // Limpia TODO el estado: sin esto el carrito/pedido de una franquicia
+  // seguía visible al entrar con otra cuenta.
+  catalogQty={}
+  pendingOrder=null
+  currentOrderId=null
+  document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'))
+  $('v-app').classList.remove('active')
+  $('v-login').classList.add('active')
+  $('login-email').value=''
+  $('login-password').value=''
+  $('login-password').type='password'
+  $('login-error').style.display='none'
+  setTimeout(()=>$('login-email')?.focus(),100)
+}
+
+
+// ═══ NAVIGATION ════════════════════════════════════════════════════
+const ADMIN_NAV=[
+  {id:'admin-dashboard',label:'Dashboard',icon:'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z'},
+  {id:'admin-offices',label:'Oficinas',icon:'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4'},
+  {id:'admin-evaluations',label:'Evaluaciones',icon:'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'},
+  {id:'admin-products',label:'Productos',icon:'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'},
+  {id:'admin-orders',label:'Pedidos',icon:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'},
+  {id:'admin-users',label:'Usuarios Admin',icon:'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'},
+  {id:'admin-reports',label:'Reportes',icon:'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'},
+]
+const FRANCHISE_NAV=[
+  {id:'franchise-dashboard',label:'Mi Panel',icon:'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'},
+  {id:'franchise-catalog',label:'Catálogo',icon:'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'},
+  {id:'franchise-orders',label:'Mis Pedidos',icon:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'},
+]
+function buildNav(){
+  const items=SESSION.role==='admin'?ADMIN_NAV:FRANCHISE_NAV
+  $('sb-nav').innerHTML=items.map(item=>`
+    <div class="nav-item" id="ni-${item.id}" onclick="nav('${item.id}')">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${item.icon}"/></svg>
+      <span>${item.label}</span>
+    </div>
+  `).join('')
+}
+function nav(pageId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'))
+  const page=$('p-'+pageId);if(page){page.classList.add('active')}
+  const ni=$('ni-'+pageId);if(ni)ni.classList.add('active')
+  $('main-area').scrollTop=0
+  const renders={'admin-dashboard':renderAdminDashboard,'admin-offices':renderOfficesTable,'admin-evaluations':renderEvalTable,'admin-products':renderProductsTable,'admin-orders':renderAdminOrders,'admin-users':renderAdminUsers,'admin-reports':renderReports,'franchise-dashboard':renderFranchiseDashboard,'franchise-catalog':renderCatalog,'franchise-orders':renderFranchiseOrders}
+  if(renders[pageId])renders[pageId]()
+}
+
+// ═══ START APP ═════════════════════════════════════════════════════
+function startApp(){
+  $('v-login').classList.remove('active');$('v-app').classList.add('active')
+  $('sb-uname').textContent=SESSION.name
+  $('sb-uemail').textContent=SESSION.email
+  const initials=SESSION.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()
+  const av=document.getElementById('sb-avatar');if(av)av.textContent=initials
+  $('admin-greeting').textContent=`Bienvenido, ${SESSION.name} · ${new Date().toLocaleDateString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`
+  if(SESSION.role==='franchise'){
+    const off=getOffice(SESSION.officeId)
+    $('sb-office-section').style.display='block'
+    $('sb-office-name').textContent=off?.name||'—'
+    $('sb-office-stars').textContent=starsDisplay(off?.stars||3)+' '+((off?.stars||3)+' Estrellas')
+  }else{$('sb-office-section').style.display='none'}
+  buildNav()
+  nav(SESSION.role==='admin'?'admin-dashboard':'franchise-dashboard')
+}
+
+// ═══ RENDER FUNCTIONS ══════════════════════════════════════════════
+function renderAdminDashboard(){
+  const totalRev=ORDERS.reduce((s,o)=>s+orderTotals(o).total,0)
+  const totalDisc=ORDERS.reduce((s,o)=>s+orderTotals(o).disc,0)
+  const pending=ORDERS.filter(o=>o.status==='Pendiente').length
+  $('kpi-revenue').textContent=fmt(totalRev);$('kpi-offices').textContent=OFFICES.filter(o=>o.active).length
+  $('kpi-orders').textContent=ORDERS.length;$('kpi-discounts').textContent=fmt(totalDisc)
+  $('kpi-pending-note').textContent=pending>0?`● ${pending} pendientes`:''
+  const byStars={5:0,4:0,3:0};OFFICES.forEach(o=>{if(o.active&&byStars[o.stars]!==undefined)byStars[o.stars]++})
+  const tot=OFFICES.filter(o=>o.active).length
+  const colors={5:'#009D4C',4:'#7E94DD',3:'#A09C99'}
+  $('stars-dist').innerHTML=Object.entries(byStars).reverse().map(([s,c])=>`
+    <div class="prog-row"><div class="prog-row-hd"><span>${s} Estrellas</span><strong>${c}</strong></div>
+    <div class="prog-track"><div class="prog-fill" style="width:${tot?c/tot*100:0}%;background:${colors[s]}"></div></div></div>
+  `).join('')
+  $('recent-orders-tbl').innerHTML=`<thead><tr><th>Oficina</th><th>Kits</th><th>Total</th><th>Estado</th></tr></thead><tbody>${ORDERS.slice(0,6).map(o=>{
+    const off=getOffice(o.officeId);const kits=o.items.reduce((s,i)=>s+i.qty,0);const{total}=orderTotals(o)
+    return`<tr onclick="openAdminOrder('${o.id}')" style="cursor:pointer"><td><span class="text-strong">${esc(off?.name||'—')}</span></td><td>${kits}</td><td>${fmt(total)}</td><td>${statusBadge(o.status)}</td></tr>`
+  }).join('')}</tbody>`
+}
+
+function renderOfficesTable(){
+  const q=norm($('office-search')?.value)
+  const sf=$('office-star-filter')?.value||''
+  const filtered=OFFICES.filter(o=>(!q||norm(o.name).includes(q)||norm(o.city).includes(q)||norm(o.state).includes(q))&&(!sf||String(o.stars)===sf))
+  const activas=OFFICES.filter(o=>o.active).length
+  $('offices-count-label').textContent=`${OFFICES.length} oficinas registradas · ${activas} activas`
+  $('offices-count-footer').textContent=`Mostrando ${filtered.length} de ${OFFICES.length} oficinas`
+  $('offices-tbl').innerHTML=`<thead><tr><th>Oficina</th><th>Ciudad / Estado</th><th>Clasificación</th><th>Pedidos</th><th>Estado</th><th class="r">Acciones</th></tr></thead><tbody>${filtered.map(o=>`
+    <tr><td><div class="text-strong">${esc(o.name)}</div><div style="font-size:10px;color:var(--n-400)">${esc(o.email)}</div></td>
+    <td><div>${esc(o.city)}</div><div style="font-size:10px;color:var(--n-400)">${esc(o.state)}</div></td>
+    <td>${starsBadge(o.stars)}</td><td class="text-strong">${o.orders}</td>
+    <td><span class="badge ${o.active?'b-green':'b-red'}">${o.active?'Activa':'Inactiva'}</span></td>
+    <td class="r"><button class="btn btn-outline btn-sm" onclick="openEvalForOffice('${o.id}')">Evaluar</button></td></tr>
+  `).join('')}</tbody>`
+}
+
+const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+function renderEvalTable(){
+  $('eval-tbl').innerHTML=`<thead><tr><th>Oficina</th><th>Período</th><th>Requisitos</th><th>Estrellas</th><th>Instalaciones</th><th>Pizarrón</th><th>Graduados</th><th>Top 20</th></tr></thead><tbody>${EVALUATIONS.map(ev=>{
+    const off=getOffice(ev.officeId);const met=[ev.req1,ev.req2,ev.req3,ev.req4].filter(Boolean).length
+    const boxes=Array.from({length:4},(_,i)=>`<div style="width:13px;height:13px;border-radius:3px;background:${i<met?'var(--green)':'var(--n-200)'};display:inline-block;margin-right:2px"></div>`).join('')
+    return`<tr><td class="text-strong">${esc(off?.name||'—')}</td><td class="text-muted">${esc(MONTHS[ev.month-1]||'—')} ${ev.year}</td>
+    <td>${boxes} <span style="font-size:10px;color:var(--n-400)">${met}/4</span></td><td>${starsBadge(ev.stars)}</td>
+    <td style="color:${ev.req1?'var(--green)':'var(--rojo)'};font-weight:700">${ev.req1?'✓':'✗'}</td>
+    <td style="color:${ev.req2?'var(--green)':'var(--rojo)'};font-weight:700">${ev.req2?'✓ '+ev.boardCount:'✗ '+ev.boardCount}</td>
+    <td style="color:${ev.req3?'var(--green)':'var(--rojo)'};font-weight:700">${ev.req3?'✓':'✗'} ${ev.gradCount}</td>
+    <td style="color:${ev.req4?'var(--green)':'var(--rojo)'};font-weight:700">${ev.req4?'✓ #'+ev.rank:'✗'+(ev.rank?' #'+ev.rank:'')}</td></tr>`
+  }).join('')}</tbody>`
+}
+
+function renderProductsTable(){
+  $('products-tbl').innerHTML=`<thead><tr><th>Producto</th><th>SKU</th><th>Precio</th><th>Kit</th><th>Pedidos</th><th>Estado</th><th class="r">Acción</th></tr></thead><tbody>${PRODUCTS.map(p=>`
+    <tr><td><div class="text-strong">${esc(p.name)}</div><div style="font-size:10px;color:var(--n-400)">${esc((p.desc||'').slice(0,55))}…</div></td>
+    <td><span class="tag-sku">${esc(p.sku)}</span></td><td class="text-strong">${fmt(p.price)}</td>
+    <td><span class="badge b-blue" style="font-size:10px">${p.books} libros · ${p.levels} niveles · ${p.aux} aux</span></td>
+    <td>${p.orders}</td><td><span class="badge ${p.active?'b-green':'b-stone'}">${p.active?'Activo':'Inactivo'}</span></td>
+    <td class="r"><button class="btn btn-outline btn-sm" onclick="openProductModal('${p.id}')">Editar</button></td></tr>
+  `).join('')}</tbody>`
+}
+
+function renderAdminOrders(){
+  // El select se puebla antes de leer su valor; al revés el filtro se perdía
+  // en el primer render y al dar de alta una oficina nueva.
+  const sel=$('order-office-filter')
+  if(sel){
+    const prev=sel.value
+    sel.innerHTML='<option value="">Todas las oficinas</option>'
+    OFFICES.forEach(o=>{const opt=document.createElement('option');opt.value=o.id;opt.textContent=o.name;sel.appendChild(opt)})
+    sel.value=prev
+  }
+  const sf=$('order-status-filter')?.value||''
+  const of=sel?.value||''
+  const filtered=ORDERS.filter(o=>(!sf||o.status===sf)&&(!of||o.officeId===of))
+  $('admin-orders-sub').textContent=`${ORDERS.length} pedidos en total`
+  $('admin-orders-tbl').innerHTML=`<thead><tr><th>Pedido</th><th>Oficina</th><th>Kits</th><th>Descuento</th><th>Total</th><th>Estado</th><th>Fecha</th><th class="r">Acción</th></tr></thead><tbody>${filtered.map(o=>{
+    const off=getOffice(o.officeId);const kits=o.items.reduce((s,i)=>s+i.qty,0);const{sub,disc,total}=orderTotals(o)
+    return`<tr><td><span class="mono">${esc(o.num)}</span></td><td class="text-strong">${esc(off?.name||'—')}</td><td class="text-strong">${kits}</td>
+    <td>${o.discPct>0?`<span class="text-green" style="font-weight:700">−${o.discPct}% (${fmt(disc)})</span>`:'<span class="text-muted">Sin descuento</span>'}</td>
+    <td class="text-strong">${fmt(total)}</td><td>${statusBadge(o.status)}</td><td class="text-muted">${fmtDate(o.date)}</td>
+    <td class="r"><button class="btn btn-primary btn-sm" onclick="openAdminOrder('${o.id}')">Gestionar</button></td></tr>`
+  }).join('')}</tbody>`
+}
+
+let currentOrderId=null
+function openAdminOrder(orderId){
+  currentOrderId=orderId;const o=ORDERS.find(x=>x.id===orderId);if(!o)return
+  const off=getOffice(o.officeId);const{sub,disc,total}=orderTotals(o);const kits=o.items.reduce((s,i)=>s+i.qty,0)
+  $('aod-number').textContent=o.num;$('aod-sub').textContent=`${fmtDate(o.date)} · ${off?.name||'—'}`
+  $('aod-badge').innerHTML=statusBadge(o.status)
+  $('aod-items-tbl').innerHTML=`<thead><tr><th>Producto</th><th class="r">Cant.</th><th class="r">Precio unit.</th><th class="r">Total</th></tr></thead><tbody>${o.items.map(item=>{
+    const p=getProduct(item.productId);return`<tr><td><div class="text-strong">${esc(p?.name||'—')}</div><div class="text-muted" style="font-size:10px">${esc(p?.sku||'')}</div></td>
+    <td class="r text-strong">${item.qty}</td><td class="r">${fmt(item.unit)}</td><td class="r text-strong">${fmt(item.qty*item.unit)}</td></tr>`
+  }).join('')}</tbody>`
+  $('aod-totals').innerHTML=`<div class="order-total-row"><span class="text-muted">Subtotal (${kits} kits)</span><span>${fmt(sub)}</span></div>
+  <div class="order-total-row">${o.discPct>0?`<span class="text-green" style="font-weight:700">Descuento ${o.discPct}%</span><span class="text-green" style="font-weight:700">−${fmt(disc)}</span>`:`<span class="text-muted">Sin descuento</span><span class="text-muted">—</span>`}</div>
+  <div class="order-total-row"><span>Total</span><span>${fmt(total)}</span></div>`
+  $('aod-office-info').innerHTML=`<div class="order-total-row"><span class="text-muted">Nombre</span><span class="text-strong">${esc(off?.name||'—')}</span></div>
+  <div class="order-total-row"><span class="text-muted">Ciudad</span><span>${esc(off?.city||'—')}</span></div>
+  <div class="order-total-row"><span class="text-muted">Clasificación</span>${starsBadge(off?.stars||3)}</div>
+  ${off?.email?`<div class="order-total-row"><span class="text-muted">Email</span><span>${esc(off.email)}</span></div>`:''}`
+  const statuses=['Pendiente','Confirmado','En proceso','Enviado','Entregado','Cancelado']
+  $('aod-status-select').innerHTML=statuses.map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')
+  $('aod-status-select').onchange=()=>$('aod-status-badge-preview').innerHTML=statusBadge($('aod-status-select').value)
+  $('aod-status-badge-preview').innerHTML=statusBadge(o.status)
+  $('aod-admin-notes').value=o.adminNotes||''
+  if(o.audit?.length){
+    $('aod-audit-card').style.display='block'
+    $('aod-audit').innerHTML=o.audit.map((a,i)=>`<div class="tl-item"><div class="tl-side"><div class="tl-dot"></div>${i<o.audit.length-1?'<div class="tl-line"></div>':''}</div><div class="tl-body"><div class="tl-action">${esc(a.action)}</div><div class="tl-meta">por ${esc(a.by)} · ${fmtDate(a.date)}</div></div></div>`).join('')
+  }
+  nav('admin-order-detail')
+}
+function saveOrderStatus(){
+  const o=ORDERS.find(x=>x.id===currentOrderId);if(!o)return
+  const ns=$('aod-status-select').value;const prev=o.status
+  o.status=ns;o.adminNotes=$('aod-admin-notes').value
+  if(ns!==prev)o.audit.push({action:`Estado → ${ns}`,by:SESSION.name||'Admin II',date:today()})
+  $('aod-badge').innerHTML=statusBadge(ns)
+  $('aod-audit').innerHTML=o.audit.map((a,i)=>`<div class="tl-item"><div class="tl-side"><div class="tl-dot"></div>${i<o.audit.length-1?'<div class="tl-line"></div>':''}</div><div class="tl-body"><div class="tl-action">${esc(a.action)}</div><div class="tl-meta">por ${esc(a.by)} · ${fmtDate(a.date)}</div></div></div>`).join('')
+  $('aod-audit-card').style.display='block'
+  showToast('✓ Estado actualizado')
+}
+
+function renderReports(){
+  const totalNet=ORDERS.reduce((s,o)=>s+orderTotals(o).total,0)
+  const totalGross=ORDERS.reduce((s,o)=>s+orderTotals(o).sub,0)
+  const totalDisc=ORDERS.reduce((s,o)=>s+orderTotals(o).disc,0)
+  const rate=totalGross>0?(totalDisc/totalGross*100).toFixed(1):0
+  $('rep-net').textContent=fmt(totalNet);$('rep-gross').textContent=fmt(totalGross)
+  $('rep-disc').textContent=fmt(totalDisc);$('rep-disc-rate').textContent=`${rate}% tasa promedio`
+  $('rep-orders').textContent=ORDERS.length;$('rep-offices-note').textContent=`${OFFICES.filter(o=>o.active).length} oficinas activas`
+  const byStars={5:0,4:0,3:0};OFFICES.filter(o=>o.active).forEach(o=>{if(byStars[o.stars]!==undefined)byStars[o.stars]++})
+  const tot=OFFICES.filter(o=>o.active).length;const sc={5:'#009D4C',4:'#7E94DD',3:'#A09C99'}
+  $('rep-stars-dist').innerHTML=Object.entries(byStars).reverse().map(([s,c])=>`<div class="prog-row"><div class="prog-row-hd"><span>${s} Estrellas</span><strong>${c}</strong></div><div class="prog-track"><div class="prog-fill" style="width:${tot?c/tot*100:0}%;background:${sc[s]}"></div></div></div>`).join('')
+  const byStatus={};ORDERS.forEach(o=>{byStatus[o.status]=(byStatus[o.status]||0)+1})
+  const stColors={Pendiente:'#D08E20',Confirmado:'#7E94DD','En proceso':'#6D28D9',Enviado:'#64748b',Entregado:'#009D4C',Cancelado:'#F02504'}
+  $('rep-by-status').innerHTML=Object.entries(byStatus).map(([s,c])=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px"><div style="width:10px;height:10px;border-radius:50%;background:${stColors[s]||'#888'};flex-shrink:0"></div><span style="color:var(--n-500);flex:1">${s}</span><span class="text-strong">${c}</span></div>`).join('')
+  const offStats=OFFICES.map(off=>{
+    const ords=ORDERS.filter(o=>o.officeId===off.id&&isSettled(o))
+    const kits=ords.reduce((s,o)=>s+o.items.reduce((ss,i)=>ss+i.qty,0),0)
+    const rev=ords.reduce((s,o)=>s+orderTotals(o).total,0);const disc=ords.reduce((s,o)=>s+orderTotals(o).disc,0)
+    return{...off,kits,rev,disc,ordCount:ORDERS.filter(o=>o.officeId===off.id).length}
+  }).sort((a,b)=>b.rev-a.rev)
+  const medals=['🥇','🥈','🥉']
+  $('rep-top3').innerHTML=offStats.slice(0,3).map((o,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--n-100)"><span style="font-size:20px;flex-shrink:0">${medals[i]}</span><div style="flex:1;min-width:0"><div class="text-strong" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(o.name)}</div><div class="text-muted" style="font-size:10px">${o.kits} kits · ${fmt(o.rev)}</div></div></div>`).join('')
+  const maxRev=offStats[0]?.rev||1
+  $('rep-chart').innerHTML=`<div class="chart-bars" style="padding:4px 0">${offStats.slice(0,8).map(o=>`<div class="cb-row"><div class="cb-label">${esc(o.name)}</div><div class="cb-track"><div class="cb-fill" style="width:${o.rev/maxRev*100}%;background:${o.stars===5?'#009D4C':'#7E94DD'}"><span class="cb-val" style="color:#fff">${fmt(o.rev)}</span></div></div></div>`).join('')}</div>`
+  $('rep-tbl').innerHTML=`<thead><tr><th>#</th><th>Oficina</th><th>Estrellas</th><th class="r">Pedidos</th><th class="r">Kits</th><th class="r">Descuento</th><th class="r">Ingresos</th></tr></thead>
+  <tbody>${offStats.map((o,i)=>`<tr><td class="text-muted mono">${i+1}</td><td class="text-strong">${esc(o.name)}</td><td>${starsBadge(o.stars)}</td><td class="r">${o.ordCount}</td><td class="r text-strong">${o.kits}</td><td class="r text-green" style="font-weight:700">${fmt(o.disc)}</td><td class="r text-strong">${fmt(o.rev)}</td></tr>`).join('')}</tbody>
+  <tfoot><tr><td colspan="4">TOTAL</td><td class="r text-strong">${offStats.reduce((s,o)=>s+o.kits,0)}</td><td class="r" style="color:var(--green);font-weight:700">${fmt(totalDisc)}</td><td class="r text-strong">${fmt(totalNet)}</td></tr></tfoot>`
+}
+function exportCSV(){
+  const offStats=OFFICES.map(off=>{const ords=ORDERS.filter(o=>o.officeId===off.id&&isSettled(o));const kits=ords.reduce((s,o)=>s+o.items.reduce((ss,i)=>ss+i.qty,0),0);const rev=ords.reduce((s,o)=>s+orderTotals(o).total,0);const disc=ords.reduce((s,o)=>s+orderTotals(o).disc,0);return{...off,kits,rev,disc}}).sort((a,b)=>b.rev-a.rev)
+  const rows=[['#','Oficina','Ciudad','Estado','Estrellas','Kits','Descuento '+CURRENCY,'Ingresos '+CURRENCY]]
+  offStats.forEach((o,i)=>rows.push([i+1,o.name,o.city,o.state,o.stars,o.kits,Math.round(o.disc),Math.round(o.rev)]))
+  // Comillas dobles por celda: sin esto, una oficina con coma en el nombre partía la fila.
+  const cell=v=>`"${String(v??'').replace(/"/g,'""')}"`
+  const csv=rows.map(r=>r.map(cell).join(',')).join('\r\n')
+  // BOM UTF-8: sin él Excel muestra "MedellÃ­n" en vez de "Medellín".
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'})
+  const url=URL.createObjectURL(blob)
+  const a=document.createElement('a');a.href=url;a.download=`reporte-ii-${today()}.csv`
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)
+  showToast('✓ CSV exportado')
+}
+
+// ═══ FRANCHISE ═════════════════════════════════════════════════════
+function renderFranchiseDashboard(){
+  const off=getOffice(SESSION.officeId);if(!off)return
+  const myOrders=ORDERS.filter(o=>o.officeId===off.id)
+  // Kits y monto usan el mismo criterio: antes los kits contaban pedidos
+  // pendientes y el monto no, así que el panel mostraba "12 kits · $0".
+  const settled=myOrders.filter(isSettled)
+  const kits=settled.reduce((s,o)=>s+o.items.reduce((ss,i)=>ss+i.qty,0),0)
+  const spent=settled.reduce((s,o)=>s+orderTotals(o).total,0)
+  const active=myOrders.filter(o=>['Pendiente','Confirmado','En proceso'].includes(o.status)).length
+  $('fd-title').textContent=off.name;$('fd-sub').textContent=`${off.city}, ${off.state} · Inglés Individual`
+  $('fd-stars').textContent=starsDisplay(off.stars);$('fd-stars-note').textContent=off.stars+' Estrellas'
+  $('fd-kits').textContent=kits;$('fd-spent').textContent=fmt(spent);$('fd-active').textContent=active
+  $('fd-active-note').textContent=active>0?'En proceso':''
+  const ev=EVALUATIONS.filter(e=>e.officeId===off.id).sort((a,b)=>b.year-a.year||b.month-a.month)[0]
+  const reqs=[{label:'Instalaciones adecuadas al manual',met:ev?.req1},{label:'10+ representantes en pizarrón',met:ev?.req2},{label:'50+ graduados en el año anterior',met:ev?.req3},{label:'Top 20 en ventas nacional',met:ev?.req4}]
+  $('fd-reqs').innerHTML=reqs.map(r=>`<div class="req-item"><div class="req-dot ${r.met?'met':'unmet'}">${r.met?'✓':'○'}</div><div class="req-text ${r.met?'met':'unmet'}">${esc(r.label)}</div></div>`).join('')+`<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--n-100);font-size:11px;color:var(--n-400)">${ev?`${[ev.req1,ev.req2,ev.req3,ev.req4].filter(Boolean).length}/4 requisitos → <strong style="color:var(--n-900)">${starsDisplay(off.stars)} ${off.stars} Estrellas</strong>`:'Evaluación pendiente'}</div>`
+  const table=(DISC[off.stars]||DISC[3])
+  $('fd-disc-table').innerHTML=table.map(([min,pct])=>`<div class="disc-row"><span class="disc-lbl">${min}+ kits</span><span class="disc-pct">${pct}% OFF</span></div>`).join('')
+  $('fd-recent-orders').innerHTML=myOrders.slice(0,4).map(o=>{
+    const k=o.items.reduce((s,i)=>s+i.qty,0)
+    return`<div onclick="openFranchiseOrder('${o.id}')" style="display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-radius:var(--radius-md);cursor:pointer" onmouseenter="this.style.background='var(--n-50)'" onmouseleave="this.style.background='transparent'"><div><div class="mono" style="font-weight:700;color:var(--n-900)">${esc(o.num)}</div><div class="text-muted" style="font-size:10px">${k} kits · ${fmtDate(o.date)}</div></div>${statusBadge(o.status)}</div>`
+  }).join('')+`<div style="margin-top:12px"><button class="btn btn-green btn-full" onclick="nav('franchise-catalog')">Ir al Catálogo →</button></div>`
+}
+
+let catalogQty={}
+function renderCatalog(){
+  const off=getOffice(SESSION.officeId);if(!off)return
+  const kitPrice=PRODUCTS[0]?.price||0
+  $('cat-sub').textContent=`Clasificación: ${starsDisplay(off.stars)} ${off.stars} Estrellas · Precio por kit: ${fmtCur(kitPrice)}`
+  $('cat-products').innerHTML=PRODUCTS.map(p=>`
+    <div class="product-card">
+      <div class="product-icon">📚</div>
+      <div class="product-body">
+        <div class="product-name">${esc(p.name)}</div>
+        <div class="product-desc">${esc(p.desc)}</div>
+        <div class="product-tags"><span class="product-tag">📖 ${p.books} Libros</span><span class="product-tag">📊 ${p.levels} Niveles</span><span class="product-tag">📝 ${p.aux} Auxiliares</span></div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="catQty('${p.id}',-1)">−</button>
+          <input class="qty-num" id="qty-${p.id}" type="number" min="0" value="${catalogQty[p.id]||0}" oninput="catQtySet('${p.id}',this.value)">
+          <button class="qty-btn" onclick="catQty('${p.id}',1)">+</button>
+        </div>
+      </div>
+      <div class="product-price-col">
+        <div class="price-big">${fmt(p.price)}</div>
+        <div class="price-unit">por kit</div>
+        <div id="line-${p.id}" style="font-size:12px;color:var(--n-400);margin-top:6px;text-align:right"></div>
+      </div>
+    </div>
+  `).join('')
+  const table=(DISC[off.stars]||DISC[3])
+  $('cat-disc-table-sidebar').innerHTML=table.map(([min,pct])=>`<div class="disc-row" id="drow-${min}-${pct}"><span class="disc-lbl" style="font-size:11px">${min}+ kits</span><span class="disc-pct" style="font-size:11px">${pct}%</span></div>`).join('')
+  updateCatalogSummary()
+}
+const MAX_QTY=9999
+const clampQty=v=>Math.min(MAX_QTY,Math.max(0,parseInt(v,10)||0))
+function catQty(pid,delta){const inp=$('qty-'+pid);if(!inp)return;catalogQty[pid]=clampQty((parseInt(inp.value,10)||0)+delta);inp.value=catalogQty[pid];updateCatalogSummary()}
+function catQtySet(pid,val){const q=clampQty(val);catalogQty[pid]=q;const inp=$('qty-'+pid);if(inp&&String(q)!==inp.value&&inp.value!=='')inp.value=q;updateCatalogSummary()}
+function updateCatalogSummary(){
+  const off=getOffice(SESSION.officeId);if(!off)return
+  // El subtotal usa el precio real de cada producto (antes estaba fijo en 3184,
+  // así que cualquier alta o edición de producto calculaba mal el total).
+  const totalKits=Object.values(catalogQty).reduce((s,q)=>s+q,0)
+  const sub=Object.entries(catalogQty).reduce((s,[pid,q])=>s+q*(getProduct(pid)?.price||0),0)
+  const{pct,thr}=calcDiscount(totalKits,off.stars)
+  const disc=Math.round(sub*pct/100);const total=sub-disc
+  const next=nextThreshold(totalKits,off.stars)
+  Object.entries(catalogQty).forEach(([pid,qty])=>{const el=$('line-'+pid);if(el)el.textContent=qty>0?`= ${fmt(qty*(getProduct(pid)?.price||0))}`:''})
+  const table=(DISC[off.stars]||DISC[3])
+  table.forEach(([m,p])=>{const row=$('drow-'+m+'-'+p);if(row)row.classList.toggle('highlight',thr===m&&pct>0)})
+  $('cat-confirm-btn').textContent=totalKits>0?`✓ Confirmar Pedido (${totalKits} kits)`:'Selecciona kits para continuar'
+  if(totalKits===0){$('cat-summary-body').innerHTML=`<div class="empty-cart"><div class="ec-icon">🛒</div><p>Selecciona kits para ver tu descuento</p></div>`;$('cat-hint').style.display='none';return}
+  $('cat-summary-body').innerHTML=`
+    <div class="sum-row"><span>Kits seleccionados</span><span class="text-strong">${totalKits}</span></div>
+    <div class="sum-row"><span>Subtotal</span><span>${fmt(sub)}</span></div>
+    ${pct>0?`<div class="sum-row"><span class="disc-tag">Descuento ${pct}%</span><span class="disc-tag">−${fmt(disc)}</span></div>`:''}
+    <div class="sum-row total"><span>Total</span><span>${fmt(total)}</span></div>
+    ${pct>0?`<div class="sum-savings">Ahorro: ${fmt(disc)}</div>`:''}
+  `
+  $('cat-hint').textContent=next?(pct===0?`💡 Agrega ${next.need} kit(s) más para obtener ${next.p}% de descuento`:`💡 ${next.need} kit(s) más = ${next.p}% de descuento`):'';
+  $('cat-hint').style.display=next?'block':'none'
+}
+// ── CHECKOUT FLOW ─────────────────────────────────────────────────
+let pendingOrder=null
+
+function confirmOrder(){
+  const off=getOffice(SESSION.officeId);if(!off)return
+  const totalKits=Object.values(catalogQty).reduce((s,q)=>s+q,0)
+  if(totalKits===0){showToast('⚠ Selecciona al menos un kit');return}
+  const{pct}=calcDiscount(totalKits,off.stars)
+  const items=Object.entries(catalogQty).filter(([,q])=>q>0).map(([pid,qty])=>{const p=getProduct(pid);return{productId:pid,qty,unit:p?.price||0}})
+  const sub=items.reduce((s,i)=>s+i.qty*i.unit,0)
+  const disc=Math.round(sub*pct/100)
+  const total=sub-disc
+  // Store pending order and open checkout
+  pendingOrder={id:'ord'+Date.now(),num:genOrderNum(),officeId:off.id,items,discPct:pct,status:'Pendiente',date:today(),adminNotes:'',audit:[{action:'Pedido creado',by:SESSION.name,date:today()}]}
+  openCheckout({totalKits,sub,disc,pct,total,off})
+}
+
+function openCheckout({totalKits,sub,disc,pct,total,off}){
+  // Populate checkout modal
+  const kits=totalKits
+  $('ck-office').textContent=off.name
+  $('ck-kits').textContent=kits+' kits'
+  $('ck-subtotal').textContent=fmt(sub)
+  $('ck-discount-row').style.display=pct>0?'flex':'none'
+  $('ck-discount-pct').textContent=`Descuento ${pct}%`
+  $('ck-discount-amt').textContent=`−${fmt(disc)}`
+  $('ck-total').textContent=fmt(total)
+  $('ck-btn-amount').textContent=fmt(total)
+  $('ck-stars').innerHTML=starsBadge(off.stars)
+  // Reset form state
+  $('ck-card-number').value=''
+  $('ck-card-name').value=''
+  $('ck-expiry').value=''
+  $('ck-cvc').value=''
+  $('ck-error').style.display='none'
+  $('ck-pay-btn').disabled=false
+  $('ck-pay-btn').innerHTML=`<span class="ck-lock">🔒</span> Pagar ${fmt(total)}`
+  openModal('modal-checkout')
+}
+
+// Algoritmo de Luhn: descarta números de tarjeta inválidos antes de "cobrar"
+function luhnValid(num){
+  let sum=0,dbl=false
+  for(let i=num.length-1;i>=0;i--){
+    let d=num.charCodeAt(i)-48
+    if(d<0||d>9)return false
+    if(dbl){d*=2;if(d>9)d-=9}
+    sum+=d;dbl=!dbl
+  }
+  return num.length>=13&&sum%10===0
+}
+// Vencimiento MM/AA: debe ser un mes real y no estar vencido
+function expiryValid(exp){
+  const m=/^(\d{2})\/(\d{2})$/.exec(exp)
+  if(!m)return false
+  const mm=+m[1],yy=2000+ +m[2]
+  if(mm<1||mm>12)return false
+  const now=new Date()
+  return yy>now.getFullYear()||(yy===now.getFullYear()&&mm>=now.getMonth()+1)
+}
+
+let paying=false
+function processPayment(){
+  if(paying)return
+  const num=$('ck-card-number').value.replace(/\s/g,'')
+  const name=$('ck-card-name').value.trim()
+  const exp=$('ck-expiry').value.trim()
+  const cvc=$('ck-cvc').value.trim()
+  const fail=msg=>{$('ck-error').textContent=msg;$('ck-error').style.display='block'}
+
+  if(!pendingOrder)return fail('La sesión de pago expiró. Vuelve a confirmar el pedido.')
+  if(!num||!name||!exp||!cvc)return fail('Por favor completa todos los datos de la tarjeta.')
+  if(!luhnValid(num))return fail('El número de tarjeta no es válido.')
+  if(!expiryValid(exp))return fail('La fecha de vencimiento no es válida o ya expiró.')
+  if(cvc.length<3||!/^\d+$/.test(cvc))return fail('El CVC debe tener 3 o 4 dígitos.')
+  // Simulación de cobro. En producción esto va a Stripe: los datos de la
+  // tarjeta NUNCA deben pasar por este JS ni por tu servidor (usa Stripe Elements).
+  paying=true
+  $('ck-pay-btn').disabled=true
+  $('ck-pay-btn').innerHTML='<span style="display:inline-flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 1s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Procesando...</span>'
+  $('ck-error').style.display='none'
+  setTimeout(()=>{
+    const placed=pendingOrder
+    paying=false
+    closeModal('modal-checkout')
+    // Borra los datos de la tarjeta del DOM en cuanto termina el cobro
+    ;['ck-card-number','ck-card-name','ck-expiry','ck-cvc'].forEach(id=>{const el=$(id);if(el)el.value=''})
+    ORDERS.unshift(placed)
+    catalogQty={}
+    pendingOrder=null
+    renderCatalog()
+    openFranchiseOrder(placed.id,true)
+  },2200)
+}
+
+// Card number formatter
+function formatCardNumber(e){
+  let v=e.target.value.replace(/\D/g,'').slice(0,16)
+  e.target.value=v.match(/.{1,4}/g)?.join(' ')||v
+}
+function formatExpiry(e){
+  let v=e.target.value.replace(/\D/g,'')
+  if(v.length>=2)v=v.slice(0,2)+'/'+v.slice(2,4)
+  e.target.value=v
+}
+
+function renderFranchiseOrders(){
+  const myOrders=ORDERS.filter(o=>o.officeId===SESSION.officeId)
+  const spent=myOrders.filter(isSettled).reduce((s,o)=>s+orderTotals(o).total,0)
+  const saved=myOrders.filter(isSettled).reduce((s,o)=>s+orderTotals(o).disc,0)
+  $('fo-count').textContent=myOrders.length;$('fo-spent').textContent=fmt(spent);$('fo-saved').textContent=fmt(saved)
+  $('fo-tbl').innerHTML=`<thead><tr><th>Pedido</th><th>Kits</th><th>Descuento</th><th>Total</th><th>Estado</th><th>Fecha</th><th class="r">Ver</th></tr></thead>
+  <tbody>${myOrders.length?myOrders.map(o=>{
+    const kits=o.items.reduce((s,i)=>s+i.qty,0);const{total}=orderTotals(o)
+    return`<tr><td><span class="mono">${esc(o.num)}</span></td><td class="text-strong">${kits}</td>
+    <td>${o.discPct>0?`<span class="text-green" style="font-weight:700">−${o.discPct}%</span>`:'<span class="text-muted">—</span>'}</td>
+    <td class="text-strong">${fmt(total)}</td><td>${statusBadge(o.status)}</td><td class="text-muted">${fmtDate(o.date)}</td>
+    <td class="r"><button class="btn btn-outline btn-sm" onclick="openFranchiseOrder('${o.id}')">Ver</button></td></tr>`
+  }).join(''):`<tr><td colspan="7" style="text-align:center;padding:40px"><div style="font-size:32px;margin-bottom:10px">📦</div><p class="text-muted" style="margin-bottom:14px">Aún no has realizado ningún pedido</p><button class="btn btn-green" onclick="nav('franchise-catalog')">Ir al catálogo</button></td></tr>`}</tbody>`
+}
+function openFranchiseOrder(orderId,isNew=false){
+  const o=ORDERS.find(x=>x.id===orderId);if(!o)return
+  const off=getOffice(o.officeId);const{sub,disc,total}=orderTotals(o);const kits=o.items.reduce((s,i)=>s+i.qty,0)
+  $('fod-number').textContent=o.num;$('fod-sub').textContent=fmtDate(o.date);$('fod-badge').innerHTML=statusBadge(o.status)
+
+  // Payment confirmation banner
+  if(isNew){
+    $('fod-success').style.display='flex'
+    $('fod-success').innerHTML=`
+      <div class="success-icon" style="background:var(--green);width:40px;height:40px;font-size:18px">✓</div>
+      <div class="success-text">
+        <strong>¡Pago realizado y pedido confirmado!</strong>
+        <span>Se ha enviado un comprobante a ${SESSION.email} · Folio: ${o.num}</span>
+      </div>
+    `
+  }else{
+    $('fod-success').style.display='none'
+  }
+
+  $('fod-items-tbl').innerHTML=`<thead><tr><th>Producto</th><th class="r">Cant.</th><th class="r">Precio unit.</th><th class="r">Total</th></tr></thead><tbody>${o.items.map(item=>{const p=getProduct(item.productId);return`<tr><td><div class="text-strong">${esc(p?.name||'—')}</div><div class="text-muted" style="font-size:10px">${esc(p?.sku||'')}</div></td><td class="r text-strong">${item.qty}</td><td class="r">${fmt(item.unit)}</td><td class="r text-strong">${fmt(item.qty*item.unit)}</td></tr>`}).join('')}</tbody>`
+
+  $('fod-totals').innerHTML=`
+    <div class="order-total-row"><span class="text-muted">Subtotal (${kits} kits)</span><span>${fmt(sub)}</span></div>
+    <div class="order-total-row">${o.discPct>0?`<span class="disc-tag">Descuento ${o.discPct}%</span><span class="disc-tag">−${fmt(disc)}</span>`:`<span class="text-muted">Sin descuento</span><span class="text-muted">—</span>`}</div>
+    <div class="order-total-row"><span>Total pagado</span><span style="color:var(--green);font-weight:700">${fmt(total)}</span></div>
+    ${disc>0?`<div style="text-align:right;font-size:11px;color:var(--green);padding-top:4px;font-weight:600">🎉 Ahorraste ${fmt(disc)} con tu clasificación ${off?.stars||3} ★</div>`:''}
+  `
+
+  $('fod-status-info').innerHTML=`
+    <div class="order-total-row"><span class="text-muted">Estado</span>${statusBadge(o.status)}</div>
+    <div class="order-total-row"><span class="text-muted">Fecha</span><span>${fmtDate(o.date)}</span></div>
+    <div class="order-total-row"><span class="text-muted">Clasificación</span>${starsBadge(off?.stars||3)}</div>
+    <div class="order-total-row" style="border-top:1.5px solid var(--n-200);margin-top:8px;padding-top:12px">
+      <span class="text-muted">Pago</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green)">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" fill="var(--green-lt)" stroke="var(--green)"/><path d="M3.5 6l2 2 3-3" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Pagado vía Stripe
+      </span>
+    </div>
+  `
+
+  if(o.adminNotes){$('fod-note-card').style.display='block';$('fod-admin-note').textContent=o.adminNotes}else $('fod-note-card').style.display='none'
+  nav('franchise-order-detail')
+}
+
+// ═══ MODALS ════════════════════════════════════════════════════════
+let lastFocused=null
+function openModal(id){
+  lastFocused=document.activeElement
+  const m=$(id);m.classList.add('open')
+  m.querySelector('input,select,textarea,button')?.focus()
+}
+function closeModal(id){
+  $(id).classList.remove('open')
+  lastFocused?.focus?.()
+}
+// No se puede cerrar el checkout mientras se procesa el cobro
+const modalLocked=el=>el.id==='modal-checkout'&&paying
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay')&&!modalLocked(e.target))e.target.classList.remove('open')})
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return
+  document.querySelectorAll('.modal-overlay.open').forEach(m=>{if(!modalLocked(m))m.classList.remove('open')})
+})
+function openOfficeModal(){$('mo-name').value='';$('mo-city').value='';$('mo-state').value='';$('mo-email').value='';openModal('modal-office')}
+function saveOffice(){
+  const name=$('mo-name').value.trim();const city=$('mo-city').value.trim();const state=$('mo-state').value.trim()
+  const email=$('mo-email').value.trim().toLowerCase()
+  if(!name||!city||!state){showToast('⚠ Completa los campos requeridos');return}
+  if(email&&!EMAIL_RE.test(email)){showToast('⚠ El correo no tiene un formato válido');return}
+  if(email&&OFFICES.some(o=>o.email?.toLowerCase()===email)){showToast('⚠ Ya existe una oficina con ese correo');return}
+  OFFICES.push({id:'o'+Date.now(),name,city,state,email,stars:3,orders:0,active:true})
+  closeModal('modal-office');renderOfficesTable();showToast('✓ Oficina creada')
+}
+function openProductModal(pid){
+  const p=pid?PRODUCTS.find(x=>x.id===pid):null
+  $('mp-title').textContent=p?'Editar Producto':'Nuevo Producto'
+  $('mp-name').value=p?.name||'';$('mp-sku').value=p?.sku||'';$('mp-price').value=p?.price||'';$('mp-desc').value=p?.desc||''
+  openModal('modal-product')
+}
+function saveProduct(){
+  const name=$('mp-name').value.trim();const sku=$('mp-sku').value.trim().toUpperCase();const price=parseFloat($('mp-price').value)
+  if(!name||!sku||!Number.isFinite(price)||price<=0){showToast('⚠ Completa los campos requeridos (precio mayor a 0)');return}
+  if(PRODUCTS.some(p=>p.sku.toUpperCase()===sku)){showToast('⚠ Ya existe un producto con ese SKU');return}
+  PRODUCTS.push({id:'p'+Date.now(),name,desc:$('mp-desc').value.trim(),sku,price,isKit:true,books:3,levels:3,aux:3,stock:9999,active:true,orders:0})
+  closeModal('modal-product');renderProductsTable();showToast('✓ Producto guardado')
+}
+
+let evalState={req1:false,req2:false,req3:false,req4:false,boardCount:0,gradCount:0,rank:''}
+function openNewEval(){
+  evalState={req1:false,req2:false,req3:false,req4:false,boardCount:0,gradCount:0,rank:''}
+  const sel=$('ev-office');sel.innerHTML='<option value="">Seleccionar oficina...</option>'+OFFICES.map(o=>`<option value="${esc(o.id)}">${esc(o.name)}</option>`).join('')
+  $('ev-month').innerHTML=MONTHS.map((m,i)=>`<option value="${i+1}" ${i===2?'selected':''}>${m}</option>`).join('')
+  $('ev-year').value=new Date().getFullYear();renderEvalModal();openModal('modal-eval');nav('admin-evaluations')
+}
+function openEvalForOffice(oid){openNewEval();$('ev-office').value=oid}
+function renderEvalModal(){
+  const reqs=[
+    {key:'req1',label:'Req. 1: Instalaciones adecuadas',desc:'Cumple el manual de instalaciones y dirección oficial Inglés Individual',sub:''},
+    {key:'req2',label:'Req. 2: Pizarrón de ventas',desc:'10+ representantes anotados el mes anterior',sub:`<div class="eval-sub"><label class="lbl">Número de representantes</label><input class="inp" style="max-width:200px" type="number" min="0" value="${evalState.boardCount}" oninput="evalState.boardCount=+this.value;if(+this.value>=10){evalState.req2=true;document.getElementById('cb-req2').checked=true}else{evalState.req2=false;document.getElementById('cb-req2').checked=false};updateEvalPreview()"></div>`},
+    {key:'req3',label:'Req. 3: Alumnos graduados',desc:'Más de 50 graduados en el año anterior',sub:`<div class="eval-sub"><label class="lbl">Número de graduados</label><input class="inp" style="max-width:200px" type="number" min="0" value="${evalState.gradCount}" oninput="evalState.gradCount=+this.value;if(+this.value>50){evalState.req3=true;document.getElementById('cb-req3').checked=true}else{evalState.req3=false;document.getElementById('cb-req3').checked=false};updateEvalPreview()"></div>`},
+    {key:'req4',label:'Req. 4: Top 20 Nacional',desc:'Dentro del top 20 en ventas a nivel nacional',sub:`<div class="eval-sub"><label class="lbl">Posición nacional</label><input class="inp" style="max-width:200px" type="number" min="1" value="${evalState.rank}" oninput="evalState.rank=+this.value;if(+this.value>=1&&+this.value<=20){evalState.req4=true;document.getElementById('cb-req4').checked=true}else{evalState.req4=false;document.getElementById('cb-req4').checked=false};updateEvalPreview()"></div>`},
+  ]
+  $('ev-reqs').innerHTML=reqs.map(r=>`<div class="eval-req"><div class="eval-req-hd"><input type="checkbox" id="cb-${r.key}" ${evalState[r.key]?'checked':''} onchange="evalState['${r.key}']=this.checked;updateEvalPreview()"><label class="eval-req-label" for="cb-${r.key}"><strong>${r.label}</strong><span>${r.desc}</span></label></div>${r.sub}</div>`).join('')
+  updateEvalPreview()
+}
+function updateEvalPreview(){
+  const met=[evalState.req1,evalState.req2,evalState.req3,evalState.req4].filter(Boolean).length
+  const stars=met===4?5:met===3?4:3
+  $('ev-boxes').innerHTML=Array.from({length:4},(_,i)=>`<div class="eval-box ${i<met?'met':'unmet'}">${i<met?'✓':i+1}</div>`).join('')
+  $('ev-result-label').textContent={5:'★★★★★ 5 Estrellas',4:'★★★★ 4 Estrellas',3:'★★★ 3 Estrellas'}[stars]
+  $('ev-result-sub').textContent=`${met} de 4 requisitos cumplidos`
+}
+function saveEvaluation(){
+  const officeId=$('ev-office').value;if(!officeId){showToast('⚠ Selecciona una oficina');return}
+  const met=[evalState.req1,evalState.req2,evalState.req3,evalState.req4].filter(Boolean).length
+  const stars=met===4?5:met===3?4:3
+  const year=parseInt($('ev-year').value,10);const month=parseInt($('ev-month').value,10)
+  if(!Number.isInteger(year)||year<2020||year>2100){showToast('⚠ Año inválido (2020–2100)');return}
+  if(!Number.isInteger(month)||month<1||month>12){showToast('⚠ Selecciona un mes válido');return}
+  const ev={id:'ev'+Date.now(),officeId,year,month,req1:evalState.req1,req2:evalState.req2,req3:evalState.req3,req4:evalState.req4,stars,boardCount:evalState.boardCount,gradCount:evalState.gradCount,rank:evalState.rank}
+  const idx=EVALUATIONS.findIndex(e=>e.officeId===officeId&&e.year===year&&e.month===month)
+  if(idx>=0)EVALUATIONS[idx]=ev;else EVALUATIONS.unshift(ev)
+  const off=OFFICES.find(o=>o.id===officeId);if(off)off.stars=stars
+  closeModal('modal-eval');renderEvalTable();showToast(`✓ Evaluación guardada · ${stars} Estrellas`)
+}
+
+// ═══ ADMIN USERS ════════════════════════════════════════════════════
+function renderAdminUsers(){
+  const admins=Object.entries(USERS).filter(([,u])=>u.role==='admin')
+  $('admin-users-tbl').innerHTML=`
+    <thead><tr>
+      <th>Nombre</th><th>Correo electrónico</th><th>Rol</th><th>Sesión actual</th><th class="r">Acciones</th>
+    </tr></thead>
+    <tbody>${admins.map(([email,u])=>`
+      <tr>
+        <td class="text-strong">${esc(u.name)}</td>
+        <td class="text-muted">${esc(email)}</td>
+        <td><span class="badge b-green">Admin</span></td>
+        <td>${email===SESSION.email?'<span class="badge b-blue">Tú</span>':'<span class="text-muted">—</span>'}</td>
+        <td class="r">
+          ${email!==SESSION.email?`<button class="btn btn-outline btn-sm" style="color:var(--rojo);border-color:var(--rojo)" onclick="removeAdmin('${esc(email).replace(/'/g,'&#39;')}')">Eliminar</button>`:'<span class="text-muted" style="font-size:11px">No editable</span>'}
+        </td>
+      </tr>
+    `).join('')}</tbody>`
+}
+
+function openNewAdminModal(){
+  openModal('modal-new-admin')
+}
+
+function saveNewAdmin(){
+  const name=$('new-admin-name').value.trim()
+  const email=$('new-admin-email').value.trim().toLowerCase()
+  const pass=$('new-admin-pass').value
+  if(!name||!email||!pass){showToast('⚠ Completa todos los campos');return}
+  if(!EMAIL_RE.test(email)){showToast('⚠ El correo no tiene un formato válido');return}
+  // El formulario promete "mínimo 8 caracteres"; antes no se validaba.
+  if(pass.length<8){showToast('⚠ La contraseña debe tener al menos 8 caracteres');return}
+  if(USERS[email]){showToast('⚠ Ese correo ya existe');return}
+  addAdminUser(email,pass,name)
+  closeModal('modal-new-admin')
+  $('new-admin-name').value=''
+  $('new-admin-email').value=''
+  $('new-admin-pass').value=''
+  renderAdminUsers()
+  showToast(`✓ Admin ${name} creado`)
+}
+
+function removeAdmin(email){
+  if(!confirm(`¿Eliminar acceso a ${email}?`))return
+  delete USERS[email]
+  renderAdminUsers()
+  showToast(`✓ Usuario eliminado`)
+}
+
+// ═══ TOAST ═════════════════════════════════════════════════════════
+function showToast(msg){const t=$('toast');$('toast-msg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+
+// ═══ INIT ══════════════════════════════════════════════════════════
+// Las cifras del login salen de los datos: antes estaban escritas a mano
+// ("18 oficinas") y no coincidían con las oficinas reales del sistema.
+function initLoginCopy(){
+  const activas=OFFICES.filter(o=>o.active).length
+  const paises=new Set(OFFICES.filter(o=>o.active).map(o=>o.state==='Antioquia'?'Colombia':'México')).size
+  const linea=`${activas} oficinas · ${paises===1?'un país':'dos países'} · un sistema`
+  $('lp-stat-offices').textContent=activas
+  $('lp-desc').textContent=`${activas} oficinas. ${paises===1?'Un país':'Dos países'}. Un sistema.`
+  $('login-sub').textContent=linea
+  $('login-tagline').textContent=linea
+  $('login-network-txt').textContent=`${activas} oficinas · Colombia · México NTE`
+}
+initLoginCopy()
+$('login-email').focus()
+</script>
+</body>
+</html>
