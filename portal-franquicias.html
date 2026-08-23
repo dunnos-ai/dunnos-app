@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Portal de Materiales · Inglés Individual</title>
 <meta name="description" content="Portal de franquicias Inglés Individual: catálogo de materiales, tabulador de descuentos por clasificación y gestión de pedidos.">
 <meta name="theme-color" content="#0A0A0A">
@@ -245,6 +245,7 @@ html,body{height:100%;overflow:hidden;background:var(--clarity);font-family:var(
   font-size:10px;color:#009D4C;
   margin-top:2px;letter-spacing:.04em;
 }
+.sb-office.is-hidden{display:none}
 
 /* Nav */
 nav.sb-nav{flex:1;padding:8px;overflow-y:auto;scrollbar-width:none}
@@ -666,6 +667,11 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
 @media(max-width:900px){
   .sidebar{width:56px}
   .sb-brand-logo,.sb-office-lbl,.sb-office-name,.sb-office-stars,.nav-item span,.sb-user-name,.sb-user-email,.btn-signout span{display:none}
+  /* Con el riel de 56px, el contenedor vacío y la flecha seguían
+     ocupando 46px y recortaban la píldora de cerrar sesión. */
+  .sb-user-info,.sb-user-pill>svg{display:none}
+  .sb-user-pill{justify-content:center;padding:9px 0;gap:0}
+  .sb-office{margin:8px 6px;padding:8px}
   .nav-item{justify-content:center;padding:12px}
   .kpi-4{grid-template-columns:repeat(2,1fr)}
   .grid-2,.grid-3,.order-detail-wrap{grid-template-columns:1fr}
@@ -691,6 +697,121 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
   .kpi-4,.kpi-3{grid-template-columns:repeat(2,1fr)}
   .modal{padding:20px 16px}
   .body{padding:10px}
+}
+
+/* ══════════════════════════════════════════════════════
+   LAYOUTS DE PÁGINA (antes iban inline y por eso ningún
+   @media podía reacomodarlos en móvil)
+   ══════════════════════════════════════════════════════ */
+.cat-layout{display:grid;grid-template-columns:1fr 268px;gap:20px;align-items:start}
+.fod-layout{display:grid;grid-template-columns:1fr 260px;gap:20px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-grid-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px}
+
+@media(max-width:900px){
+  .cat-layout,.fod-layout{grid-template-columns:1fr}
+  .summary-sticky{position:static}
+}
+
+/* ══════════════════════════════════════════════════════
+   MÓVIL — la barra lateral pasa a ser una barra de
+   pestañas inferior (patrón nativo iOS/Android).
+   Antes quedaba como un riel de 56px con iconos sin
+   etiqueta y la píldora de cerrar sesión se cortaba.
+   ══════════════════════════════════════════════════════ */
+@media(max-width:700px){
+  #v-app{flex-direction:column}
+
+  .sidebar{
+    position:fixed;left:0;right:0;bottom:0;
+    width:100%;height:auto;flex-direction:row;align-items:stretch;
+    border-top:1px solid rgba(242,240,235,.14);
+    padding-bottom:env(safe-area-inset-bottom);
+    z-index:60;transition:none;
+  }
+  .sb-brand,.sb-office{display:none}
+
+  nav.sb-nav{
+    flex:1;flex-direction:row;display:flex;
+    padding:5px 4px;gap:2px;
+    overflow-x:auto;overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+  }
+  .nav-item{
+    flex:1 0 auto;min-width:62px;
+    flex-direction:column;justify-content:center;gap:3px;
+    padding:7px 6px;border-radius:10px;
+  }
+  .nav-item svg{width:19px;height:19px}
+  .nav-item span{
+    display:block;
+    font-family:var(--ff-mono);
+    font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .nav-item.active::before{display:none}
+
+  /* Cerrar sesión: una pestaña más, con etiqueta visible */
+  .sb-footer{
+    border-top:none;
+    border-left:1px solid rgba(242,240,235,.14);
+    padding:5px 4px;display:flex;align-items:stretch;flex-shrink:0;
+  }
+  .sb-user-pill{
+    flex-direction:column;justify-content:center;gap:3px;
+    min-width:62px;padding:7px 8px;
+  }
+  .sb-user-avatar,.sb-user-info{display:none}
+  .sb-user-pill svg{width:19px;height:19px;stroke:#F2F0EB;opacity:.75}
+  .sb-user-pill::after{
+    content:'Salir';
+    font-family:var(--ff-mono);
+    font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;
+    color:rgba(242,240,235,.75);
+  }
+
+  /* Hueco para que la barra no tape el final del contenido */
+  .main-area{padding-bottom:calc(62px + env(safe-area-inset-bottom))}
+
+  /* Cabecera de página */
+  .ph{padding:12px 14px;flex-wrap:wrap;gap:10px}
+  .ph-title{font-size:17px}
+  .ph-actions{width:100%}
+  .ph-actions .btn{flex:1;justify-content:center}
+  .body{padding:12px 14px}
+
+  /* Ficha de producto: el precio pasa abajo en vez de cortarse */
+  .product-card{flex-wrap:wrap;padding:16px;gap:14px}
+  .product-icon{width:46px;height:46px;font-size:20px}
+  .product-price-col{
+    width:100%;text-align:left;
+    display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;
+    border-top:1px solid var(--n-100);padding-top:12px;
+  }
+  .price-big{font-size:22px}
+  .product-price-col>div:last-child{margin-left:auto;text-align:right}
+
+  /* Controles de cantidad más grandes para el dedo (mín. 44px) */
+  .qty-btn{width:44px;height:44px;font-size:19px}
+  .qty-num{width:64px;height:44px;font-size:16px}
+
+  /* Modales a pantalla casi completa */
+  .modal{width:100%;max-width:100%;max-height:88dvh;overflow-y:auto;
+    border-radius:var(--radius-xl) var(--radius-xl) 0 0;
+    margin-top:auto;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  .modal-overlay{align-items:flex-end}
+  .modal-grid,.modal-grid-3{grid-template-columns:1fr}
+  .modal-grid>[style*="span 2"]{grid-column:auto}
+  .modal-footer{position:sticky;bottom:0;background:var(--white);
+    padding-top:14px;margin-top:16px}
+  .modal-footer .btn{flex:1;justify-content:center}
+
+  /* Tablas anchas: scroll horizontal con inercia */
+  .tbl-wrap{-webkit-overflow-scrolling:touch}
+
+  /* Login: respetar el notch y el indicador de inicio */
+  #v-login{padding-bottom:env(safe-area-inset-bottom)}
+  .login-left{padding-top:calc(24px + env(safe-area-inset-top))!important}
 }
 </style>
 </head>
@@ -968,7 +1089,7 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
     <div id="p-franchise-catalog" class="page">
       <div class="ph"><div class="ph-left"><div class="ph-title">Catálogo de Materiales</div><div class="ph-sub" id="cat-sub"></div></div></div>
       <div class="body">
-        <div style="display:grid;grid-template-columns:1fr 268px;gap:20px;align-items:start">
+        <div class="cat-layout">
           <div id="cat-products"></div>
           <div class="summary-sticky">
             <div class="summary-card">
@@ -1004,7 +1125,7 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
       <div class="ph"><div class="ph-left"><div class="ph-title mono" id="fod-number"></div><div class="ph-sub" id="fod-sub"></div></div><div class="ph-actions" id="fod-badge"></div></div>
       <div class="body">
         <div id="fod-success" style="display:none" class="success-banner"><div class="success-icon">✓</div><div class="success-text"><strong>¡Pedido realizado exitosamente!</strong><span>Nuestro equipo confirmará tu pedido pronto.</span></div></div>
-        <div style="display:grid;grid-template-columns:1fr 260px;gap:20px">
+        <div class="fod-layout">
           <div>
             <div class="card mb-4"><div class="card-hd"><div class="card-hd-title">Detalle del Pedido</div></div><div class="tbl-wrap"><table class="tbl" id="fod-items-tbl"></table></div><div style="padding:16px 20px;background:var(--n-50);border-top:1px solid var(--n-100)" id="fod-totals"></div></div>
             <div class="card" id="fod-note-card" style="display:none"><div class="card-hd"><div class="card-hd-title">Nota del equipo Inglés Individual</div></div><div class="card-bd"><p style="font-size:13px;color:var(--n-500)" id="fod-admin-note"></p></div></div>
@@ -1027,7 +1148,7 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
 <div class="modal-overlay" id="modal-office">
   <div class="modal">
     <div class="modal-title">Nueva Oficina</div><div class="modal-sub">Registrar una nueva franquicia en el sistema</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div class="modal-grid">
       <div class="field" style="grid-column:span 2"><label class="lbl">Nombre *</label><input class="inp" id="mo-name" placeholder="Ej: Monterrey Centro"></div>
       <div class="field"><label class="lbl">Ciudad *</label><input class="inp" id="mo-city" placeholder="Ciudad"></div>
       <div class="field"><label class="lbl">Estado *</label><input class="inp" id="mo-state" placeholder="Estado"></div>
@@ -1040,7 +1161,7 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
 <div class="modal-overlay" id="modal-product">
   <div class="modal">
     <div class="modal-title" id="mp-title">Nuevo Producto</div><div class="modal-sub">Agrega un producto al catálogo</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div class="modal-grid">
       <div class="field" style="grid-column:span 2"><label class="lbl">Nombre *</label><input class="inp" id="mp-name"></div>
       <div class="field"><label class="lbl">SKU *</label><input class="inp" id="mp-sku" style="font-family:var(--ff-mono)"></div>
       <div class="field"><label class="lbl">Precio (MXN) *</label><input class="inp" id="mp-price" type="number" min="0" step="0.01"></div>
@@ -1051,9 +1172,9 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
 </div>
 
 <div class="modal-overlay" id="modal-eval">
-  <div class="modal" style="max-width:560px;max-height:90vh;overflow-y:auto">
+  <div class="modal modal-eval-box">
     <div class="modal-title">Nueva Evaluación</div><div class="modal-sub">El sistema calculará la clasificación automáticamente</div>
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:14px">
+    <div class="modal-grid-3">
       <div class="field"><label class="lbl">Oficina *</label><select class="inp" id="ev-office"></select></div>
       <div class="field"><label class="lbl">Mes *</label><select class="inp" id="ev-month"></select></div>
       <div class="field"><label class="lbl">Año *</label><input class="inp" id="ev-year" type="number" min="2020" max="2100"></div>
@@ -1069,7 +1190,7 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
 
 <!-- ═══ CHECKOUT MODAL ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-checkout">
-  <div class="modal" style="max-width:520px;padding:0;overflow:hidden;border-radius:var(--radius-xl)">
+  <div class="modal modal-checkout-box">
 
     <!-- Stripe-style header -->
     <div style="background:var(--n-900);padding:22px 28px;display:flex;align-items:center;justify-content:space-between">
@@ -1122,7 +1243,7 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
         <input id="ck-card-name" autocomplete="cc-name" placeholder="NOMBRE APELLIDO" style="width:100%;padding:11px 14px;border:1.5px solid var(--n-200);border-radius:var(--radius-md);font-size:14px;font-family:var(--ff-sans);outline:none;text-transform:uppercase;transition:border .15s" onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--n-200)'">
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+      <div class="ck-grid-2">
         <div>
           <label style="display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--n-500);margin-bottom:6px" for="ck-expiry">Vencimiento</label>
           <input id="ck-expiry" oninput="formatExpiry(event)" inputmode="numeric" autocomplete="cc-exp" maxlength="5" placeholder="MM/AA"
@@ -1159,6 +1280,18 @@ hr{border:none;border-top:1px solid var(--n-100);margin:16px 0}
 
 <style>
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.modal-checkout-box{max-width:520px;padding:0;overflow:hidden;border-radius:var(--radius-xl)}
+.modal-eval-box{max-width:560px;max-height:90vh;overflow-y:auto}
+/* Vencimiento + CVC se quedan lado a lado: es el patrón estándar de
+   formulario de tarjeta y caben de sobra incluso en un iPhone. */
+.ck-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+@media(max-width:700px){
+  .modal-checkout-box{max-width:100%;max-height:92dvh;overflow-y:auto;
+    border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding-bottom:0}
+  .modal-eval-box{max-height:88dvh}
+  /* El formulario de pago necesita hueco bajo el indicador de inicio */
+  .modal-checkout-box>div:last-child{padding-bottom:calc(24px + env(safe-area-inset-bottom))!important}
+}
 #ck-pay-btn:hover:not(:disabled){background:var(--green-dk);box-shadow:0 6px 20px rgba(0,157,76,.3)}
 #ck-pay-btn:disabled{opacity:.7;cursor:not-allowed}
 </style>
@@ -1383,12 +1516,13 @@ function startApp(){
   const initials=SESSION.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase()
   const av=document.getElementById('sb-avatar');if(av)av.textContent=initials
   $('admin-greeting').textContent=`Bienvenido, ${SESSION.name} · ${new Date().toLocaleDateString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`
-  if(SESSION.role==='franchise'){
+  const esFranquicia=SESSION.role==='franchise'
+  $('sb-office-section').classList.toggle('is-hidden',!esFranquicia)
+  if(esFranquicia){
     const off=getOffice(SESSION.officeId)
-    $('sb-office-section').style.display='block'
     $('sb-office-name').textContent=off?.name||'—'
     $('sb-office-stars').textContent=starsDisplay(off?.stars||3)+' '+((off?.stars||3)+' Estrellas')
-  }else{$('sb-office-section').style.display='none'}
+  }
   buildNav()
   nav(SESSION.role==='admin'?'admin-dashboard':'franchise-dashboard')
 }
