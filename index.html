@@ -1731,8 +1731,8 @@ function gameKey(){return 'dunno_game_'+getStudentId();}
 const done=JSON.parse(localStorage.getItem(doneKey())||localStorage.getItem('dunno_done')||'{}');
 const game=JSON.parse(localStorage.getItem(gameKey())||localStorage.getItem('dunno_game')||'{"xp":0,"streak":1,"lastDate":"","scores":[],"badges":[]}');
 const XP_WORD=10,XP_PERFECT=20;
-const saveGame=()=>localStorage.setItem(gameKey(),JSON.stringify(game));
-const saveDone=()=>localStorage.setItem(doneKey(),JSON.stringify(done));
+const saveGame=()=>{localStorage.setItem(gameKey(),JSON.stringify(game));cloudSync();};
+const saveDone=()=>{localStorage.setItem(doneKey(),JSON.stringify(done));cloudSync();};
 const totalW=()=>LESSONS.reduce((a,l)=>a+l.words.length,0);
 const doneW=()=>Object.keys(done).filter(k=>k.startsWith('w_')).length;
 const doneL=()=>Object.keys(done).filter(k=>k.startsWith('l')).length;
@@ -1866,6 +1866,7 @@ function submitStudentId(){
   const savedGame=JSON.parse(localStorage.getItem(gk)||'{"xp":0,"streak":1,"lastDate":"","scores":[],"badges":[]}');
   Object.keys(done).forEach(k=>delete done[k]); Object.assign(done,savedDone);
   Object.keys(game).forEach(k=>delete game[k]); Object.assign(game,savedGame);
+  cloudLoadAndMerge(studentId);
   checkStreak();
   showScreen('welcome');
   updateHome();
@@ -2061,7 +2062,65 @@ function valeGreetVerb(verb) {
 
 // ══ VERBS SUB-APP ════════════════════════════════════
 const verbGame = JSON.parse(localStorage.getItem('dunno_verbs')||'{"done":{},"xp":0}');
-const saveVerbGame = () => localStorage.setItem('dunno_verbs', JSON.stringify(verbGame));
+const saveVerbGame = () => {localStorage.setItem('dunno_verbs', JSON.stringify(verbGame));cloudSync();};
+
+// ══ SINCRONIZACIÓN DE AVANCE CON LA NUBE (Supabase vía Netlify) ══════════
+// El avance se guarda en localStorage (rápido) Y en la nube (permanente),
+// para que no se pierda al cambiar de mes o de dispositivo. Si la nube no
+// está disponible, la app sigue funcionando solo con localStorage.
+let _cloudTimer = null;
+function cloudSync(){
+  clearTimeout(_cloudTimer);
+  _cloudTimer = setTimeout(()=>{
+    try{
+      const acc = JSON.parse(localStorage.getItem('dunno_access')||'{}');
+      if(!acc.studentId || acc.studentId==='ADMI') return;
+      fetch('/.netlify/functions/progress',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({action:'save', studentId:acc.studentId, officeId:acc.officeId||'', done, game, verbs:verbGame})
+      }).catch(()=>{});
+    }catch(e){}
+  }, 1500);
+}
+async function cloudLoad(studentId){
+  try{
+    const res = await fetch('/.netlify/functions/progress',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({action:'load', studentId})
+    });
+    if(!res.ok) return null;
+    const d = await res.json();
+    return (d && !d.error) ? d : null;
+  }catch(e){ return null; }
+}
+function mergeCloudProgress(cloud){
+  if(!cloud) return;
+  if(cloud.done && typeof cloud.done==='object'){
+    for(const k in cloud.done){ if(!(k in done)) done[k]=cloud.done[k]; }
+  }
+  if(cloud.game && typeof cloud.game==='object'){
+    if((cloud.game.xp||0) > (game.xp||0)) game.xp=cloud.game.xp;
+    if((cloud.game.streak||0) > (game.streak||0)) game.streak=cloud.game.streak;
+    if(Array.isArray(cloud.game.badges)) game.badges=[...new Set([...(game.badges||[]),...cloud.game.badges])];
+    if(Array.isArray(cloud.game.scores) && cloud.game.scores.length > (game.scores?.length||0)) game.scores=cloud.game.scores;
+  }
+  if(cloud.verbs && typeof cloud.verbs==='object'){
+    if(cloud.verbs.done) verbGame.done=Object.assign({}, cloud.verbs.done, verbGame.done||{});
+    if((cloud.verbs.xp||0) > (verbGame.xp||0)) verbGame.xp=cloud.verbs.xp;
+  }
+}
+function cloudLoadAndMerge(studentId){
+  cloudLoad(studentId).then(cloud=>{
+    if(cloud){
+      mergeCloudProgress(cloud);
+      localStorage.setItem(doneKey(), JSON.stringify(done));
+      localStorage.setItem(gameKey(), JSON.stringify(game));
+      localStorage.setItem('dunno_verbs', JSON.stringify(verbGame));
+    }
+    cloudSync(); // sube el estado combinado (o el local) a la nube
+    try{ updateHome(); }catch(e){}
+  });
+}
 
 let vcCurrentCat = 'irregular';
 let vcCurrentList = [];
@@ -3099,7 +3158,7 @@ function goFromSplash(){showScreen('welcome');updateHome();}
     });
   }
   caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
-  initSpeech();checkStreak();const s=localStorage.getItem('dunno_access');if(s){try{const d=JSON.parse(s),now=new Date();if(d.studentId&&d.month===now.getMonth()+1&&d.year===now.getFullYear()){document.getElementById('codeScreen').style.display='none';var is=document.getElementById('introSlides');if(is)is.style.display='none';showScreen('welcome');updateHome();return;}}catch(e){}}})();
+  initSpeech();checkStreak();const s=localStorage.getItem('dunno_access');if(s){try{const d=JSON.parse(s),now=new Date();if(d.studentId&&d.month===now.getMonth()+1&&d.year===now.getFullYear()){document.getElementById('codeScreen').style.display='none';var is=document.getElementById('introSlides');if(is)is.style.display='none';cloudLoadAndMerge(d.studentId);showScreen('welcome');updateHome();return;}}catch(e){}}})();
 // Unregister all old service workers and clear caches
 if('serviceWorker' in navigator){
   navigator.serviceWorker.getRegistrations().then(regs=>{
