@@ -15,11 +15,39 @@ exports.handler = async (event) => {
 
   const URL = process.env.SUPABASE_URL;
   const KEY = process.env.SUPABASE_SERVICE_KEY;
+
+  // ── MODO DIAGNÓSTICO ──────────────────────────────────────────────
+  // Abre en el navegador: https://dunnos.app/.netlify/functions/progress
+  // Reporta el estado SIN exponer secretos (solo si existen y funcionan).
+  if (event.httpMethod === 'GET') {
+    const diag = {
+      hasUrl: !!URL,
+      hasKey: !!KEY,
+      urlIncludesRestV1: !!(URL && URL.includes('/rest/v1')),
+      urlEndsWithSlash: !!(URL && URL.endsWith('/')),
+      ping: null,
+      pingDetail: ''
+    };
+    if (URL && KEY) {
+      try {
+        const base = URL.replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
+        const r = await fetch(`${base}/rest/v1/student_progress?select=student_id&limit=1`, {
+          headers: { 'apikey': KEY, 'Authorization': `Bearer ${KEY}` }
+        });
+        diag.ping = r.status;
+        diag.pingDetail = (await r.text()).slice(0, 200);
+      } catch (e) { diag.ping = 'fetch_error'; diag.pingDetail = e.message; }
+    }
+    return { statusCode: 200, headers, body: JSON.stringify(diag, null, 2) };
+  }
+
   if (!URL || !KEY) {
     return { statusCode: 200, headers, body: JSON.stringify({ error: 'Supabase no configurado' }) };
   }
 
-  const sb = (path, opts = {}) => fetch(`${URL}/rest/v1/${path}`, {
+  // Tolera que la URL venga con o sin barra final o con /rest/v1 al final
+  const BASE = URL.replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
+  const sb = (path, opts = {}) => fetch(`${BASE}/rest/v1/${path}`, {
     ...opts,
     headers: {
       'apikey': KEY,
