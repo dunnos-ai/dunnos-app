@@ -31,11 +31,12 @@ exports.handler = async (event) => {
     if (URL && KEY) {
       try {
         const base = URL.replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
-        const r = await fetch(`${base}/rest/v1/student_progress?select=student_id&limit=1`, {
+        // limit=0 no devuelve filas: comprueba conexión SIN exponer datos de alumnos
+        const r = await fetch(`${base}/rest/v1/student_progress?select=student_id&limit=0`, {
           headers: { 'apikey': KEY, 'Authorization': `Bearer ${KEY}` }
         });
         diag.ping = r.status;
-        diag.pingDetail = (await r.text()).slice(0, 200);
+        diag.pingDetail = r.ok ? 'ok' : (await r.text()).slice(0, 200);
       } catch (e) { diag.ping = 'fetch_error'; diag.pingDetail = e.message; }
     }
     return { statusCode: 200, headers, body: JSON.stringify(diag, null, 2) };

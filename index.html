@@ -2069,7 +2069,9 @@ const saveVerbGame = () => {localStorage.setItem('dunno_verbs', JSON.stringify(v
 // para que no se pierda al cambiar de mes o de dispositivo. Si la nube no
 // está disponible, la app sigue funcionando solo con localStorage.
 let _cloudTimer = null;
+let _cloudReady = false; // no guardar en la nube hasta haber LEÍDO primero (evita borrar avance)
 function cloudSync(){
+  if(!_cloudReady) return; // clave: evita la carrera que sobrescribe con vacío
   clearTimeout(_cloudTimer);
   _cloudTimer = setTimeout(()=>{
     try{
@@ -2117,7 +2119,8 @@ function cloudLoadAndMerge(studentId){
       localStorage.setItem(gameKey(), JSON.stringify(game));
       localStorage.setItem('dunno_verbs', JSON.stringify(verbGame));
     }
-    cloudSync(); // sube el estado combinado (o el local) a la nube
+    _cloudReady = true;       // ya leímos: a partir de aquí SÍ es seguro guardar
+    cloudSync();              // sube el estado combinado (unión, nunca menos) a la nube
     try{ updateHome(); }catch(e){}
   });
 }
