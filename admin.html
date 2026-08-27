@@ -206,6 +206,31 @@ select:focus,input:focus{border-color:var(--N);}
       </div>
 
       <div class="section">
+        <h2>Agregar varios alumnos</h2>
+        <div class="row" style="align-items:flex-start;">
+          <div style="flex:1;min-width:220px;">
+            <label>Nombres (uno por renglón)</label>
+            <textarea id="bulkNames" placeholder="María García&#10;Juan Pérez&#10;Ana López" style="width:100%;min-height:120px;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:'Barlow',sans-serif;outline:none;resize:vertical;"></textarea>
+            <div style="margin-top:10px;font-size:13px;color:#666;">
+              …o sube un archivo (CSV o Excel):
+              <input type="file" id="bulkFile" accept=".csv,.txt,.xlsx,.xls" onchange="handleBulkFile(this)" style="font-size:13px;margin-top:4px;">
+            </div>
+          </div>
+          <div>
+            <label>Oficina (para todos)</label>
+            <select id="bulkOffice">
+              <option value="">-- Selecciona --</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="bulkBtn" onclick="addStudentsBulk()">+ Agregar todos</button>
+        </div>
+        <div id="bulkStatus" style="display:none;margin-top:12px;padding:12px 16px;background:#f0f4ff;border-radius:10px;font-size:14px;font-weight:600;color:#072A77;"></div>
+        <div class="helper">
+          Cada alumno recibe su <strong>ID perpetuo</strong> automáticamente. Si subes un archivo, los nombres deben ir en la <strong>primera columna</strong> (una fila por alumno); el archivo solo llena la lista de arriba para que la revises antes de agregar.
+        </div>
+      </div>
+
+      <div class="section">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px;">
           <h2 style="margin-bottom:0">Directorio de Alumnos</h2>
           <div style="display:flex;gap:8px;">
@@ -303,12 +328,15 @@ const now = new Date();
 document.getElementById('selMonth').value = now.getMonth() + 1;
 document.getElementById('selYear').value  = now.getFullYear();
 
-// Populate office dropdown
-const sel = document.getElementById('studentOffice');
-OFFICES.forEach(o => {
-  const opt = document.createElement('option');
-  opt.value = o.id; opt.textContent = o.name;
-  sel.appendChild(opt);
+// Populate office dropdowns (individual + lote)
+['studentOffice','bulkOffice'].forEach(selId => {
+  const sel = document.getElementById(selId);
+  if(!sel) return;
+  OFFICES.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o.id; opt.textContent = o.name;
+    sel.appendChild(opt);
+  });
 });
 
 // ── LOGIN ────────────────────────────────────────────
@@ -475,6 +503,98 @@ async function addStudent(){
       })
     });
   } catch(e) { showToast('⚠️ Error guardando en la nube'); }
+}
+
+// ── CARGA EN LOTE (pegar lista o subir CSV/Excel) ────────────────────
+function loadSheetJS(){
+  return new Promise((resolve, reject)=>{
+    if(window.XLSX) return resolve(window.XLSX);
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload = ()=> window.XLSX ? resolve(window.XLSX) : reject(new Error('No cargó el lector de Excel'));
+    s.onerror = ()=> reject(new Error('No pude cargar el lector de Excel'));
+    document.head.appendChild(s);
+  });
+}
+
+async function handleBulkFile(input){
+  const file = input.files && input.files[0];
+  if(!file) return;
+  const fname = file.name.toLowerCase();
+  try {
+    let names = [];
+    if(fname.endsWith('.xlsx') || fname.endsWith('.xls')){
+      const XLSX = await loadSheetJS();
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, {header:1});
+      names = rows.map(r => (r && r[0]!=null) ? String(r[0]).trim() : '').filter(Boolean);
+    } else {
+      const text = await file.text();
+      names = text.split(/\r?\n/).map(l => (l.split(',')[0]||'').trim()).filter(Boolean);
+    }
+    // Quitar encabezado tipo "Nombre"/"Name" si viene en la primera fila
+    if(names.length && /^(nombre|nombres|name|alumno|student)$/i.test(names[0])) names.shift();
+    if(!names.length){ showToast('⚠️ No encontré nombres en el archivo'); input.value=''; return; }
+    const ta = document.getElementById('bulkNames');
+    ta.value = (ta.value.trim() ? ta.value.trim()+'\n' : '') + names.join('\n');
+    showToast(`📄 ${names.length} nombres cargados del archivo`);
+  } catch(e){
+    showToast('⚠️ ' + (e.message || 'No pude leer el archivo') + ' — prueba guardándolo como CSV');
+  }
+  input.value = '';
+}
+
+async function addStudentsBulk(){
+  const officeId = document.getElementById('bulkOffice').value;
+  if(!officeId){ showToast('⚠️ Selecciona una oficina para el lote'); return; }
+
+  let names = document.getElementById('bulkNames').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  // Quitar duplicados dentro del mismo lote (sin distinguir mayúsculas)
+  const seen = new Set();
+  names = names.filter(n => { const k=n.toLowerCase(); if(seen.has(k)) return false; seen.add(k); return true; });
+  if(!names.length){ showToast('⚠️ Pega al menos un nombre'); return; }
+
+  const office = OFFICES.find(o=>o.id===officeId);
+  const btn = document.getElementById('bulkBtn');
+  const status = document.getElementById('bulkStatus');
+  btn.disabled = true;
+  status.style.display = 'block';
+  status.textContent = `Preparando ${names.length} alumnos...`;
+
+  // Generar IDs únicos y crear registros (reservando el ID sobre la marcha)
+  const batch = names.map(name => {
+    let id; do { id = genStudentId(); } while(students.find(s=>s.id===id));
+    const student = {id, name, officeId, officeName: office.name, createdAt: new Date().toISOString()};
+    students.push(student);
+    return student;
+  });
+  renderStudents();
+
+  // Guardar en la hoja uno por uno (seguro para el backend de Google Sheets)
+  let ok = 0, fail = 0;
+  for(let j=0; j<batch.length; j++){
+    const s = batch[j];
+    status.textContent = `Guardando ${j+1}/${batch.length}: ${s.name}...`;
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          secret: SHEET_SECRET, action: 'addStudent',
+          id: s.id, nombre: s.name, oficina: s.officeName, officeId: s.officeId, createdAt: s.createdAt
+        })
+      });
+      ok++;
+    } catch(e){ fail++; }
+  }
+
+  document.getElementById('bulkNames').value = '';
+  renderStudents();
+  status.textContent = `✅ ${ok} alumnos agregados${fail ? ` · ⚠️ ${fail} con error de red (vuelve a intentar esos)` : ''}`;
+  btn.disabled = false;
+  showToast(`✅ ${ok} alumnos agregados`);
+  setTimeout(()=>{ if(status) status.style.display='none'; }, 8000);
 }
 
 async function deleteStudent(id){
