@@ -1133,7 +1133,12 @@ setTimeout(function(){
 
 
 <div class="device" id="device">
-<div id="nosp" style="display:none;background:#ff4444;color:#fff;padding:10px 16px;font-size:12px;text-align:center;">⚠️ Use Chrome or Safari for voice recognition.</div>
+<div id="nosp" style="display:none;background:#ff4444;color:#fff;padding:10px 16px;font-size:12px;text-align:center;">⚠️ Para el micrófono, usa Chrome (Android) o Safari (iPhone).</div>
+<div id="inappWarn" style="display:none;background:#ff9500;color:#111;padding:12px 16px;font-size:13px;line-height:1.5;text-align:center;font-weight:600;">
+  ⚠️ Para que funcione el <b>micrófono</b>, abre esta página en tu navegador: toca <b>⋮</b> (arriba a la derecha) y elige <b>"Abrir en Chrome / Safari"</b>.
+  <button onclick="copyAppLink()" style="display:block;margin:8px auto 0;background:#111;color:#fff;border:none;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;">📋 Copiar enlace</button>
+  <button onclick="document.getElementById('inappWarn').style.display='none'" style="background:none;border:none;color:#111;font-size:11px;text-decoration:underline;margin-top:6px;cursor:pointer;">Continuar de todos modos</button>
+</div>
 
 
 <div id="nosp">⚠️ Usa Chrome o Edge para reconocimiento de voz.</div>
@@ -1871,10 +1876,44 @@ function submitStudentId(){
   showScreen('welcome');
   updateHome();
 }
-function initSpeech(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){document.getElementById('nosp').style.display='block';return;}recognition=new SR();recognition.lang='en-US';recognition.interimResults=false;recognition.maxAlternatives=3;recognition.onresult=e=>{const heard=Array.from(e.results[0]).map(r=>r.transcript.trim().toUpperCase())[0];stopMic();analyzeWithAI(heard);};recognition.onerror=e=>{stopMic();document.getElementById('hint').textContent='⚠️ '+(e.error==='no-speech'?'No te escuché':'Error: '+e.error);};recognition.onend=()=>{if(isListening)stopMic();};}
+function initSpeech(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){document.getElementById('nosp').style.display='block';return;}recognition=new SR();recognition.lang='en-US';recognition.interimResults=false;recognition.maxAlternatives=3;recognition.onresult=e=>{const heard=Array.from(e.results[0]).map(r=>r.transcript.trim().toUpperCase())[0];stopMic();analyzeWithAI(heard);};recognition.onerror=e=>{stopMic();document.getElementById('hint').textContent=micErrorMsg(e.error);if((e.error==='not-allowed'||e.error==='service-not-allowed')&&isInAppBrowser()){var el=document.getElementById('inappWarn');if(el)el.style.display='block';}};recognition.onend=()=>{if(isListening)stopMic();};}
 function toggleMic(){isListening?stopMic():startMic();}
 function startMic(){if(!recognition){initSpeech();if(!recognition)return;}isListening=true;try{recognition.start();}catch(e){}document.getElementById('mic').classList.add('on');document.getElementById('mic').textContent='⏹';document.getElementById('waveAnim').classList.remove('hidden');document.getElementById('micLabel').textContent='Listening…';document.getElementById('hint').textContent='';}
 function stopMic(){isListening=false;try{recognition.stop();}catch(e){}const m=document.getElementById('mic');m.classList.remove('on');m.textContent='🎤';document.getElementById('waveAnim').classList.add('hidden');document.getElementById('micLabel').textContent='Press & Speak';}
+
+// ── DETECCIÓN DE NAVEGADOR / AYUDA CON EL MICRÓFONO ──────────────────────
+function isInAppBrowser(){
+  const ua = navigator.userAgent || '';
+  return /FBAN|FBAV|Instagram|WhatsApp|WeChat|MicroMessenger|Line\/|Snapchat|TikTok|Musical/i.test(ua) || /; wv\)/.test(ua);
+}
+function copyAppLink(){
+  const url = 'https://dunnos.app';
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(
+        ()=>alert('Enlace copiado:\n'+url+'\n\nÁbrelo en Chrome o Safari.'),
+        ()=>prompt('Copia este enlace y ábrelo en Chrome/Safari:', url)
+      );
+    } else { prompt('Copia este enlace y ábrelo en Chrome/Safari:', url); }
+  }catch(e){ prompt('Copia este enlace y ábrelo en Chrome/Safari:', url); }
+}
+function micErrorMsg(err){
+  switch(err){
+    case 'no-speech': return '⚠️ No te escuché, intenta de nuevo';
+    case 'not-allowed':
+    case 'service-not-allowed': return '🔒 Micrófono bloqueado. Permite el micrófono, o abre la página en Chrome/Safari (no dentro de WhatsApp).';
+    case 'audio-capture': return '🎤 No encontré micrófono. Revisa el permiso de tu dispositivo.';
+    case 'network': return '📶 Problema de red, revisa tu conexión.';
+    case 'aborted': return '';
+    default: return '⚠️ Error de micrófono: ' + err;
+  }
+}
+function checkMicBrowser(){
+  try{
+    if(isInAppBrowser()){ const el=document.getElementById('inappWarn'); if(el) el.style.display='block'; return; }
+    if(!(window.SpeechRecognition||window.webkitSpeechRecognition)){ const el=document.getElementById('nosp'); if(el) el.style.display='block'; }
+  }catch(e){}
+}
 async function analyzeWithAI(heard){const word=curLesson.words[curIdx];const score=calcScore(heard,word.w);lastScore=score;sessionScores.push(score);if(!game.scores)game.scores=[];game.scores.push(score);if(game.scores.length>100)game.scores.shift();showScreen('aif');document.getElementById('heardWord').textContent=heard||'(silence)';document.getElementById('targetWord').textContent=word.w;document.getElementById('aiTip').innerHTML='<div class="spinner"></div>';renderScore(score);renderPhonemes(heard,word.w);try{const res=await fetch('/.netlify/functions/ai-coach',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({heard,target:word.w,phonetic:word.p,score})});const d=await res.json();document.getElementById('aiTip').innerHTML=`<b>Tip:</b> ${d.tip}`;}catch(e){document.getElementById('aiTip').innerHTML=`<b>Tip:</b> ${getFallback(score,word.w)}`;}document.getElementById('aiNextBtn').textContent=score>=60?'Continue →':'Skip →';}
 function calcScore(h,t){if(!h)return 0;const a=h.toLowerCase().replace(/[^a-z ]/g,''),b=t.toLowerCase().replace(/[^a-z ]/g,'');if(a===b)return 100;if(a.includes(b)||b.includes(a))return 88;const d=lev(a,b),s=1-(d/Math.max(a.length,b.length));return Math.round(Math.min(100,Math.max(0,(s+(a[0]===b[0]?.05:0))*100)));}
 function lev(a,b){const m=a.length,n=b.length,dp=Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i||j));for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]:1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);return dp[m][n];}
@@ -3161,7 +3200,7 @@ function goFromSplash(){showScreen('welcome');updateHome();}
     });
   }
   caches.keys().then(keys=>keys.forEach(k=>caches.delete(k)));
-  initSpeech();checkStreak();const s=localStorage.getItem('dunno_access');if(s){try{const d=JSON.parse(s),now=new Date();if(d.studentId&&d.month===now.getMonth()+1&&d.year===now.getFullYear()){document.getElementById('codeScreen').style.display='none';var is=document.getElementById('introSlides');if(is)is.style.display='none';cloudLoadAndMerge(d.studentId);showScreen('welcome');updateHome();return;}}catch(e){}}})();
+  initSpeech();checkMicBrowser();checkStreak();const s=localStorage.getItem('dunno_access');if(s){try{const d=JSON.parse(s),now=new Date();if(d.studentId&&d.month===now.getMonth()+1&&d.year===now.getFullYear()){document.getElementById('codeScreen').style.display='none';var is=document.getElementById('introSlides');if(is)is.style.display='none';cloudLoadAndMerge(d.studentId);showScreen('welcome');updateHome();return;}}catch(e){}}})();
 // Unregister all old service workers and clear caches
 if('serviceWorker' in navigator){
   navigator.serviceWorker.getRegistrations().then(regs=>{
