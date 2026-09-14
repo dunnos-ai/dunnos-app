@@ -4758,6 +4758,14 @@ async function loadLearnImageSVG(word, imgEl, loader, emojiEl, isVerb) {
     return;
   }
 
+  // No está en el banco: mostrar el emoji limpio en vez de generar en vivo.
+  // Evita imágenes erróneas (p.ej. una escoba para "eraser") y la lentitud/
+  // congelamiento de llamar a la API por cada palabra no cacheada.
+  if(emojiEl){ emojiEl.style.display=''; emojiEl.style.opacity='1'; }
+  if(imgEl) imgEl.style.display='none';
+  if(loader) loader.style.display='none';
+  return;
+
   emojiEl.style.opacity = '0.2';
   if(loader) loader.style.display = 'flex';
 
